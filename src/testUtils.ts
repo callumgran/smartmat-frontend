@@ -3,6 +3,7 @@ import { createVuetify } from 'vuetify/lib/framework.mjs';
 import { VApp } from 'vuetify/components';
 import { h } from 'vue';
 import router from '@/router';
+import { createTestingPinia } from '@pinia/testing';
 
 const mountWithVuetify = (component: any) => {
   const vuetify = createVuetify();
@@ -11,7 +12,7 @@ const mountWithVuetify = (component: any) => {
       default: h(component),
     },
     global: {
-      plugins: [vuetify, router],
+      plugins: [vuetify, router, createTestingPinia],
     },
   });
 };

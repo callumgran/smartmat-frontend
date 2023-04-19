@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import BasePageView from '@/views/BasePageView.vue';
+
 
 export const routes = [
   {
     path: '/',
     name: 'base',
     meta: { title: 'SmartMat' },
-    component: () => import('@/views/BasePageView.vue'),
+    component: BasePageView,
     children: [
       {
         path: '/login',

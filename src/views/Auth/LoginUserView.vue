@@ -84,9 +84,9 @@ const submit = handleSubmit(async (values) => {
   } catch (error: ApiError | any) {
     if (error.status == 401) {
       errorMessage.value = 'Feil brukernavn eller passord';
-    } else {
-      errorMessage.value = 'Intern feil, prøv igjen senere';
+      return;
     }
+    throw error;
   } finally {
     clearPassword();
   }

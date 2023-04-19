@@ -51,6 +51,9 @@ import { useForm, useField, FieldContext } from 'vee-validate';
 import { object as yupObject, string as yupString, ref as yupRef } from 'yup';
 import { useUserInfoStore } from '@/stores/UserStore';
 import { OpenAPI, UserService, TokenControllerService, RegisterDTO, AuthenticateDTO } from '@/api';
+import useFeedbackStore from '@/stores/FeedbackStore';
+
+const feedbackStore = useFeedbackStore();
 
 const userStore = useUserInfoStore();
 const router = useRouter();
@@ -103,37 +106,30 @@ const submit = handleSubmit(async (values) => {
     password: values.password,
   };
 
-  await UserService.createUser({ requestBody: createUserPayload })
-    .then(() => {
-      let auth: AuthenticateDTO = { username: values.username, password: values.password };
+  await UserService.createUser({ requestBody: createUserPayload }).then(() => {
+    let auth: AuthenticateDTO = { username: values.username, password: values.password };
 
-      TokenControllerService.generateToken({ requestBody: auth })
-        .then(async (token) => {
-          /* got 201, but token is not present */
-          if (token == null || token == undefined) {
-            errorMessage.value = 'Intern feil, prøv igjen senere';
-            return;
-          }
-          OpenAPI.TOKEN = token;
+    TokenControllerService.generateToken({ requestBody: auth }).then(async (token) => {
+      /* got 201, but token is not present */
+      if (token == null || token == undefined) {
+        errorMessage.value = 'Intern feil, prøv igjen senere';
+        return;
+      }
+      OpenAPI.TOKEN = token;
 
-          /* fetch and store user data */
-          let user = await UserService.getUser1();
-          userStore.setUserInfo({
-            accessToken: token,
-            firstname: user.firstName,
-            lastname: user.lastName,
-            username: user.username,
-            role: user.role,
-          });
-          router.push({ name: 'base' });
-        })
-        .catch((authError) => {
-          console.log('authError', authError);
-        });
-    })
-    .catch((error) => {
-      console.log('err', error);
+      /* fetch and store user data */
+      let user = await UserService.getUser1();
+      userStore.setUserInfo({
+        accessToken: token,
+        firstname: user.firstName,
+        lastname: user.lastName,
+        username: user.username,
+        role: user.role,
+      });
+      feedbackStore.addFeedback('Bruker registrert', 'success');
+      router.push({ name: 'base' });
     });
+  });
 });
 
 const clearPassword = () => {

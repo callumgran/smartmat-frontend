@@ -1,10 +1,10 @@
 import { describe, test, expect } from 'vitest';
 import mountWithVuetify from '@/testUtils';
-import RegisterUserView from '../RegisterUserView.vue';
+import RegisterUserView from '@/views/Auth/RegisterUserView.vue';
 
 describe('Test register user view', () => {
   test('Register user view has a login form', () => {
-    const wrapper = mountWithVuetify(RegisterUserView);
+    const wrapper = mountWithVuetify({ component: RegisterUserView });
     const usernameInput = wrapper.find('[data-testid="username"]');
     const passwordInput = wrapper.find('[data-testid="password"]');
     expect(usernameInput.exists()).toBe(true);
@@ -16,7 +16,7 @@ describe('Test register user view', () => {
   });
 
   test('Submit button is clickable when form input is valid', async () => {
-    const wrapper = mountWithVuetify(RegisterUserView);
+    const wrapper = mountWithVuetify({ component: RegisterUserView });
     const usernameInput = wrapper.find('[data-testid="username"]');
     const emailInput = wrapper.find('[data-testid="email"]');
     const firstnameInput = wrapper.find('[data-testid="firstname"]');

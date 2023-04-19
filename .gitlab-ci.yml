@@ -19,6 +19,7 @@ install:
     paths:
       - node_modules/
       - dist/
+    expire_in: 1 day
 
 prettier:
   stage: prettier

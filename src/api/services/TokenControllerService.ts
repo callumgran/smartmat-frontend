@@ -20,6 +20,9 @@ export class TokenControllerService {
       url: '/api/v1/public/token',
       body: requestBody,
       mediaType: 'application/json',
+      errors: {
+        500: `Internal Server Error`,
+      },
     });
   }
 }

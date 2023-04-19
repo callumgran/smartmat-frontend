@@ -33,5 +33,10 @@ const items = [
     icon: 'mdi-home',
     to: 'base',
   },
+  {
+    title: 'Logg inn',
+    icon: 'mdi-login',
+    to: 'login',
+  },
 ];
 </script>

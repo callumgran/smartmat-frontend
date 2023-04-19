@@ -1,6 +1,10 @@
 <template>
   <base-header />
-  <router-view />
+  <v-main>
+    <v-container fluid>
+      <router-view />
+    </v-container>
+  </v-main>
   <base-footer />
 </template>
 

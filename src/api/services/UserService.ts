@@ -22,6 +22,9 @@ export class UserService {
       url: '/api/v1/public/users',
       body: requestBody,
       mediaType: 'application/json',
+      errors: {
+        500: `Internal Server Error`,
+      },
     });
   }
 
@@ -31,12 +34,24 @@ export class UserService {
    * @returns UserDTO OK
    * @throws ApiError
    */
-  public static updateUser({ requestBody }: { requestBody: UserPatchDTO }): CancelablePromise<UserDTO> {
+  public static updateUser({
+    username,
+    requestBody,
+  }: {
+    username: string;
+    requestBody: UserPatchDTO;
+  }): CancelablePromise<UserDTO> {
     return __request(OpenAPI, {
       method: 'PATCH',
       url: '/api/v1/private/users/{username}',
+      path: {
+        username: username,
+      },
       body: requestBody,
       mediaType: 'application/json',
+      errors: {
+        500: `Internal Server Error`,
+      },
     });
   }
 
@@ -53,6 +68,9 @@ export class UserService {
       path: {
         username: username,
       },
+      errors: {
+        500: `Internal Server Error`,
+      },
     });
   }
 
@@ -66,6 +84,9 @@ export class UserService {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/api/v1/private/users/me',
+      errors: {
+        500: `Internal Server Error`,
+      },
     });
   }
 }

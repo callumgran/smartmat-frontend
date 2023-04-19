@@ -3,6 +3,7 @@ let apiUrl = Cypress.env('apiUrl');
 describe('Test user using the login page', () => {
   beforeEach(() => {
     cy.clearAllCookies();
+    cy.visit('/');
     cy.visit('/login');
   });
 

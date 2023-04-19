@@ -7,6 +7,7 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { AuthenticateDTO } from './models/AuthenticateDTO';
+export type { ExceptionResponse } from './models/ExceptionResponse';
 export type { RegisterDTO } from './models/RegisterDTO';
 export { UserDTO } from './models/UserDTO';
 export type { UserPatchDTO } from './models/UserPatchDTO';

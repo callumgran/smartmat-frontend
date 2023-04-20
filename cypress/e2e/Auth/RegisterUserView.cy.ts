@@ -22,7 +22,13 @@ describe('Test user using the register page', () => {
     });
     cy.intercept('GET', `${apiUrl}api/v1/private/users/me`, {
       statusCode: 200,
-      body: { username: username, firstName: firstName, lastName: lastName, email: email, roles: ['user'] },
+      body: {
+        username: username,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        roles: ['user'],
+      },
     });
 
     cy.get('[data-testid="username"]', { timeout: 10000 }).should('exist').type(username);

@@ -18,7 +18,9 @@
     <p v-if="errorMessage !== ''">
       {{ errorMessage }}
     </p>
-    <v-btn class="me-4" type="submit" :disabled="!submitEnabled" data-testid="login-user-button"> logg inn </v-btn>
+    <v-btn class="me-4" type="submit" :disabled="!submitEnabled" data-testid="login-user-button">
+      logg inn
+    </v-btn>
   </form>
 
   <span>Har du ikke bruker? </span>

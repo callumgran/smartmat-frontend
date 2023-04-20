@@ -12,7 +12,10 @@ describe('Testing the header component', () => {
     const testToken = 'TestTokenFromMockBackend';
     const username = 'TestUser';
     const role = 'ADMIN';
-    cy.setCookie('userInfo', JSON.stringify({ accessToken: testToken, username: username, role: role }));
+    cy.setCookie(
+      'userInfo',
+      JSON.stringify({ accessToken: testToken, username: username, role: role }),
+    );
     cy.visit('/');
     cy.get("[data-testid='navbar-drawer-button']").should('exist');
   });
@@ -21,7 +24,10 @@ describe('Testing the header component', () => {
     const testToken = 'TestTokenFromMockBackend';
     const username = 'TestUser';
     const role = 'ADMIN';
-    cy.setCookie('userInfo', JSON.stringify({ accessToken: testToken, username: username, role: role }));
+    cy.setCookie(
+      'userInfo',
+      JSON.stringify({ accessToken: testToken, username: username, role: role }),
+    );
     cy.visit('/');
     cy.get("[data-testid='navbar-drawer-button']").click();
     cy.get("[data-testid='drawer-link-list']").should('exist');

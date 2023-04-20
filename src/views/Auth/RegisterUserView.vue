@@ -8,7 +8,11 @@
       :error-messages="errors?.username"
       label="Brukernavn"
       data-testid="username"></v-text-field>
-    <v-text-field v-model="mail" :error-messages="errors?.mail" label="E-post" data-testid="email"></v-text-field>
+    <v-text-field
+      v-model="mail"
+      :error-messages="errors?.mail"
+      label="E-post"
+      data-testid="email"></v-text-field>
     <v-text-field
       v-model="firstName"
       :counter="64"
@@ -81,12 +85,16 @@ const schema = computed(() =>
     password: yupString()
       .required('Passord er obligatorisk')
       .min(8, 'Passord må være minst 8 tegn')
-      .test('isValidPass', 'Passordet må inneholdet minst en liten bokstav, stor bokstav og ett tall', (value) => {
-        const hasUpperCase = /[A-Z]/.test(value);
-        const hasLowerCase = /[a-z]/.test(value);
-        const hasNumber = /[0-9]/.test(value);
-        return hasUpperCase && hasLowerCase && hasNumber;
-      }),
+      .test(
+        'isValidPass',
+        'Passordet må inneholdet minst en liten bokstav, stor bokstav og ett tall',
+        (value) => {
+          const hasUpperCase = /[A-Z]/.test(value);
+          const hasLowerCase = /[a-z]/.test(value);
+          const hasNumber = /[0-9]/.test(value);
+          return hasUpperCase && hasLowerCase && hasNumber;
+        },
+      ),
     repeatPassword: yupString()
       .required('Gjenta passord er obligatorisk')
       .oneOf([yupRef('password')], 'Passordene må være like'),

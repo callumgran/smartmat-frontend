@@ -136,7 +136,10 @@ const getFormData = (options: ApiRequestOptions): FormData | undefined => {
 
 type Resolver<T> = (options: ApiRequestOptions) => Promise<T>;
 
-const resolve = async <T>(options: ApiRequestOptions, resolver?: T | Resolver<T>): Promise<T | undefined> => {
+const resolve = async <T>(
+  options: ApiRequestOptions,
+  resolver?: T | Resolver<T>,
+): Promise<T | undefined> => {
   if (typeof resolver === 'function') {
     return (resolver as Resolver<T>)(options);
   }
@@ -233,7 +236,10 @@ const sendRequest = async <T>(
   }
 };
 
-const getResponseHeader = (response: AxiosResponse<any>, responseHeader?: string): string | undefined => {
+const getResponseHeader = (
+  response: AxiosResponse<any>,
+  responseHeader?: string,
+): string | undefined => {
   if (responseHeader) {
     const content = response.headers[responseHeader];
     if (isString(content)) {
@@ -279,7 +285,10 @@ const catchErrorCodes = (options: ApiRequestOptions, result: ApiResult): void =>
  * @returns CancelablePromise<T>
  * @throws ApiError
  */
-export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): CancelablePromise<T> => {
+export const request = <T>(
+  config: OpenAPIConfig,
+  options: ApiRequestOptions,
+): CancelablePromise<T> => {
   return new CancelablePromise(async (resolve, reject, onCancel) => {
     try {
       const url = getUrl(config, options);
@@ -288,7 +297,15 @@ export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): C
       const headers = await getHeaders(config, options, formData);
 
       if (!onCancel.isCancelled) {
-        const response = await sendRequest<T>(config, options, url, body, formData, headers, onCancel);
+        const response = await sendRequest<T>(
+          config,
+          options,
+          url,
+          body,
+          formData,
+          headers,
+          onCancel,
+        );
         const responseBody = getResponseBody(response);
         const responseHeader = getResponseHeader(response, options.responseHeader);
 

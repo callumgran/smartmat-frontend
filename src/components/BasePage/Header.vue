@@ -61,7 +61,7 @@ const items = [
   {
     title: 'Mine husstander',
     icon: 'mdi-home',
-    to: 'base',
+    to: 'household',
   },
   {
     title: 'Oppskrifter',

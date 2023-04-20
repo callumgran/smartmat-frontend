@@ -16,7 +16,11 @@ export class UserService {
    * @returns string OK
    * @throws ApiError
    */
-  public static createUser({ requestBody }: { requestBody: RegisterDTO }): CancelablePromise<string> {
+  public static createUser({
+    requestBody,
+  }: {
+    requestBody: RegisterDTO;
+  }): CancelablePromise<string> {
     return __request(OpenAPI, {
       method: 'POST',
       url: '/api/v1/public/users',

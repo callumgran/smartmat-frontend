@@ -14,7 +14,11 @@ export class TokenControllerService {
    * @returns string Created
    * @throws ApiError
    */
-  public static generateToken({ requestBody }: { requestBody: AuthenticateDTO }): CancelablePromise<string> {
+  public static generateToken({
+    requestBody,
+  }: {
+    requestBody: AuthenticateDTO;
+  }): CancelablePromise<string> {
     return __request(OpenAPI, {
       method: 'POST',
       url: '/api/v1/public/token',

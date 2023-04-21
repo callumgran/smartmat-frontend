@@ -17,15 +17,19 @@ import useFeedbackStore from '@/stores/FeedbackStore';
 import { onErrorCaptured } from 'vue';
 import { handleUnknownError, ResponseError } from '@/components/Feedback/unknownErrorHandler';
 import { useRouter } from 'vue-router';
+import { useUserInfoStore } from '@/stores/UserStore';
 
 const router = useRouter();
 const feedbackStore = useFeedbackStore();
 
 function handleError(err: Error) {
   const responseError = handleUnknownError(err);
-  if (responseError.statusCode === 404)
-    router.push({ name: 'not-found', query: { errorMsg: responseError.message } });
-  else feedbackStore.addFeedback(responseError.message, 'error');
+  if (responseError.statusCode === 401) {
+    useUserInfoStore().clearUserInfo();
+    router.push({ name: 'login', query: { errorMsg: responseError.message } });
+  } else {
+    feedbackStore.addFeedback(responseError.message, 'error');
+  }
 }
 
 onErrorCaptured((err) => {

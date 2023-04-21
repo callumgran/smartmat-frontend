@@ -1,8 +1,11 @@
 apiUrl = Cypress.env('apiUrl');
 
-describe('Test user using the create household view page', () => {
+describe('Test logged in user using the create household view page', () => {
   beforeEach(() => {
     cy.clearAllCookies();
+    const testToken = 'TestTokenFromMockBackend';
+    const username = 'TestUser';
+    cy.setCookie('userInfo', JSON.stringify({ accessToken: testToken, username: username, role: 'USER' }));
     cy.visit('/household/create');
   });
 

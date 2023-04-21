@@ -1,6 +1,6 @@
 <template>
   <v-app-bar>
-    <v-toolbar-title data-testid="navbar-title">{{ title }}</v-toolbar-title>
+    <v-toolbar-title data-testid="navbar-title">SmartMat</v-toolbar-title>
     <v-btn
       v-if="currentRouteName === 'login' || currentRouteName === 'register'"
       variant="outlined"

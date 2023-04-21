@@ -18,6 +18,9 @@ export default defineStore('FeedbackStore', {
     removeFeedback(index: number) {
       this.feedbacks.splice(index, 1);
     },
+    clearFeedbacks() {
+      this.feedbacks = [];
+    },
   },
   getters: {
     getFirstFeedback(): Feedback | undefined {

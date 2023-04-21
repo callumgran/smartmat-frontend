@@ -21,6 +21,12 @@ export const routes = [
         component: () => import('@/views/Auth/RegisterUserView.vue'),
       },
       {
+        path: '/shopping-list',
+        name: 'shopping-list',
+        meta: { title: 'Handleliste' },
+        component: () => import('@/views/ShoppingList/ShoppingListListingView.vue'),
+      },
+      {
         path: '/household',
         name: 'household',
         meta: { title: 'Husstand' },

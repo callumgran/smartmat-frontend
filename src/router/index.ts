@@ -43,7 +43,21 @@ export const routes = [
         meta: { title: 'Bli med i en husstand' },
         component: () => import('@/views/Household/JoinHouseholdView.vue'),
       },
+      {
+        path: '/not-found',
+        name: 'not-found',
+        meta: { title: 'Kunne ikke finne siden' },
+        component: () => import('@/views/NotFound404View.vue'),
+      },
+      {
+        path: '/:pathMatch(.*)*',
+        redirect: { name: 'not-found' },
+      },
     ],
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: { name: 'not-found' },
   },
 ];
 

@@ -15,13 +15,21 @@ import ErrorDialog from '@/components/Feedback/FeedbackDialog.vue';
 import BaseFooter from '@/components/BasePage/Footer.vue';
 import useFeedbackStore from '@/stores/FeedbackStore';
 import { onErrorCaptured } from 'vue';
-import handleUnknownError from '@/components/Feedback/unknownErrorHandler';
+import { handleUnknownError, ResponseError } from '@/components/Feedback/unknownErrorHandler';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const feedbackStore = useFeedbackStore();
 
+function handleError(err: Error) {
+  const responseError = handleUnknownError(err);
+  if (responseError.statusCode === 404)
+    router.push({ name: 'not-found', query: { errorMsg: responseError.message } });
+  else feedbackStore.addFeedback(responseError.message, 'error');
+}
+
 onErrorCaptured((err) => {
-  let errorMessage = handleUnknownError(err);
-  feedbackStore.addFeedback(errorMessage, 'error');
+  handleError(err);
   return false;
 });
 
@@ -30,8 +38,7 @@ const removeFeedback = (index: number) => {
 };
 
 window.addEventListener('unhandledrejection', (event) => {
-  let errorMessage = handleUnknownError(event.reason);
-  feedbackStore.addFeedback(errorMessage, 'error');
+  handleError(event.reason);
   Promise.resolve(event.reason);
 });
 </script>

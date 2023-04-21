@@ -1,13 +1,16 @@
 apiUrl = Cypress.env('apiUrl');
 
-describe('Test user using the household view page', () => {
+describe('Test logged in user using the household view page', () => {
   beforeEach(() => {
     cy.clearAllCookies();
+    const testToken = 'TestTokenFromMockBackend';
+    const username = 'TestUser';
+    cy.setCookie('userInfo', JSON.stringify({ accessToken: testToken, username: username, role: 'USER' }));
     cy.visit('/household');
   });
 
   it('Test page displays all household names', () => {
-    cy.intercept('GET', `${apiUrl}api/v1/private/households/user/`, {
+    cy.intercept('GET', `${apiUrl}api/v1/private/households/user/TestUser`, {
       statusCode: 200,
       body: [
         {
@@ -27,7 +30,7 @@ describe('Test user using the household view page', () => {
   });
 
   it('Test page displays create new household button', () => {
-    cy.intercept('GET', `${apiUrl}api/v1/private/households/user/`, {
+    cy.intercept('GET', `${apiUrl}api/v1/private/households/user/TestUser`, {
       statusCode: 200,
       body: [
         {
@@ -45,7 +48,7 @@ describe('Test user using the household view page', () => {
   });
 
   it('Test clicking create household button redirects to create household page', () => {
-    cy.intercept('GET', `${apiUrl}api/v1/private/households/user/`, {
+    cy.intercept('GET', `${apiUrl}api/v1/private/households/user/TestUser`, {
       statusCode: 200,
       body: [
         {

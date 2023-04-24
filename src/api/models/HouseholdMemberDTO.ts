@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 export type HouseholdMemberDTO = {
-  household?: string;
-  username?: string;
-  householdRole?: HouseholdMemberDTO.householdRole;
+  household: string;
+  username: string;
+  householdRole: HouseholdMemberDTO.householdRole;
 };
 
 export namespace HouseholdMemberDTO {

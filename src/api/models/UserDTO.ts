@@ -10,7 +10,7 @@ export type UserDTO = {
   firstName?: string;
   lastName?: string;
   role?: UserDTO.role;
-  householdMembers?: Array<HouseholdMemberDTO>;
+  households?: Array<HouseholdMemberDTO>;
 };
 
 export namespace UserDTO {

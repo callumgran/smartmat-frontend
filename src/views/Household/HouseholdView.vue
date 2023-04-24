@@ -1,7 +1,11 @@
 <template>
   <h1>Mine husstander</h1>
   <div v-for="household in households" :key="household.id">
-    <h2 :data-testid="household.name">{{ household.name }}</h2>
+    <h2
+      :data-testid="household.name"
+      @click="$router.push({ name: 'household-detail', params: { id: household.id } })">
+      {{ household.name }}
+    </h2>
   </div>
 
   <div>
@@ -9,15 +13,10 @@
       Opprett ny husstand
     </v-btn>
   </div>
-  <div>
-    <v-btn class="me-4" data-testid="join-household-button" to="/household/join">
-      Bli medlem av en husstand
-    </v-btn>
-  </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { useUserInfoStore } from '@/stores/UserStore';
 import { HouseholdService, HouseholdDTO, ApiError } from '@/api';
 

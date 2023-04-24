@@ -5,7 +5,7 @@
 import type { HouseholdMemberDTO } from './HouseholdMemberDTO';
 
 export type HouseholdDTO = {
-  id?: string;
-  name?: string;
+  id: string;
+  name: string;
   members?: Array<HouseholdMemberDTO>;
 };

@@ -46,12 +46,6 @@ export const routes = [
         component: () => import('@/views/Household/CreateHouseholdView.vue'),
       },
       {
-        path: '/household/join',
-        name: 'household-join',
-        meta: { title: 'Bli med i en husstand', requiresAuth: true },
-        component: () => import('@/views/Household/JoinHouseholdView.vue'),
-      },
-      {
         path: '/not-found',
         name: 'not-found',
         meta: { title: 'Kunne ikke finne siden' },

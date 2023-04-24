@@ -1,7 +1,14 @@
 <template>
+  <div v-if="editMode">
+    <v-btn @click="deleteHousehold()" data-testid="delete-household-button">
+      slett husholdning
+      <v-icon icon="mdi:mdi-delete" />
+    </v-btn>
+  </div>
+
   <div class="household-name">
     <v-text-field
-      v-if="editNameMode && isSuperUser"
+      v-if="editMode"
       @keyup.enter="updateHouseholdName()"
       v-model="householdName"
       :counter="64"
@@ -10,25 +17,22 @@
       data-testid="edit-name-input" />
     <h2 v-else data-testid="name">{{ household.name }}</h2>
 
-    <div v-if="isSuperUser" @click="updateHouseholdName">
-      <v-icon v-if="editNameMode" icon="mdi:mdi-content-save" data-testid="save-name-button" />
-      <v-icon v-else icon="mdi:mdi-square-edit-outline" data-testid="edit-name-button" />
-    </div>
-  </div>
+    <v-btn v-if="!editMode && isSuperUser" @click="editMode = true">
+      <v-icon icon="mdi:mdi-cog" data-testid="edit-button" />
+    </v-btn>
 
-  <div v-if="isSuperUser">
-    <v-btn @click="deleteHousehold()" data-testid="delete-household-button">
-      slett husholdning
-      <v-icon icon="mdi:mdi-delete" />
+    <v-btn v-if="editMode" @click="updateHouseholdName">
+      <v-icon icon="mdi:mdi-content-save" data-testid="save-name-button" />
     </v-btn>
   </div>
 
   <household-members
     v-model:household="household"
-    :is-super-user="isSuperUser"
-    @remove-member="removeMember($event)" />
+    :edit-mode="editMode"
+    @remove-member="removeMember($event)"
+    @update-member-role="(username, role) => updateMemberRole(username, role)" />
 
-  <div v-if="isSuperUser">
+  <div v-if="editMode">
     <p>Legg til medlem</p>
     <div class="add-member">
       <v-text-field
@@ -48,6 +52,7 @@
 import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useUserInfoStore } from '@/stores/UserStore';
+import useFeedbackStore from '@/stores/FeedbackStore';
 import { HouseholdDTO, HouseholdMemberDTO, UpdateHouseholdDTO, HouseholdService } from '@/api';
 import { onMounted } from 'vue';
 import { useForm, useField, FieldContext } from 'vee-validate';
@@ -55,11 +60,14 @@ import { object as yupObject, string as yupString } from 'yup';
 import HouseholdMembers from '@/components/Household/HouseholdMembers.vue';
 
 const userStore = useUserInfoStore();
+const feedbackStore = useFeedbackStore();
 const router = useRouter();
 const household = ref<HouseholdDTO>({} as HouseholdDTO);
+const isSuperUser = ref(false);
+const editMode = ref(false);
+
 const editNameMode = ref(false);
 const newMemberName = ref('');
-const isSuperUser = ref(false);
 
 const props = defineProps({
   household: {
@@ -81,8 +89,7 @@ onMounted(async () => {
   household.value.members?.forEach((member) => {
     if (
       member.username === userStore.username &&
-      (member.householdRole === HouseholdMemberDTO.householdRole.OWNER ||
-        member.householdRole === HouseholdMemberDTO.householdRole.PRIVILEGED_MEMBER)
+      member.householdRole === HouseholdMemberDTO.householdRole.OWNER
     ) {
       isSuperUser.value = true;
       return;
@@ -119,6 +126,16 @@ const removeMember = async (username: string) => {
   );
 };
 
+const updateMemberRole = async (username: string, role: HouseholdMemberDTO.householdRole) => {
+  await HouseholdService.updateUserInHousehold({
+    id: household.value.id,
+    username: username,
+    requestBody: role,
+  });
+
+  feedbackStore.addFeedback(`Rollen til ${username} ble oppdatert`, 'success');
+};
+
 /* edit name stuff */
 /* form validation schema */
 const schema = computed(() =>
@@ -141,6 +158,10 @@ const submit = handleSubmit(async (values) => {
   } as UpdateHouseholdDTO;
 
   household.value = await HouseholdService.updateHouseholdName({ requestBody: payload });
+  feedbackStore.addFeedback(
+    `Navnet på husstanden ble oppdatert til ${household.value.name}`,
+    'success',
+  );
 });
 
 const updateHouseholdName = async () => {

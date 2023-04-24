@@ -11,11 +11,13 @@ export type { CreateHouseholdDTO } from './models/CreateHouseholdDTO';
 export type { ExceptionResponse } from './models/ExceptionResponse';
 export type { HouseholdDTO } from './models/HouseholdDTO';
 export { HouseholdMemberDTO } from './models/HouseholdMemberDTO';
+export type { IngredientDTO } from './models/IngredientDTO';
 export type { RegisterDTO } from './models/RegisterDTO';
 export type { UpdateHouseholdDTO } from './models/UpdateHouseholdDTO';
 export { UserDTO } from './models/UserDTO';
 export type { UserPatchDTO } from './models/UserPatchDTO';
 
 export { HouseholdService } from './services/HouseholdService';
+export { IngredientControllerService } from './services/IngredientControllerService';
 export { TokenControllerService } from './services/TokenControllerService';
 export { UserService } from './services/UserService';

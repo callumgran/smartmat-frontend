@@ -3,6 +3,6 @@
 /* eslint-disable */
 
 export type UpdateHouseholdDTO = {
-  id?: string;
-  name?: string;
+  id: string;
+  name: string;
 };

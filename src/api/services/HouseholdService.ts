@@ -3,6 +3,7 @@
 /* eslint-disable */
 import type { CreateHouseholdDTO } from '../models/CreateHouseholdDTO';
 import type { HouseholdDTO } from '../models/HouseholdDTO';
+import type { HouseholdMemberDTO } from '../models/HouseholdMemberDTO';
 import type { UpdateHouseholdDTO } from '../models/UpdateHouseholdDTO';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -63,6 +64,88 @@ export class HouseholdService {
       url: '/api/v1/private/households/{id}',
       path: {
         id: id,
+      },
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
+   * Update the role of a user in a household
+   * Update the role of a user in a household, if the user or household does not exist, an error is thrown. Requires authentication.
+   * @returns HouseholdMemberDTO OK
+   * @throws ApiError
+   */
+  public static updateUserInHousehold({
+    id,
+    username,
+    requestBody,
+  }: {
+    id: string;
+    username: string;
+    requestBody: 'OWNER' | 'PRIVILEGED_MEMBER' | 'MEMBER';
+  }): CancelablePromise<HouseholdMemberDTO> {
+    return __request(OpenAPI, {
+      method: 'PUT',
+      url: '/api/v1/private/households/{id}/user/{username}',
+      path: {
+        id: id,
+        username: username,
+      },
+      body: requestBody,
+      mediaType: 'application/json',
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
+   * Add a user to a household
+   * Add a user to a household, if the user or household does not exist, an error is thrown. Requires authentication.
+   * @returns HouseholdMemberDTO OK
+   * @throws ApiError
+   */
+  public static addUserToHousehold({
+    id,
+    username,
+  }: {
+    id: string;
+    username: string;
+  }): CancelablePromise<HouseholdMemberDTO> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/api/v1/private/households/{id}/user/{username}',
+      path: {
+        id: id,
+        username: username,
+      },
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
+   * Remove a user from a household
+   * Remove a user from a household, if the user or household does not exist, an error is thrown. Requires authentication.
+   * @returns string OK
+   * @throws ApiError
+   */
+  public static removeUserFromHousehold({
+    id,
+    username,
+  }: {
+    id: string;
+    username: string;
+  }): CancelablePromise<string> {
+    return __request(OpenAPI, {
+      method: 'DELETE',
+      url: '/api/v1/private/households/{id}/user/{username}',
+      path: {
+        id: id,
+        username: username,
       },
       errors: {
         500: `Internal Server Error`,

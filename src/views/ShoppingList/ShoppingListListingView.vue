@@ -2,7 +2,12 @@
   <div class="d-flex flex-column">
     <v-title class="text-h4 text-center">Handleliste</v-title>
     <div class="d-flex align-center">
-      <v-text-field v-model="search" prepend-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
+      <v-text-field
+        v-model="search"
+        prepend-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details></v-text-field>
       <!-- <v-btn
           class="py-auto mx-2"
           @click="addShoppingListItem"
@@ -21,7 +26,9 @@
               <v-list-item-subtitle>Foreslått av {{ item.suggestedBy.name }}</v-list-item-subtitle>
             </div>
             <v-list-item-action>
-              <v-btn class="bg-green" @click="addShoppingListSuggestion(item)"><v-icon>mdi-check-bold</v-icon></v-btn>
+              <v-btn class="bg-green" @click="addShoppingListSuggestion(item)"
+                ><v-icon>mdi-check-bold</v-icon></v-btn
+              >
               <v-btn class="bg-red" @click="addShoppingListItem"><v-icon>mdi-close</v-icon></v-btn>
             </v-list-item-action>
           </v-list-item-content>
@@ -80,7 +87,9 @@ const addShoppingListItem = () => {
 
 const addShoppingListSuggestion = (item: any) => {
   shoppingListItems.value.push(item);
-  shoppingListItemSuggestions.value = shoppingListItemSuggestions.value.filter((suggestion) => suggestion !== item);
+  shoppingListItemSuggestions.value = shoppingListItemSuggestions.value.filter(
+    (suggestion) => suggestion !== item,
+  );
 };
 </script>
 

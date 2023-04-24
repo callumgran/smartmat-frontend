@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type CreateHouseholdDTO = {
+export type IngredientDTO = {
+  id: number;
   name: string;
 };

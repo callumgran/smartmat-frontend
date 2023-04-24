@@ -1,30 +1,36 @@
 <template>
-  <h1>Logg inn</h1>
-  <form @submit.prevent="submit">
-    <v-text-field
-      v-model="username"
-      :counter="64"
-      :error-messages="errors?.username"
-      label="Brukernavn"
-      data-testid="username">
-    </v-text-field>
-    <v-text-field
-      v-model="password"
-      type="password"
-      :error-messages="errors?.password"
-      label="Passord"
-      data-testid="password">
-    </v-text-field>
-    <p v-if="errorMessage !== ''">
-      {{ errorMessage }}
-    </p>
-    <v-btn class="me-4" type="submit" :disabled="!submitEnabled" data-testid="login-user-button">
-      logg inn
-    </v-btn>
-  </form>
+  <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="448" rounded="lg">
+    <h1>Logg inn</h1>
+    <form @submit.prevent="submit">
+      <v-text-field
+        v-model="username"
+        :counter="64"
+        :error-messages="errors?.username"
+        label="Brukernavn"
+        prepend-inner-icon="mdi-account"
+        data-testid="username">
+      </v-text-field>
+      <v-text-field
+        :append-inner-icon="passwordVisible ? 'mdi-eye-off' : 'mdi-eye'"
+        :type="passwordVisible ? 'text' : 'password'"
+        @click:append-inner="passwordVisible = !passwordVisible"
+        v-model="password"
+        :error-messages="errors?.password"
+        label="Passord"
+        prepend-inner-icon="mdi-lock"
+        data-testid="password">
+      </v-text-field>
+      <p v-if="errorMessage !== ''">
+        {{ errorMessage }}
+      </p>
+      <v-btn class="me-4" type="submit" :disabled="!submitEnabled" data-testid="login-user-button">
+        logg inn
+      </v-btn>
+    </form>
 
-  <span>Har du ikke bruker? </span>
-  <router-link to="/register" data-testid="goto-register-user-button">register deg</router-link>
+    <span>Har du ikke bruker? </span>
+    <router-link to="/register" data-testid="goto-register-user-button">register deg</router-link>
+  </v-card>
 </template>
 
 <script setup lang="ts">
@@ -39,6 +45,7 @@ const userStore = useUserInfoStore();
 const router = useRouter();
 const route = useRoute();
 const errorMessage = ref('');
+const passwordVisible = ref(false);
 
 /* form validation schema */
 const schema = computed(() =>

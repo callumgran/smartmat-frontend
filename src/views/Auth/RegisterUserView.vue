@@ -1,51 +1,63 @@
 <template>
-  <h1>Registrer ny bruker</h1>
+  <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="448" rounded="lg">
+    <h1>Registrer ny bruker</h1>
+    <form @submit.prevent="submit">
+      <v-text-field
+        v-model="username"
+        :counter="64"
+        :error-messages="errors?.username"
+        label="Brukernavn"
+        prepend-inner-icon="mdi-account"
+        data-testid="username"></v-text-field>
+      <v-text-field
+        v-model="mail"
+        :error-messages="errors?.mail"
+        label="E-post"
+        prepend-inner-icon="mdi-email-outline"
+        data-testid="email"></v-text-field>
+      <v-text-field
+        v-model="firstName"
+        :counter="64"
+        :error-messages="errors?.firstName"
+        label="Fornavn"
+        prepend-inner-icon="mdi-cursor-text"
+        data-testid="firstname"></v-text-field>
+      <v-text-field
+        v-model="lastName"
+        :counter="64"
+        :error-messages="errors?.lastName"
+        label="Etternavn"
+        prepend-inner-icon="mdi-cursor-text"
+        data-testid="lastname"></v-text-field>
+      <v-text-field
+        :append-inner-icon="passwordVisible ? 'mdi-eye-off' : 'mdi-eye'"
+        :type="passwordVisible ? 'text' : 'password'"
+        @click:append-inner="passwordVisible = !passwordVisible"
+        density="compact"
+        v-model="password"
+        :error-messages="errors?.password"
+        label="Passord"
+        prepend-inner-icon="mdi-lock"
+        data-testid="password"></v-text-field>
+      <v-text-field
+        :append-inner-icon="passwordRepeatVisible ? 'mdi-eye-off' : 'mdi-eye'"
+        :type="passwordRepeatVisible ? 'text' : 'password'"
+        @click:append-inner="passwordRepeatVisible = !passwordRepeatVisible"
+        v-model="repeatPassword"
+        :error-messages="errors?.repeatPassword"
+        label="Gjenta passord"
+        prepend-inner-icon="mdi-lock-alert"
+        data-testid="repeat-password">
+      </v-text-field>
+      <p v-if="errorMessage !== ''">
+        {{ errorMessage }}
+      </p>
+      <v-btn class="me-4" type="submit" data-testid="create-user-button"> registrer </v-btn>
+    </form>
 
-  <form @submit.prevent="submit">
-    <v-text-field
-      v-model="username"
-      :counter="64"
-      :error-messages="errors?.username"
-      label="Brukernavn"
-      data-testid="username"></v-text-field>
-    <v-text-field
-      v-model="mail"
-      :error-messages="errors?.mail"
-      label="E-post"
-      data-testid="email"></v-text-field>
-    <v-text-field
-      v-model="firstName"
-      :counter="64"
-      :error-messages="errors?.firstName"
-      label="Fornavn"
-      data-testid="firstname"></v-text-field>
-    <v-text-field
-      v-model="lastName"
-      :counter="64"
-      :error-messages="errors?.lastName"
-      label="Etternavn"
-      data-testid="lastname"></v-text-field>
-    <v-text-field
-      v-model="password"
-      type="password"
-      :error-messages="errors?.password"
-      label="Passord"
-      data-testid="password"></v-text-field>
-    <v-text-field
-      v-model="repeatPassword"
-      type="password"
-      :error-messages="errors?.repeatPassword"
-      label="Gjenta passord"
-      data-testid="repeat-password">
-    </v-text-field>
-    <p v-if="errorMessage !== ''">
-      {{ errorMessage }}
-    </p>
-    <v-btn class="me-4" type="submit" data-testid="create-user-button"> registrer </v-btn>
-  </form>
-
-  <span>Har du allerede en bruker? </span>
-  <router-link to="/login">logg inn</router-link>
+    <span>Har du allerede en bruker? </span>
+    <router-link to="/login">logg inn</router-link>
+  </v-card>
 </template>
 
 <script setup lang="ts">
@@ -60,6 +72,8 @@ import useFeedbackStore from '@/stores/FeedbackStore';
 const feedbackStore = useFeedbackStore();
 
 const userStore = useUserInfoStore();
+const passwordVisible = ref(false);
+const passwordRepeatVisible = ref(false);
 const router = useRouter();
 const errorMessage = ref('');
 

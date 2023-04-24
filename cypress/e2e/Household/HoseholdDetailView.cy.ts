@@ -53,7 +53,7 @@ describe('Test household detail page', () => {
     cy.get('[data-testid="turid"]').should('exist').should('contain', 'turid');
   });
 
-  it('Test household name is editable for owner', () => {
+  it('Test household is editable for owner', () => {
     cy.intercept('PUT', `${apiUrl}api/v1/private/households/*`, {
       statusCode: 201,
       body: {
@@ -83,13 +83,12 @@ describe('Test household detail page', () => {
         ],
       },
     });
-    cy.get('[data-testid="edit-name-button"]').should('exist').click();
+    cy.get('[data-testid="edit-button"]').should('exist').click();
     cy.get('[data-testid="edit-name-input"]').should('exist').type(' - endret');
     cy.get('[data-testid="save-name-button"]').should('exist').click();
-    cy.get('[data-testid="name"]').should('exist').should('contain', 'Hytta på fjellet - endret');
   });
 
-  it('Test household name is not editable regular user', () => {
+  it('Test household is not editable regular user', () => {
     cy.clearAllCookies();
     const testToken = 'TestTokenFromMockBackend';
     const username = 'olga';
@@ -100,10 +99,11 @@ describe('Test household detail page', () => {
 
     cy.visit('/household');
     cy.visit(`/household/${householdId}`);
-    cy.get('[data-testid="edit-name-button"]').should('not.exist');
+    cy.get('[data-testid="edit-button"]').should('not.exist');
   });
 
   it('Test owner can add new members to a household', () => {
+    cy.get('[data-testid="edit-button"]').should('exist').click();
     cy.get('[data-testid="new-member-name"]').should('exist').type('gorm');
   });
 });

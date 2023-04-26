@@ -20,7 +20,7 @@
         </v-card-item>
         <v-card-item>
           <v-icon>mdi-chef-hat</v-icon>
-          {{ difficultyMappings[recipe.recipeDifficulty] }}
+          {{ RecipeDifficulty[recipe.recipeDifficulty] }}
         </v-card-item>
       </div>
     </v-card>
@@ -50,6 +50,7 @@
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { RecipeDTO, RecipeService } from '@/api';
+import { RecipeDifficulty } from '@/utils/EnumTranslation';
 
 const recipe = ref<RecipeDTO>({} as RecipeDTO);
 
@@ -70,12 +71,6 @@ onMounted(async () => {
   const id = route.params.id as string;
   recipe.value = await RecipeService.getRecipeById({ id });
 });
-
-const difficultyMappings = {
-  [RecipeDTO.recipeDifficulty.EASY]: 'Enkel',
-  [RecipeDTO.recipeDifficulty.MEDIUM]: 'Middels',
-  [RecipeDTO.recipeDifficulty.ADVANCED]: 'Avansert',
-};
 </script>
 
 <style scoped>

@@ -46,6 +46,18 @@ export const routes = [
         meta: { title: 'Husstand', requiresAuth: true },
       },
       {
+        path: '/household/:id/inventory',
+        name: 'household-inventory',
+        component: () => import('@/views/Household/HouseholdInventoryView.vue'),
+        meta: { title: 'Husstand beholdning', requiresAuth: true },
+      },
+      {
+        path: '/household/:id/inventory/add',
+        name: 'household-inventory-add',
+        component: () => import('@/views/Household/HouseholdInventoryAddView.vue'),
+        meta: { title: 'Husstand beholdning', requiresAuth: true },
+      },
+      {
         path: '/household/create',
         name: 'household-create',
         meta: { title: 'Ny husstand', requiresAuth: true },

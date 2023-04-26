@@ -24,8 +24,14 @@ export const routes = [
       {
         path: '/shopping-list',
         name: 'shopping-list',
-        meta: { title: 'Handleliste' },
+        meta: { title: 'Handleliste', requiresAuth: true },
         component: () => import('@/views/ShoppingList/ShoppingListListingView.vue'),
+      },
+      {
+        path: '/shopping-trip',
+        name: 'shopping-trip',
+        meta: { title: 'Handleliste', requiresAuth: true },
+        component: () => import('@/views/ShoppingList/ShoppingTripView.vue'),
       },
       {
         path: '/household',

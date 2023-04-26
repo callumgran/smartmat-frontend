@@ -49,7 +49,6 @@ import { useUserInfoStore } from '@/stores/UserStore';
 const openDrawer = ref(false);
 const route = useRoute();
 const userStore = useUserInfoStore();
-const title = computed(() => route.meta.title);
 const currentRouteName = computed(() => route.name);
 
 const items = [
@@ -66,7 +65,7 @@ const items = [
   {
     title: 'Oppskrifter',
     icon: 'mdi-hamburger',
-    to: 'base',
+    to: 'recipe',
   },
   {
     title: 'Handleliste',

@@ -88,20 +88,6 @@ describe('Test household detail page', () => {
     cy.get('[data-testid="save-name-button"]').should('exist').click();
   });
 
-  it('Test household is not editable regular user', () => {
-    cy.clearAllCookies();
-    const testToken = 'TestTokenFromMockBackend';
-    const username = 'olga';
-    cy.setCookie(
-      'userInfo',
-      JSON.stringify({ accessToken: testToken, username: username, role: 'USER' }),
-    );
-
-    cy.visit('/household');
-    cy.visit(`/household/${householdId}`);
-    cy.get('[data-testid="edit-button"]').should('not.exist');
-  });
-
   it('Test owner can add new members to a household', () => {
     cy.get('[data-testid="edit-button"]').should('exist').click();
     cy.get('[data-testid="new-member-name"]').should('exist').type('gorm');

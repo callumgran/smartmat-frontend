@@ -2,12 +2,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { IngredientFoodProductDTO } from './IngredientFoodProductDTO';
 import type { UnitDTO } from './UnitDTO';
 
-export type IngredientDTO = {
+export type BareIngredientDTO = {
   id: number;
   name: string;
   unit?: UnitDTO;
-  foodProducts: Array<IngredientFoodProductDTO>;
 };

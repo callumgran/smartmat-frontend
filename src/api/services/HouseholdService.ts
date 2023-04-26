@@ -4,6 +4,7 @@
 import type { CreateHouseholdDTO } from '../models/CreateHouseholdDTO';
 import type { HouseholdDTO } from '../models/HouseholdDTO';
 import type { HouseholdMemberDTO } from '../models/HouseholdMemberDTO';
+import type { ShoppingListDTO } from '../models/ShoppingListDTO';
 import type { UpdateHouseholdDTO } from '../models/UpdateHouseholdDTO';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -169,6 +170,25 @@ export class HouseholdService {
       url: '/api/v1/private/households',
       body: requestBody,
       mediaType: 'application/json',
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
+   * Get the current shopping list by a household
+   * Get a household by id and find its current shopping list. Requires authentication.
+   * @returns ShoppingListDTO OK
+   * @throws ApiError
+   */
+  public static getCurrentShoppingList({ id }: { id: string }): CancelablePromise<ShoppingListDTO> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/v1/private/households/{id}/current',
+      path: {
+        id: id,
+      },
       errors: {
         500: `Internal Server Error`,
       },

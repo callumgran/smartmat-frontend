@@ -46,6 +46,18 @@ export const routes = [
         component: () => import('@/views/Household/CreateHouseholdView.vue'),
       },
       {
+        path: '/recipe',
+        name: 'recipe',
+        meta: { title: 'Oppskrift' },
+        component: () => import('@/views/Recipe/RecipeListView.vue'),
+      },
+      {
+        path: '/recipe/:id',
+        name: 'recipe-detail',
+        meta: { title: 'Oppskrift' },
+        component: () => import('@/views/Recipe/RecipeDetailView.vue'),
+      },
+      {
         path: '/not-found',
         name: 'not-found',
         meta: { title: 'Kunne ikke finne siden' },

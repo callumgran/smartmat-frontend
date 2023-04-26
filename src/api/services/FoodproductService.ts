@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { BareFoodProductDTO } from '../models/BareFoodProductDTO';
 import type { FoodProductDTO } from '../models/FoodProductDTO';
 import type { SearchRequest } from '../models/SearchRequest';
 
@@ -39,7 +40,7 @@ export class FoodproductService {
     requestBody,
   }: {
     id: number;
-    requestBody: FoodProductDTO;
+    requestBody: BareFoodProductDTO;
   }): CancelablePromise<FoodProductDTO> {
     return __request(OpenAPI, {
       method: 'PUT',
@@ -83,7 +84,7 @@ export class FoodproductService {
   public static createFoodProduct({
     requestBody,
   }: {
-    requestBody: FoodProductDTO;
+    requestBody: BareFoodProductDTO;
   }): CancelablePromise<FoodProductDTO> {
     return __request(OpenAPI, {
       method: 'POST',

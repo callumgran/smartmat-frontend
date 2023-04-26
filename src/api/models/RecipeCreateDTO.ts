@@ -2,12 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { RecipeIngredientDTO } from './RecipeIngredientDTO';
+import type { CreateUpdateRecipeIngredientDTO } from './CreateUpdateRecipeIngredientDTO';
 
 export type RecipeCreateDTO = {
   name: string;
   description: string;
-  ingredients: Array<RecipeIngredientDTO>;
+  ingredients: Array<CreateUpdateRecipeIngredientDTO>;
   instructions: string;
   estimatedMinutes: number;
   recipeDifficulty: string;

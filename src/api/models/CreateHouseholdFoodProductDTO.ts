@@ -4,7 +4,6 @@
 
 export type CreateHouseholdFoodProductDTO = {
   foodProductId?: number;
-  householdId: string;
   expirationDate: string;
   amountLeft?: number;
 };

@@ -2,7 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type NewItemOnShoppingListDTO = {
+export type CreateCustomFoodItemDTO = {
   name: string;
-  amount?: number;
+  amount: number;
+  shoppingListId: string;
 };

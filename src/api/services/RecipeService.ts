@@ -40,7 +40,7 @@ export class RecipeService {
     requestBody,
   }: {
     id: string;
-    requestBody: RecipeDTO;
+    requestBody: RecipeCreateDTO;
   }): CancelablePromise<RecipeDTO> {
     return __request(OpenAPI, {
       method: 'PUT',

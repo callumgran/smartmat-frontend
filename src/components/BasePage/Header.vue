@@ -1,6 +1,12 @@
 <template>
   <v-app-bar>
-    <v-toolbar-title data-testid="navbar-title">SmartMat</v-toolbar-title>
+    <v-toolbar-title data-testid="navbar-title" style="font-weight: 600; font-size: 1.5em"
+      >SmartMat</v-toolbar-title
+    >
+    <v-toolbar-title style="font-size: 1em" v-if="currentHousehold"
+      ><v-icon icon="mdi-home"></v-icon>{{ currentHousehold }}</v-toolbar-title
+    >
+
     <v-btn
       v-if="currentRouteName === 'login' || currentRouteName === 'register'"
       variant="outlined"
@@ -45,12 +51,13 @@
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useUserInfoStore } from '@/stores/UserStore';
+import { useHouseholdStore } from '@/stores/HouseholdStore';
 
 const openDrawer = ref(false);
 const route = useRoute();
 const userStore = useUserInfoStore();
 const currentRouteName = computed(() => route.name);
-
+const currentHousehold = computed(() => useHouseholdStore().householdName);
 const items = [
   {
     title: 'Hjem',
@@ -70,7 +77,7 @@ const items = [
   {
     title: 'Handleliste',
     icon: 'mdi-cart-outline',
-    to: 'base',
+    to: 'shopping-list',
   },
 ];
 </script>

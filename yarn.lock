@@ -12,7 +12,7 @@
     call-me-maybe "^1.0.1"
     js-yaml "^4.1.0"
 
-"@babel/parser@^7.16.4":
+"@babel/parser@^7.16.4", "@babel/parser@^7.18.4":
   version "7.21.4"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.21.4.tgz#94003fdfc520bbe2875d4ae557b43ddb6d880f17"
   integrity sha512-alVJj7k7zIxqBZ7BTRhz0IqJFxW1VJbm6N8JbcYhQ186df9ZBPbZBmWSqAMXwHGsCJdYks7z/voa3ibiS5bCIw==
@@ -334,6 +334,13 @@
   resolved "https://registry.yarnpkg.com/@types/sizzle/-/sizzle-2.3.3.tgz#ff5e2f1902969d305225a047c8a0fd5c915cebef"
   integrity sha512-JYM8x9EGF163bEyhdJBpR2QX1R5naCJHC8ucJylJ3w9/CVBaskdQ8WqBf8MmQrd1kRvp/a4TS8HJ+bxzR7ZJYQ==
 
+"@types/vue-barcode-reader@^0.0.0":
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/@types/vue-barcode-reader/-/vue-barcode-reader-0.0.0.tgz#4a00a7f60b5062de1dff78100a2197103bd9fbf6"
+  integrity sha512-yngQhd35qGjCxMXWIqsAtF7qmxe0qUYRVd9qW5I/CcRPWDdBpqVkHnQSh6ro5BIBl3NQ3ppky7kMKS4pr+XwCQ==
+  dependencies:
+    vue "^2.0.0"
+
 "@types/web-bluetooth@^0.0.16":
   version "0.0.16"
   resolved "https://registry.yarnpkg.com/@types/web-bluetooth/-/web-bluetooth-0.0.16.tgz#1d12873a8e49567371f2a75fe3e7f7edca6662d8"
@@ -532,6 +539,15 @@
     "@vue/compiler-core" "3.2.47"
     "@vue/shared" "3.2.47"
 
+"@vue/compiler-sfc@2.7.14":
+  version "2.7.14"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-2.7.14.tgz#3446fd2fbb670d709277fc3ffa88efc5e10284fd"
+  integrity sha512-aNmNHyLPsw+sVvlQFQ2/8sjNuLtK54TC6cuKnVzAY93ks4ZBrvwQSnkkIh7bsbNhum5hJBS00wSDipQ937f5DA==
+  dependencies:
+    "@babel/parser" "^7.18.4"
+    postcss "^8.4.14"
+    source-map "^0.6.1"
+
 "@vue/compiler-sfc@3.2.47", "@vue/compiler-sfc@^3.2.47":
   version "3.2.47"
   resolved "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-3.2.47.tgz#1bdc36f6cdc1643f72e2c397eb1a398f5004ad3d"
@@ -648,6 +664,20 @@
   integrity sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==
   dependencies:
     vue-demi "*"
+
+"@zxing/library@^0.19.1":
+  version "0.19.3"
+  resolved "https://registry.yarnpkg.com/@zxing/library/-/library-0.19.3.tgz#8f8fb119edac43c109e7d74ae240daba04b7f44f"
+  integrity sha512-RUv5svewpDoD0ymXleOP8yVTO5BLkR0zn5coGC/Vs1671u0OBJ4xdtR8WVWf08OcvrieEMHdSfQY3ZKtqII/hg==
+  dependencies:
+    ts-custom-error "^3.2.1"
+  optionalDependencies:
+    "@zxing/text-encoding" "~0.9.0"
+
+"@zxing/text-encoding@~0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@zxing/text-encoding/-/text-encoding-0.9.0.tgz#fb50ffabc6c7c66a0c96b4c03e3d9be74864b70b"
+  integrity sha512-U/4aVJ2mxI0aDNI8Uq0wEhMgY+u4CNtEb0om3+y3+niDAsoTCOB33UF0sxpzqzdqXLqmvc+vZyAt4O8pPdfkwA==
 
 abbrev@^1.0.0:
   version "1.1.1"
@@ -1129,6 +1159,11 @@ csstype@^2.6.8:
   version "2.6.21"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.21.tgz#2efb85b7cc55c80017c66a5ad7cbd931fda3a90e"
   integrity sha512-Z1PhmomIfypOpoMjRQB70jfvy/wxT50qW08YXO5lMIJkrdq4yOTR+AW7FqutScmB9NkLwxo+jU+kZLbofZZq/w==
+
+csstype@^3.1.0:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
+  integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
 cypress@^12.7.0:
   version "12.10.0"
@@ -2960,7 +2995,7 @@ postcss-selector-parser@^6.0.9:
     cssesc "^3.0.0"
     util-deprecate "^1.0.2"
 
-postcss@^8.1.10, postcss@^8.4.21:
+postcss@^8.1.10, postcss@^8.4.14, postcss@^8.4.21:
   version "8.4.23"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.23.tgz#df0aee9ac7c5e53e1075c24a3613496f9e6552ab"
   integrity sha512-bQ3qMcpF6A/YjR55xtoTr0jGOlnPOKAIMdOWiv0EIT6HVPEaJiJB4NLljSbiHoC2RX7DN5Uvjtpbg1NPdwv1oA==
@@ -3479,6 +3514,11 @@ tr46@~0.0.3:
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
   integrity sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==
 
+ts-custom-error@^3.2.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/ts-custom-error/-/ts-custom-error-3.3.1.tgz#8bd3c8fc6b8dc8e1cb329267c45200f1e17a65d1"
+  integrity sha512-5OX1tzOjxWEgsr/YEUWSuPrQ00deKLh6D7OTWcvNHm12/7QPyRh8SYpyWvA4IZv8H/+GQWQEh/kwo95Q9OVW1A==
+
 tsconfig-paths@^3.14.1:
   version "3.14.2"
   resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-3.14.2.tgz#6e32f1f79412decd261f92d633a9dc1cfa99f088"
@@ -3689,6 +3729,13 @@ vitest@^0.29.2:
     vite-node "0.29.8"
     why-is-node-running "^2.2.2"
 
+vue-barcode-reader@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/vue-barcode-reader/-/vue-barcode-reader-1.0.3.tgz#d03dd2a314cc712626164845978e53aaf8705933"
+  integrity sha512-z4mv7+ai/8vECppBTb00tHnyFMMx6W1rAaQe+v214ihoaWK9iGrn8ZZsmgSxf3lwnrtGaibLdkonTtMrGsO+dA==
+  dependencies:
+    "@zxing/library" "^0.19.1"
+
 vue-demi@*:
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.14.0.tgz#dcfd9a9cf9bb62ada1582ec9042372cf67ca6190"
@@ -3734,6 +3781,14 @@ vue-tsc@^1.0.24:
   dependencies:
     "@volar/vue-language-core" "1.2.0"
     "@volar/vue-typescript" "1.2.0"
+
+vue@^2.0.0:
+  version "2.7.14"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.7.14.tgz#3743dcd248fd3a34d421ae456b864a0246bafb17"
+  integrity sha512-b2qkFyOM0kwqWFuQmgd4o+uHGU7T+2z3T+WQp8UBjADfEv2n4FEMffzBmCKNP0IGzOEEfYjvtcC62xaSKeQDrQ==
+  dependencies:
+    "@vue/compiler-sfc" "2.7.14"
+    csstype "^3.1.0"
 
 vue@^3.2.45:
   version "3.2.47"

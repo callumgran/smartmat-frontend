@@ -2,7 +2,9 @@
   <base-header />
   <v-main>
     <v-container fluid>
-      <router-view />
+      <Suspense>
+        <router-view />
+      </Suspense>
     </v-container>
   </v-main>
   <error-dialog :feedbacks="feedbackStore.feedbacks" @update:removeFeedback="removeFeedback" />

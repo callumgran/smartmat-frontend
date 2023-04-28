@@ -1,6 +1,6 @@
 <template>
   <v-expansion-panels>
-    <v-expansion-panel :title="hfProduct.foodProduct?.name">
+    <v-expansion-panel :title="hfProduct.foodProduct?.name" :data-testid="hfProduct.id">
       <v-expansion-panel-text>
         <div>
           <p>
@@ -11,29 +11,31 @@
 
           <p>Utløpsdato: {{ hfProduct.expirationDate }}</p>
 
-          <div v-if="!editMode">
-            <v-btn @click="editMode = true">Brukt opp?</v-btn>
-            <v-btn @click="throwOut()">Kastet?</v-btn>
-          </div>
-          <div v-else>
-            <span v-if="setNewAmountMode"
-              >Hvor mange {{ hfProduct.foodProduct?.ingredient?.unit?.name }} har du igjen?</span
-            >
-            <span v-else
-              >Hvor mange {{ hfProduct.foodProduct?.ingredient?.unit?.name }} har du brukt
-              opp?</span
-            >
-            <v-btn @click="setNewAmountMode = !setNewAmountMode">
-              <v-icon icon="mdi-rotate-3d-variant" />
-            </v-btn>
-            <form @submit.prevent="submit">
-              <v-text-field
-                type="number"
-                :error-messages="errors.amountInput"
-                v-model="amountInput" />
-              <v-btn type="submit">oppdater</v-btn>
-            </form>
-            <v-btn @click="editMode = false">tilbake</v-btn>
+          <div v-if="hasAccessToEdit">
+            <div v-if="!editMode">
+              <v-btn @click="editMode = true">Brukt opp?</v-btn>
+              <v-btn @click="throwOut()">Kastet?</v-btn>
+            </div>
+            <div v-else>
+              <span v-if="setNewAmountMode"
+                >Hvor mange {{ hfProduct.foodProduct?.ingredient?.unit?.name }} har du igjen?</span
+              >
+              <span v-else
+                >Hvor mange {{ hfProduct.foodProduct?.ingredient?.unit?.name }} har du brukt
+                opp?</span
+              >
+              <v-btn @click="setNewAmountMode = !setNewAmountMode">
+                <v-icon icon="mdi-rotate-3d-variant" />
+              </v-btn>
+              <form @submit.prevent="submit">
+                <v-text-field
+                  type="number"
+                  :error-messages="errors.amountInput"
+                  v-model="amountInput" />
+                <v-btn type="submit">oppdater</v-btn>
+              </form>
+              <v-btn @click="editMode = false">tilbake</v-btn>
+            </div>
           </div>
         </div>
       </v-expansion-panel-text>
@@ -55,6 +57,10 @@ const props = defineProps({
   hfProduct: {
     type: Object as () => HouseholdFoodProductDTO,
     required: true,
+  },
+  hasAccessToEdit: {
+    type: Boolean,
+    default: false,
   },
 });
 

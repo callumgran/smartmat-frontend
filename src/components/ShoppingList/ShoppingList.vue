@@ -4,7 +4,7 @@
       <v-text-field
         v-model="search"
         prepend-icon="mdi-magnify"
-        label="Search"
+        label="Søk"
         single-line
         hide-details></v-text-field>
     </div>

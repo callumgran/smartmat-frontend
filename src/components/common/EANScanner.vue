@@ -1,9 +1,13 @@
 <template>
-  <div class="d-flex justify-center flex-column align-center">
+  <v-card class="d-flex justify-center flex-column align-center">
     <StreamBarcodeReader @decode="onDecode" @loaded="onLoaded"></StreamBarcodeReader>
-    <v-progress-circular indeterminate :size="60" v-if="scannerLoading"></v-progress-circular>
+    <v-progress-circular
+      class="scanner-size"
+      indeterminate
+      :size="60"
+      v-if="scannerLoading"></v-progress-circular>
     <v-btn @click="close">Avbryt</v-btn>
-  </div>
+  </v-card>
 </template>
 
 <script setup lang="ts">
@@ -29,3 +33,10 @@ const onDecode = (result: string) => {
   emit('onScan', result);
 };
 </script>
+
+<style scoped>
+.scanner-size {
+  width: min(70vw, 500px);
+  height: min(60vw, 400px);
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-dialog v-model="scanOpen">
-      <shopping-list-scanner-modal @onScan="onScan" @onClose="scanOpen = false" />
+      <EANScanner @onScan="onScan" @onClose="scanOpen = false" />
     </v-dialog>
     <v-dialog v-model="scanLoading">
       <v-card>
@@ -75,7 +75,7 @@ import {
   ShoppinglistitemService,
 } from '@/api';
 import { useHouseholdStore } from '@/stores/HouseholdStore';
-import ShoppingListScannerModal from '@/components/ShoppingList/ShoppingListScannerModal.vue';
+import EANScanner from '@/components/common/EANScanner.vue';
 import ChooseIngredientModal from '@/components/ShoppingList/ChooseIngredientModal.vue';
 import { ref } from 'vue';
 import axios from 'axios';

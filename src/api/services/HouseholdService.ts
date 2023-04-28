@@ -4,6 +4,7 @@
 import type { CreateHouseholdDTO } from '../models/CreateHouseholdDTO';
 import type { HouseholdDTO } from '../models/HouseholdDTO';
 import type { HouseholdMemberDTO } from '../models/HouseholdMemberDTO';
+import type { RecipeDTO } from '../models/RecipeDTO';
 import type { ShoppingListDTO } from '../models/ShoppingListDTO';
 import type { UpdateHouseholdDTO } from '../models/UpdateHouseholdDTO';
 
@@ -170,6 +171,25 @@ export class HouseholdService {
       url: '/api/v1/private/households',
       body: requestBody,
       mediaType: 'application/json',
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
+   * Get recommended recipes for a household
+   * Get recommended recipes for a household. Recipes are recommended based on the household's ingredients. Requires authentication.
+   * @returns RecipeDTO OK
+   * @throws ApiError
+   */
+  public static getRecommendedRecipes({ id }: { id: string }): CancelablePromise<Array<RecipeDTO>> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/v1/private/households/{id}/recipes',
+      path: {
+        id: id,
+      },
       errors: {
         500: `Internal Server Error`,
       },

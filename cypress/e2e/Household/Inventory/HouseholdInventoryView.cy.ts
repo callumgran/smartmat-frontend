@@ -29,7 +29,7 @@ describe('Test household inventory', () => {
             foodProduct: {
               id: 1,
               name: 'Tine Melk',
-              amount: 0,
+              amount: 1,
               looseWeight: false,
               ingredient: {
                 id: 0,
@@ -43,7 +43,49 @@ describe('Test household inventory', () => {
             },
             householdId: 'string',
             expirationDate: '2023-04-28',
-            amountLeft: 1,
+            amountLeft: 50,
+          },
+          {
+            id: '2',
+            foodProduct: {
+              id: 2,
+              name: 'Marits Melk',
+              amount: 1,
+              looseWeight: false,
+              ingredient: {
+                id: 0,
+                name: 'string',
+                unit: {
+                  name: 'string',
+                  abbreviation: 'l',
+                },
+              },
+              ean: 'string',
+            },
+            householdId: 'string',
+            expirationDate: '2023-04-28',
+            amountLeft: 100,
+          },
+          {
+            id: '3',
+            foodProduct: {
+              id: 3,
+              name: 'Callums kvalitet bønner',
+              amount: 1,
+              looseWeight: false,
+              ingredient: {
+                id: 0,
+                name: 'string',
+                unit: {
+                  name: 'string',
+                  abbreviation: 'l',
+                },
+              },
+              ean: 'string',
+            },
+            householdId: 'string',
+            expirationDate: '2023-04-28',
+            amountLeft: 10,
           },
         ],
       },
@@ -55,6 +97,8 @@ describe('Test household inventory', () => {
   it('Page displays all items in inventory', () => {
     cy.get('[data-testid="inventory-table"]').should('exist');
     cy.get('[data-testid="1"]').should('exist').should('contain', 'Tine Melk');
+    cy.get('[data-testid="2"]').should('exist').should('contain', 'Marits Melk');
+    cy.get('[data-testid="3"]').should('exist').should('contain', 'Callums kvalitet bønner');
   });
 
   it('Add item to inventory', () => {
@@ -170,5 +214,17 @@ describe('Test household inventory', () => {
     cy.get('[data-testid="amount"]').type('0');
     cy.get('[data-testid="date"]').type('2023-12-30');
     cy.get('[data-testid="add-item"]').invoke('attr', 'disabled').should('exist');
+  });
+
+  it('Search for food product name in inventory only shows matching food products', () => {
+    // No search, so all items should be here
+    cy.get('[data-testid="1"]').should('exist').should('contain', 'Tine Melk');
+    cy.get('[data-testid="2"]').should('exist').should('contain', 'Marits Melk');
+    cy.get('[data-testid="3"]').should('exist').should('contain', 'Callums kvalitet bønner');
+
+    cy.get('[data-testid="search-input"]').should('exist').type('Melk');
+    cy.get('[data-testid="1"]').should('exist').should('contain', 'Tine Melk');
+    cy.get('[data-testid="2"]').should('exist').should('contain', 'Marits Melk');
+    cy.get('[data-testid="3"]').should('not.exist');
   });
 });

@@ -27,8 +27,8 @@ describe('Test logged in user using the household view page', () => {
       ],
     });
 
-    cy.get('[data-testid="kollektivet"]').should('exist');
-    cy.get('[data-testid="hytta"]').should('exist');
+    cy.get('[data-testid="02f2b2cf-5143-4d3f-b9df-3843c9791dac"]').should('exist');
+    cy.get('[data-testid="f43b4404-1b80-4e75-9e07-8645262d7f5e"]').should('exist');
     cy.get('[data-testid="noe-annet"]').should('not.exist');
   });
 

@@ -28,6 +28,12 @@ export const routes = [
         component: () => import('@/views/ShoppingList/ShoppingListListingView.vue'),
       },
       {
+        path: '/shopping-list/:id',
+        name: 'previous-shopping-list',
+        meta: { title: 'Handleliste', requiresAuth: true },
+        component: () => import('@/views/ShoppingList/PreviousShoppingListView.vue'),
+      },
+      {
         path: '/shopping-trip',
         name: 'shopping-trip',
         meta: { title: 'Handleliste', requiresAuth: true },

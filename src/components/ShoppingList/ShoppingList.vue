@@ -7,7 +7,12 @@
         label="Søk"
         single-line
         hide-details></v-text-field>
+      <v-btn icon="mdi-history" @click="showLog = true"></v-btn>
     </div>
+
+    <v-dialog v-model="showLog">
+      <shopping-list-log />
+    </v-dialog>
 
     <v-divider />
 
@@ -44,6 +49,7 @@
           <v-list-item-content class="d-flex justify-space-between align-center">
             <div class="d-flex align-center justify-center">
               <v-checkbox
+                v-if="editable"
                 hide-details
                 density="compact"
                 v-model="selected"
@@ -63,6 +69,7 @@
           <v-list-item-content class="d-flex justify-space-between align-center">
             <div class="d-flex align-center justify-center">
               <v-checkbox
+                v-if="editable"
                 hide-details
                 density="compact"
                 v-model="selected"
@@ -75,7 +82,7 @@
         </v-list-item>
       </v-list-item-group>
     </v-list>
-    <v-bottom-navigation class="justify-space-around" grow>
+    <v-bottom-navigation v-if="editable" class="justify-space-around" grow>
       <v-btn class="" @click="addOverlay = true">Legg til vare</v-btn>
       <v-btn :to="{ name: 'shopping-trip' }">Start Handletur</v-btn>
     </v-bottom-navigation>
@@ -97,13 +104,27 @@ import {
 } from '@/api';
 import { useHouseholdStore } from '@/stores/HouseholdStore';
 import AddShoppingListItemModal from '@/components/ShoppingList/AddShoppingListItemModal.vue';
+import ShoppingListLog from './ShoppingListLog.vue';
 
+const props = defineProps<{
+  shoppingListId?: string;
+}>();
+
+const editable = ref(props.shoppingListId ? false : true);
 const householdId = useHouseholdStore().householdId;
+const shoppingList = ref<ShoppingListDTO>(
+  props.shoppingListId
+    ? await ShoppingListService.getShoppingList({ id: props.shoppingListId })
+    : await HouseholdService.getCurrentShoppingList({ id: householdId }),
+);
+
+const shoppingListId = shoppingList.value.id;
 const search = ref('');
-const shoppingList = ref(await HouseholdService.getCurrentShoppingList({ id: householdId }));
-const shoppingListId = ref(shoppingList.value.id);
 console.log(shoppingList);
+
 const selected = ref([] as (ShoppingListItemDTO | CustomFoodItemDTO)[]);
+
+const showLog = ref(false);
 
 const getShoppingListItems = (shoppingList: ShoppingListDTO) => {
   return shoppingList.shoppingListItems;

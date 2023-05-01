@@ -33,6 +33,7 @@ export type { SearchRequest } from './models/SearchRequest';
 export type { ShoppingListDTO } from './models/ShoppingListDTO';
 export type { ShoppingListItemDTO } from './models/ShoppingListItemDTO';
 export { SortRequest } from './models/SortRequest';
+export type { TmpIngredientUsedDTO } from './models/TmpIngredientUsedDTO';
 export type { UnitDTO } from './models/UnitDTO';
 export type { UpdateHouseholdDTO } from './models/UpdateHouseholdDTO';
 export type { UpdateHouseholdFoodProductDTO } from './models/UpdateHouseholdFoodProductDTO';

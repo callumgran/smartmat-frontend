@@ -1,5 +1,4 @@
 <template>
-  <h2 style="text-align: center">Beholdning '{{ household.name }}'</h2>
   <!-- TODO: this should be it's own 'search-and-filter' generic component maybe -->
   <v-card class="mx-auto" color="grey-lighten-3" max-width="400">
     <v-card-item class="search-and-filter">
@@ -33,6 +32,7 @@
   <div v-if="household.foodProducts?.length === 0">Du har ingen varer i beholdningen din :-(</div>
 
   <v-btn
+    v-if="hasAccessToEdit"
     @click="addOverlay = true"
     elevation="2"
     fab
@@ -42,7 +42,7 @@
     <v-icon icon="mdi-plus" />
   </v-btn>
 
-  <v-dialog v-if="hasAccessToEdit" v-model="addOverlay">
+  <v-dialog v-model="addOverlay">
     <add-foodproduct-modal
       @close="addOverlay = false"
       @add="
@@ -57,27 +57,31 @@
 import { ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useUserInfoStore } from '@/stores/UserStore';
-import { HouseholdService, HouseholdDTO, HouseholdFoodProductDTO, HouseholdMemberDTO } from '@/api';
+import { HouseholdDTO, HouseholdFoodProductDTO, HouseholdMemberDTO } from '@/api';
 import HouseholdFoodProductCard from '@/components/Household/HouseholdFoodProductCard.vue';
 import AddFoodproductModal from '@/components/Household/Inventory/AddFoodproductModal.vue';
+
+const props = defineProps({
+  household: {
+    type: Object as () => HouseholdDTO,
+    required: true,
+  },
+});
 
 const userStore = useUserInfoStore();
 const username = userStore.username;
 const route = useRoute();
 const id = route.params.id as string;
 const household = ref<HouseholdDTO>({} as HouseholdDTO);
+household.value = props.household;
 
-/* search and filter */
+/* super cursed search and filter */
 const hfProductsViewable = ref<HouseholdFoodProductDTO[]>([]);
+hfProductsViewable.value = props.household.foodProducts || [];
 const filterChoice = ref('');
 const searchInput = ref('');
 
 const addOverlay = ref(false);
-
-HouseholdService.getHousehold({ id }).then((res) => {
-  household.value = res;
-  hfProductsViewable.value = res.foodProducts || [];
-});
 
 const hasAccessToEdit = computed(() => {
   const r = household.value.members?.find((member) => member.username === username)?.householdRole;

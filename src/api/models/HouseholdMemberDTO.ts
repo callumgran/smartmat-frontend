@@ -5,6 +5,9 @@
 export type HouseholdMemberDTO = {
   household: string;
   username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
   householdRole: HouseholdMemberDTO.householdRole;
 };
 

@@ -6,8 +6,8 @@
           <div class="d-flex">
             <div>
               <v-card-item>
-                <h3>
-                  {{ recipe.name }}
+                <h3 data-testid="recipe-card-title">
+                  {{ props.recipe.name }}
                 </h3>
               </v-card-item>
 

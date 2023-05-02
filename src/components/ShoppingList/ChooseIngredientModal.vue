@@ -25,7 +25,6 @@ const props = defineProps<{
 const choose = (ingredient: ShoppingListItemDTO | null) => {
   emit('update:modelValue', ingredient);
   emit('onClose');
-  console.log('chose', ingredient);
 };
 
 const emit = defineEmits<{

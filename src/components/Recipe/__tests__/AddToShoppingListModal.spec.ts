@@ -3,7 +3,7 @@ import mountWithVuetify from '@/testUtils';
 import AddToShoppingListModalVue, {
   RecipeIngredientsToList,
 } from '@/components/Recipe/AddToShoppingListModal.vue';
-import { FoodProductDTO, HouseholdService, ShoppinglistitemService } from '@/api';
+import { HouseholdService, ShoppinglistitemService } from '@/api';
 import { VCard } from 'vuetify/components';
 import { VueWrapper } from '@vue/test-utils';
 import { rest } from 'msw';
@@ -48,7 +48,6 @@ describe('Test add to shopping list modal', () => {
               ingredient: {
                 id: 1,
                 name: ingredientOne,
-                foodProducts: [] as FoodProductDTO[],
                 unit: {
                   name: 'TestUnit',
                   abbreviation: 'TU',
@@ -61,7 +60,6 @@ describe('Test add to shopping list modal', () => {
               ingredient: {
                 id: 2,
                 name: ingredientTwo,
-                foodProducts: [] as FoodProductDTO[],
                 unit: {
                   name: 'TestUnit',
                   abbreviation: 'TU',

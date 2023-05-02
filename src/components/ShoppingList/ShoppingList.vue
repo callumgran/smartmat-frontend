@@ -120,7 +120,6 @@ const shoppingList = ref<ShoppingListDTO>(
 
 const shoppingListId = shoppingList.value.id;
 const search = ref('');
-console.log(shoppingList);
 
 const selected = ref([] as (ShoppingListItemDTO | CustomFoodItemDTO)[]);
 
@@ -138,22 +137,18 @@ const shoppingListItems = ref(getShoppingListItems(shoppingList.value));
 const customShoppingListItems = ref(getCustomShoppingListItems(shoppingList.value));
 
 watch(shoppingList, () => {
-  console.log('rerendering list');
   shoppingListItems.value = getShoppingListItems(shoppingList.value);
   customShoppingListItems.value = getCustomShoppingListItems(shoppingList.value);
 });
 const addOverlay = ref(false);
 
 watch(addOverlay, async () => {
-  console.log('addOverlay', addOverlay);
   if (!addOverlay.value) {
-    console.log('rerendering');
     shoppingList.value = await HouseholdService.getCurrentShoppingList({ id: householdId });
   }
 });
 
 const deleteSelected = async () => {
-  console.log('deleteSelected', selected.value);
   selected.value.map(async (item) => {
     await ShoppinglistitemService.deleteItemFromShoppingList({
       id: item.id,

@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import {
-  IngredientDTO,
+  BareIngredientDTO,
   ShoppinglistitemService,
   CreateShoppingListItemDTO,
   HouseholdService,
@@ -49,7 +49,7 @@ import { ref, watchEffect } from 'vue';
 import useFeedbackStore from '@/stores/FeedbackStore';
 
 export type RecipeIngredientsToList = {
-  ingredient: IngredientDTO;
+  ingredient: BareIngredientDTO;
   amountFromServings: number;
   leftInHousehold: number;
 };

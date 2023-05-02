@@ -2,9 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { IngredientDTO } from './IngredientDTO';
+import type { BareIngredientDTO } from './BareIngredientDTO';
 
 export type RecipeIngredientDTO = {
-  ingredient: IngredientDTO;
+  ingredient: BareIngredientDTO;
   amount: number;
 };

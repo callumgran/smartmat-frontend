@@ -25,11 +25,9 @@ const close = () => {
   emit('onClose');
 };
 const onLoaded = () => {
-  console.log('Loaded');
   scannerLoading.value = false;
 };
 const onDecode = (result: string) => {
-  console.log(result);
   emit('onScan', result);
 };
 </script>

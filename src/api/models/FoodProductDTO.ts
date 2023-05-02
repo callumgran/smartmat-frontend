@@ -5,10 +5,12 @@
 import type { BareIngredientDTO } from './BareIngredientDTO';
 
 export type FoodProductDTO = {
-  id?: number;
+  id: number;
   name: string;
-  amount?: number;
-  looseWeight?: boolean;
+  amount: number;
+  looseWeight: boolean;
+  image: string;
   ingredient?: BareIngredientDTO;
+  notIngredient?: boolean;
   ean?: string;
 };

@@ -4,10 +4,10 @@
 import type { CreateHouseholdDTO } from '../models/CreateHouseholdDTO';
 import type { HouseholdDTO } from '../models/HouseholdDTO';
 import type { HouseholdMemberDTO } from '../models/HouseholdMemberDTO';
-import type { RecipeDTO } from '../models/RecipeDTO';
+import type { RecipeRecommendationDTO } from '../models/RecipeRecommendationDTO';
 import type { ShoppingListDTO } from '../models/ShoppingListDTO';
-import type { TmpIngredientUsedDTO } from '../models/TmpIngredientUsedDTO';
 import type { UpdateHouseholdDTO } from '../models/UpdateHouseholdDTO';
+import type { WeeklyRecipeDTO } from '../models/WeeklyRecipeDTO';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -191,7 +191,7 @@ export class HouseholdService {
   }: {
     id: string;
     recipeId: string;
-    requestBody: TmpIngredientUsedDTO;
+    requestBody: string;
   }): CancelablePromise<any> {
     return __request(OpenAPI, {
       method: 'POST',
@@ -211,15 +211,45 @@ export class HouseholdService {
   /**
    * Get recommended recipes for a household
    * Get recommended recipes for a household. Recipes are recommended based on the household's ingredients. Requires authentication.
-   * @returns RecipeDTO OK
+   * @returns RecipeRecommendationDTO OK
    * @throws ApiError
    */
-  public static getRecommendedRecipes({ id }: { id: string }): CancelablePromise<Array<RecipeDTO>> {
+  public static getRecommendedRecipes({
+    id,
+  }: {
+    id: string;
+  }): CancelablePromise<Array<RecipeRecommendationDTO>> {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/api/v1/private/households/{id}/recipes',
       path: {
         id: id,
+      },
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
+   * Gets the weekly recipes for a household from a specific monday
+   * Gets the weekly recipes for a household from a specific monday. Requires authentication.
+   * @returns WeeklyRecipeDTO OK
+   * @throws ApiError
+   */
+  public static getWeeklyRecipes({
+    id,
+    monday,
+  }: {
+    id: string;
+    monday: string;
+  }): CancelablePromise<Array<WeeklyRecipeDTO>> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/v1/private/households/{id}/recipes/{monday}',
+      path: {
+        id: id,
+        monday: monday,
       },
       errors: {
         500: `Internal Server Error`,
@@ -284,7 +314,7 @@ export class HouseholdService {
   }): CancelablePromise<any> {
     return __request(OpenAPI, {
       method: 'DELETE',
-      url: '/api/v1/private/households/{id}/tempused/{date}',
+      url: '/api/v1/private/households/{id}/recipes/{date}',
       path: {
         id: id,
         date: date,

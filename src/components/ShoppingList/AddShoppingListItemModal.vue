@@ -60,7 +60,6 @@ import { watch } from 'vue';
 
 const suggestions = ref([] as IngredientDTO[]);
 
-console.log(suggestions);
 const customItem = ref(false);
 const productChosen = ref(null as IngredientDTO | null);
 const props = defineProps<{
@@ -79,7 +78,6 @@ const add = async () => {
     let res = await CustomfooditemService.addItemToShoppingList1({
       requestBody: { name: name.value, amount: amount.value, shoppingListId: props.shoppingListId },
     });
-    console.log(res);
   } else if (productChosen.value) {
     let res = await ShoppinglistitemService.addItemToShoppingList({
       requestBody: {
@@ -89,7 +87,6 @@ const add = async () => {
         shoppingListId: props.shoppingListId,
       },
     });
-    console.log(res);
   } else {
     throw new Error('No product chosen');
   }
@@ -116,7 +113,6 @@ const chooseIngredient = (ingredient: IngredientDTO) => {
 
 const checkProduct = (e: any) => {
   if (!e) {
-    console.log(e);
     if (suggestions.value.length < 1) {
       customItem.value = true;
     }
@@ -124,7 +120,6 @@ const checkProduct = (e: any) => {
 };
 
 watch([name], async () => {
-  console.log(name.value);
   if (name.value.length > 0) {
     let res = await IngredientService.searchIngredients({
       requestBody: {
@@ -143,7 +138,6 @@ watch([name], async () => {
         ],
       },
     });
-    console.log(res);
     suggestions.value = res;
   }
 });

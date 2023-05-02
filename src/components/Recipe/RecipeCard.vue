@@ -7,11 +7,22 @@
             <div>
               <v-card-item>
                 <h3 data-testid="recipe-card-title">
-                  {{ props.recipe.name }}
+                  {{ recipe.name }}
                 </h3>
               </v-card-item>
 
-              <v-card-text> Bruker opp mye i din beholdning </v-card-text>
+              <v-card-text v-if="score">
+                <div v-if="score > 100" style="color: #02b509">
+                  Bruker opp veldig mye av din beholdningen
+                </div>
+                <div v-else-if="score > 50" style="color: #6ed072">
+                  Bruker opp mye av din beholdningen
+                </div>
+                <div v-else color="yellow" style="color: #f9b404">
+                  Bruker opp litt av din beholdningen
+                </div>
+              </v-card-text>
+              <v-card-text v-else> {{ getDescription(recipe.description) }} </v-card-text>
             </div>
 
             <v-avatar class="ma-3" size="125" rounded="0" style="align-self: flex-end">
@@ -28,12 +39,15 @@
 <script setup lang="ts">
 import { RecipeDTO } from '@/api';
 
-const props = defineProps({
-  recipe: {
-    type: Object as () => RecipeDTO,
-    required: true,
-  },
-});
+defineProps<{
+  recipe: RecipeDTO;
+  score?: number;
+}>();
+
+const getDescription = (description: string): string => {
+  if (description.length > 42) return description.slice(0, 42).concat('...');
+  return description;
+};
 </script>
 
 <style scoped>

@@ -40,6 +40,11 @@ export const useHouseholdStore = defineStore('HouseholdStore', {
       this.$state.householdName = '';
     },
   },
+  getters: {
+    getHouseholdId(): string {
+      return this.householdId;
+    },
+  },
   persist: {
     enabled: true,
     strategies: [{ key: 'household', storage: cookiesStorage }],

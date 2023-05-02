@@ -3,10 +3,12 @@
 /* eslint-disable */
 
 export type BareFoodProductDTO = {
-  id?: number;
+  id: number;
   name: string;
   amount: number;
   looseWeight: boolean;
-  ingredientId: number;
+  ingredientId?: number;
+  image: string;
+  notIngredient?: boolean;
   ean?: string;
 };

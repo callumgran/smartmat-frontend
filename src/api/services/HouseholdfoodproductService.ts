@@ -68,6 +68,36 @@ export class HouseholdfoodproductService {
   }
 
   /**
+   * Use a household food product
+   * Use a household food product, requires authentication.
+   * @returns HouseholdFoodProductDTO OK
+   * @throws ApiError
+   */
+  public static useHouseholdFoodProduct({
+    householdId,
+    id,
+    requestBody,
+  }: {
+    householdId: string;
+    id: string;
+    requestBody: number;
+  }): CancelablePromise<HouseholdFoodProductDTO> {
+    return __request(OpenAPI, {
+      method: 'PUT',
+      url: '/api/v1/private/households/{householdId}/foodproducts/id/{id}/use',
+      path: {
+        householdId: householdId,
+        id: id,
+      },
+      body: requestBody,
+      mediaType: 'application/json',
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
    * Create a household food product
    * Create a household food product, requires authentication.
    * @returns HouseholdFoodProductDTO OK
@@ -159,13 +189,39 @@ export class HouseholdfoodproductService {
   }: {
     householdId: string;
     ean: string;
-  }): CancelablePromise<HouseholdFoodProductDTO> {
+  }): CancelablePromise<Array<HouseholdFoodProductDTO>> {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/api/v1/private/households/{householdId}/foodproducts/ean/{ean}',
       path: {
         householdId: householdId,
         ean: ean,
+      },
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
+   * Use a household food product
+   * Use a household food product, requires authentication.
+   * @returns any OK
+   * @throws ApiError
+   */
+  public static throwHouseholdFoodProduct({
+    householdId,
+    id,
+  }: {
+    householdId: string;
+    id: string;
+  }): CancelablePromise<any> {
+    return __request(OpenAPI, {
+      method: 'DELETE',
+      url: '/api/v1/private/households/{householdId}/foodproducts/id/{id}/throw',
+      path: {
+        householdId: householdId,
+        id: id,
       },
       errors: {
         500: `Internal Server Error`,

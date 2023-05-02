@@ -18,5 +18,16 @@ export default defineConfig({
       inline: ['vuetify'],
     },
     globals: true,
+    coverage: {
+      provider: 'c8',
+      all: true,
+      include: [
+        '**/src/components/**',
+        '**/src/stores/**',
+        '**/src/views/**',
+        '**/src/router/**',
+        '**/src/utils/**',
+      ],
+    },
   },
 });

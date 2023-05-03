@@ -10,6 +10,11 @@ export const routes = [
     component: BasePageView,
     children: [
       {
+        path: '',
+        name: 'home',
+        component: () => import('@/views/HomeView.vue'),
+      },
+      {
         path: '/login',
         name: 'login',
         meta: { title: 'Logg inn' },

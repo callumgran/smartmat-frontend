@@ -38,7 +38,12 @@
         </v-list-item>
       </router-link>
       <!-- log out router link that needs extra logic -->
-      <router-link @click="userStore.clearUserInfo()" :to="{ name: 'login' }">
+      <router-link
+        @click="
+          userStore.clearUserInfo();
+          householdStore.clearHousehold();
+        "
+        :to="{ name: 'login' }">
         <v-list-item link prepend-icon="mdi-logout">
           <v-list-item-title>Logg ut</v-list-item-title>
         </v-list-item>
@@ -56,6 +61,7 @@ import { useHouseholdStore } from '@/stores/HouseholdStore';
 const openDrawer = ref(false);
 const route = useRoute();
 const userStore = useUserInfoStore();
+const householdStore = useHouseholdStore();
 const currentRouteName = computed(() => route.name);
 const currentHousehold = computed(() => useHouseholdStore().householdName);
 const items = [

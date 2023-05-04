@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { FoodProductHistoryDTO } from '../models/FoodProductHistoryDTO';
+import type { MonthWasteDTO } from '../models/MonthWasteDTO';
 import type { UpdateFoodProductHistoryDTO } from '../models/UpdateFoodProductHistoryDTO';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -176,6 +177,29 @@ export class StatsService {
         householdId: householdId,
         year: year,
         month: month,
+      },
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
+   * Get the total waste for a household.
+   * Returns the total waste for a household for a month. If the user is not an admin, the householdId must be the id of the household the user is a member of.
+   * @returns MonthWasteDTO OK
+   * @throws ApiError
+   */
+  public static getWasteByMonthInPeriod({
+    householdId,
+  }: {
+    householdId: string;
+  }): CancelablePromise<Array<MonthWasteDTO>> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/v1/private/stats/household/{householdId}/by-month/{start-date}:{end-date}',
+      path: {
+        householdId: householdId,
       },
       errors: {
         500: `Internal Server Error`,

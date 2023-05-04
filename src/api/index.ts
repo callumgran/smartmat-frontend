@@ -31,6 +31,7 @@ export { HouseholdMemberDTO } from './models/HouseholdMemberDTO';
 export type { IngredientDTO } from './models/IngredientDTO';
 export type { IngredientFoodProductDTO } from './models/IngredientFoodProductDTO';
 export type { ListingShoppingListDTO } from './models/ListingShoppingListDTO';
+export type { MonthWasteDTO } from './models/MonthWasteDTO';
 export type { RecipeCreateDTO } from './models/RecipeCreateDTO';
 export { RecipeDTO } from './models/RecipeDTO';
 export type { RecipeIngredientDTO } from './models/RecipeIngredientDTO';

@@ -16,6 +16,11 @@ describe('Test RecipeList', () => {
         name: 'Melk',
       } as BareIngredientDTO,
       amount: 1,
+      unit: {
+        name: 'kg',
+        abbreviation: 'kg',
+        toNormalFormConversionFactor: 1,
+      }
     },
     {
       ingredient: {
@@ -23,6 +28,11 @@ describe('Test RecipeList', () => {
         name: 'Egg',
       } as BareIngredientDTO,
       amount: 2,
+      unit: {
+        name: 'kg',
+        abbreviation: 'kg',
+        toNormalFormConversionFactor: 1,
+      }
     },
   ];
 

@@ -2,7 +2,7 @@
   <!-- TODO: Use form here-->
   <v-card>
     <v-card-title>
-      <span class="headline">Legg til vare</span>
+      <span class="headline" data-testid="headline-test">Legg til vare</span>
     </v-card-title>
 
     <v-alert
@@ -13,7 +13,12 @@
     </v-alert>
 
     <v-card-text>
-      <v-text-field v-model="name" label="Varenavn" required @update:focused="checkProduct">
+      <v-text-field
+        v-model="name"
+        data-testid="suggestion"
+        label="Varenavn"
+        required
+        @update:focused="checkProduct">
         <v-menu activator="parent">
           <v-list>
             <v-list-item
@@ -37,8 +42,13 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="blue darken-1" text @click="close">Avbryt</v-btn>
-      <v-btn color="blue darken-1" text @click="add" :disabled="!productChosen && !customItem"
+      <v-btn color="blue darken-1" data-testid="close" text @click="close">Avbryt</v-btn>
+      <v-btn
+        color="blue darken-1"
+        text
+        data-testid="add"
+        @click="add"
+        :disabled="!productChosen && !customItem"
         >Legg til</v-btn
       >
     </v-card-actions>

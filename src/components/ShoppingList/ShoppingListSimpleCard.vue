@@ -1,6 +1,7 @@
 <template>
   <v-list-item
     v-if="shoppingList.dateCompleted"
+    data-testid="previous"
     @click="$router.push({ name: 'previous-shopping-list', params: { id: shoppingList.id } })">
     {{ props.shoppingList.dateCompleted }}
   </v-list-item>

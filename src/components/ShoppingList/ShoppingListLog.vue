@@ -1,5 +1,6 @@
 <template>
   <v-card>
+    <h1>Tidligere handlelister</h1>
     <v-card-title> Tidligere handlelister </v-card-title>
     <v-list>
       <shopping-list-simple-card

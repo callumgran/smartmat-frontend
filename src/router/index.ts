@@ -86,6 +86,12 @@ export const routes = [
         meta: { title: 'Kunne ikke finne siden' },
         component: () => import('@/views/NotFound404View.vue'),
       },
+      {
+        path: '/profile',
+        name: 'profile',
+        meta: { title: 'Profil', requiresAuth: true },
+        component: () => import('@/views/UserDetailView.vue'),
+      },
     ],
   },
   {

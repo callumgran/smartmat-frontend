@@ -1,7 +1,7 @@
 import { mount, MountingOptions } from '@vue/test-utils';
 import { createVuetify } from 'vuetify/lib/framework.mjs';
 import { VApp } from 'vuetify/components';
-import { h } from 'vue';
+import { h, Suspense } from 'vue';
 import router from '@/router';
 import { createTestingPinia } from '@pinia/testing';
 
@@ -14,7 +14,7 @@ const mountWithVuetify = (props: MountingProps) => {
   const vuetify = createVuetify();
   return mount(VApp, {
     slots: {
-      default: h(props.component, props.options?.props),
+      default: h(Suspense, [h(props.component, props.options?.props)]),
     },
     global: {
       plugins: [vuetify, router, createTestingPinia()],

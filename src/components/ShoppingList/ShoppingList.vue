@@ -18,7 +18,7 @@
 
     <div v-if="selected.length">
       <div class="d-flex">
-        <v-btn @click="deleteSelected">Slett markerte produkter</v-btn>
+        <v-btn @click="deleteSelected"> Slett markerte produkter </v-btn>
       </div>
 
       <v-divider></v-divider>

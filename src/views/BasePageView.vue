@@ -5,24 +5,29 @@
     <v-main class="d-flex justify-center">
       <v-container class="width-limit">
         <Suspense>
-          <router-view />
+          <template #default>
+            <router-view />
+          </template>
+          <template #fallback>
+            <v-progress-linear indeterminate color="primary" />
+          </template>
         </Suspense>
+        <bottom-navigation />
       </v-container>
     </v-main>
     <error-dialog :feedbacks="feedbackStore.feedbacks" @update:removeFeedback="removeFeedback" />
-    <base-footer />
   </div>
 </template>
 
 <script setup lang="ts">
 import BaseHeader from '@/components/BasePage/Header.vue';
 import ErrorDialog from '@/components/Feedback/FeedbackDialog.vue';
-import BaseFooter from '@/components/BasePage/Footer.vue';
 import useFeedbackStore from '@/stores/FeedbackStore';
 import { onErrorCaptured } from 'vue';
-import { handleUnknownError, ResponseError } from '@/components/Feedback/unknownErrorHandler';
+import { handleUnknownError } from '@/components/Feedback/unknownErrorHandler';
 import { useRouter } from 'vue-router';
 import { useUserInfoStore } from '@/stores/UserStore';
+import BottomNavigation from '@/components/BasePage/BottomNavigation.vue';
 import BackgroundAnimation from '@/components/BasePage/BackgroundAnimation.vue';
 
 const router = useRouter();

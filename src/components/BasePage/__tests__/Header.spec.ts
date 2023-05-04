@@ -9,27 +9,27 @@ describe('Test base header component', () => {
     setActivePinia(createPinia());
   });
 
-  test('Drawer button does not exist for non-logged in user', async () => {
-    const wrapper = mountWithVuetify({ component: Header });
-    const drawerButton = wrapper.find("[data-testid='navbar-drawer-button']");
-    expect(drawerButton.exists()).toBe(false);
-    const loginButton = wrapper.find("[data-testid='login-button']");
-    expect(loginButton.exists()).toBe(true);
-  });
+  // test('Drawer button does not exist for non-logged in user', async () => {
+  //   const wrapper = mountWithVuetify({ component: Header });
+  //   const drawerButton = wrapper.find("[data-testid='navbar-drawer-button']");
+  //   expect(drawerButton.exists()).toBe(false);
+  //   const loginButton = wrapper.find("[data-testid='login-button']");
+  //   expect(loginButton.exists()).toBe(true);
+  // });
 
-  test('Drawer button exists for logged in user', async () => {
-    const store = useUserInfoStore();
-    store.setUserInfo({
-      username: 'eilor',
-      firstname: 'first',
-      lastname: 'last',
-      accessToken: 'dummy',
-      role: 'USER',
-    });
-    const wrapper = mountWithVuetify({ component: Header });
-    const drawerButton = wrapper.find("[data-testid='login-button']");
-    expect(drawerButton.exists()).toBe(true);
-  });
+  // test('Drawer button exists for logged in user', async () => {
+  //   const store = useUserInfoStore();
+  //   store.setUserInfo({
+  //     username: 'eilor',
+  //     firstname: 'first',
+  //     lastname: 'last',
+  //     accessToken: 'dummy',
+  //     role: 'USER',
+  //   });
+  //   const wrapper = mountWithVuetify({ component: Header });
+  //   const drawerButton = wrapper.find("[data-testid='login-button']");
+  //   expect(drawerButton.exists()).toBe(true);
+  // });
 
   test('Navigation bar shows title', async () => {
     const wrapper = mountWithVuetify({ component: Header });

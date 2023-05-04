@@ -20,7 +20,7 @@ describe('Test RecipeList', () => {
         name: 'kg',
         abbreviation: 'kg',
         toNormalFormConversionFactor: 1,
-      }
+      },
     },
     {
       ingredient: {
@@ -32,7 +32,7 @@ describe('Test RecipeList', () => {
         name: 'kg',
         abbreviation: 'kg',
         toNormalFormConversionFactor: 1,
-      }
+      },
     },
   ];
 

@@ -39,9 +39,18 @@ import { useRouter, useRoute } from 'vue-router';
 import { useForm, useField, FieldContext } from 'vee-validate';
 import { object as yupObject, string as yupString } from 'yup';
 import { useUserInfoStore } from '@/stores/UserStore';
-import { TokenControllerService, AuthenticateDTO, OpenAPI, UserService, ApiError } from '@/api';
+import { useHouseholdStore } from '@/stores/HouseholdStore';
+import {
+  TokenControllerService,
+  AuthenticateDTO,
+  OpenAPI,
+  UserService,
+  ApiError,
+  HouseholdService,
+} from '@/api';
 
 const userStore = useUserInfoStore();
+const householdStore = useHouseholdStore();
 const router = useRouter();
 const route = useRoute();
 const errorMessage = ref('');
@@ -87,6 +96,9 @@ const submit = handleSubmit(async (values) => {
       username: user.username,
       role: user.role,
     });
+
+    let households = await HouseholdService.getHouseholdsForUser({ username: user.username!! });
+    householdStore.appendHouseholds(households);
 
     /* redirect to where we came from, alternatevely back to home */
     router.push((route.query.redirect as string) || '/');

@@ -19,7 +19,7 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useForm, useField, FieldContext } from 'vee-validate';
 import { object as yupObject, string as yupString } from 'yup';
-import { HouseholdService, CreateHouseholdDTO, ApiError } from '@/api';
+import { HouseholdService, CreateHouseholdDTO } from '@/api';
 import { useHouseholdStore } from '@/stores/HouseholdStore';
 
 const router = useRouter();
@@ -44,8 +44,8 @@ const submit = handleSubmit(async (values) => {
     requestBody: values as CreateHouseholdDTO,
   });
   if (result) {
-    useHouseholdStore().setHousehold(result);
-    router.push({ name: 'household' });
+    useHouseholdStore().appendAndSelectHousehold(result);
+    router.push({ name: 'household-detail', params: { id: result.id } });
   }
 });
 

@@ -98,7 +98,7 @@ import FoodProductCard from '@/components/common/FoodProductCard.vue';
 import { watch } from 'vue';
 import ShoppingTripItem from '@/components/ShoppingList/ShoppingTripItem.vue';
 
-const householdId = ref(useHouseholdStore().householdId);
+const householdId = ref(useHouseholdStore().getSelectedId);
 const currentShoppingList = ref(
   await HouseholdService.getCurrentShoppingList({
     id: householdId.value,

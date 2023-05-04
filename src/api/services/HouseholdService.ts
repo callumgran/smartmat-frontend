@@ -42,13 +42,18 @@ export class HouseholdService {
    * @throws ApiError
    */
   public static updateHouseholdName({
+    id,
     requestBody,
   }: {
+    id: string;
     requestBody: UpdateHouseholdDTO;
   }): CancelablePromise<HouseholdDTO> {
     return __request(OpenAPI, {
       method: 'PUT',
       url: '/api/v1/private/households/{id}',
+      path: {
+        id: id,
+      },
       body: requestBody,
       mediaType: 'application/json',
       errors: {
@@ -298,6 +303,25 @@ export class HouseholdService {
       path: {
         id: id,
         monday: monday,
+      },
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
+   * Gets the planned recipe for today for a household
+   * Gets the planned recipe for a household today. Requires authentication.
+   * @returns WeeklyRecipeDTO OK
+   * @throws ApiError
+   */
+  public static getWeeklyRecipeToday({ id }: { id: string }): CancelablePromise<WeeklyRecipeDTO> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/v1/private/households/{id}/recipes/today',
+      path: {
+        id: id,
       },
       errors: {
         500: `Internal Server Error`,

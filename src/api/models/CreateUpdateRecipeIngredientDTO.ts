@@ -5,4 +5,5 @@
 export type CreateUpdateRecipeIngredientDTO = {
   ingredient: number;
   amount: number;
+  unitName: string;
 };

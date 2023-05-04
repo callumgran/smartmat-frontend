@@ -54,6 +54,7 @@ import {
   HouseholdDTO,
   HouseholdMemberDTO,
   HouseholdService,
+  UpdateHouseholdDTO,
   StatsService,
 } from '@/api';
 import { useUserInfoStore } from '@/stores/UserStore';
@@ -96,8 +97,9 @@ const deleteHousehold = async () => {
 };
 
 const updateName = async (newName: string) => {
+  let updateHouseholdDTO: UpdateHouseholdDTO = { name: newName, id: household.value.id };
   await HouseholdService.updateHouseholdName({
-    requestBody: { id: household.value.id, name: newName },
+    id: household.value.id, requestBody: updateHouseholdDTO,
   });
   household.value.name = newName;
   feedbackStore.addFeedback('Navnet ble oppdatert', 'success');

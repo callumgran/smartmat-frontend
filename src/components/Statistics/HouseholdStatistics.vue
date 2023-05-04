@@ -132,7 +132,8 @@ watchEffect(() => {
   props.productHistory.forEach((product) => {
     foodProductMap.set(
       product.foodProduct.name,
-      (foodProductMap.get(product.foodProduct.name) ?? 0) + product.amount,
+      (foodProductMap.get(product.foodProduct.name) ?? 0) +
+        product.amount * product.thrownAmountInPercentage,
     );
   });
 });

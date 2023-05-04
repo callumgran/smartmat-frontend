@@ -43,8 +43,7 @@
               size="100"
               rounded="0"
               style="align-self: flex-end">
-              <v-img
-                src="https://www.hackerspace-ntnu.no/media/profilepictures/cache/30/1b/301bbf8859ebf1c2edaf5d0c60a1c1d8.jpg"></v-img>
+              <v-img :src="recipe.image ? recipe.image : '/recipe-placeholder.jpg'"></v-img>
             </v-avatar>
           </div>
         </v-card>

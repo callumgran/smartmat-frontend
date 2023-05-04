@@ -1,4 +1,5 @@
 <template>
+  <h3>Medlemmer ({{ householdMembers.length }})</h3>
   <member-card v-for="member in householdMembers" :key="member.username" :member="member" />
 </template>
 

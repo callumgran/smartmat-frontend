@@ -1,14 +1,32 @@
 <template>
   <v-app-bar class="elevation-0">
-    <v-toolbar-title data-testid="navbar-title" style="font-weight: 600; font-size: 1.5em">SmartMat</v-toolbar-title>
-    <v-toolbar-title style="font-size: 1em" v-if="currentHousehold"><v-icon icon="mdi-home"></v-icon>{{ currentHousehold
-    }}</v-toolbar-title>
+    <v-toolbar-title data-testid="navbar-title" style="font-weight: 600; font-size: 1.5em"
+      >SmartMat</v-toolbar-title
+    >
+    <v-toolbar-title style="font-size: 1em" v-if="currentHousehold"
+      ><v-icon icon="mdi-home"></v-icon>{{ currentHousehold }}</v-toolbar-title
+    >
 
-    <v-btn v-if="currentRouteName === 'login' || currentRouteName === 'register'" variant="outlined" rounded="lg"
-      data-testid="home-button" :to="{ name: 'base' }">hovedside</v-btn>
-    <v-btn v-else-if="!userStore.isLoggedIn" variant="outlined" rounded="lg" data-testid="login-button"
-      :to="{ name: 'login' }">Logg inn</v-btn>
-    <v-app-bar-nav-icon v-else data-testid="navbar-drawer-button" variant="text"
+    <v-btn
+      v-if="currentRouteName === 'login' || currentRouteName === 'register'"
+      variant="outlined"
+      rounded="lg"
+      data-testid="home-button"
+      :to="{ name: 'base' }"
+      >hovedside</v-btn
+    >
+    <v-btn
+      v-else-if="!userStore.isLoggedIn"
+      variant="outlined"
+      rounded="lg"
+      data-testid="login-button"
+      :to="{ name: 'login' }"
+      >Logg inn</v-btn
+    >
+    <v-app-bar-nav-icon
+      v-else
+      data-testid="navbar-drawer-button"
+      variant="text"
       @click="openDrawer = !openDrawer"></v-app-bar-nav-icon>
   </v-app-bar>
 
@@ -20,10 +38,12 @@
         </v-list-item>
       </router-link>
       <!-- log out router link that needs extra logic -->
-      <router-link @click="
-        userStore.clearUserInfo();
-      householdStore.clearHousehold();
-      " :to="{ name: 'login' }">
+      <router-link
+        @click="
+          userStore.clearUserInfo();
+          householdStore.clearHousehold();
+        "
+        :to="{ name: 'login' }">
         <v-list-item link prepend-icon="mdi-logout">
           <v-list-item-title>Logg ut</v-list-item-title>
         </v-list-item>

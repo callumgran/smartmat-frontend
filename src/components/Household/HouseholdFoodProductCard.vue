@@ -98,6 +98,7 @@ const useUp = (amount: number) => {
     id: props.hfProduct.id ?? '',
     requestBody: {
       ...props.hfProduct,
+      foodProductId: props.hfProduct.foodProduct?.id,
       amountLeft: newAmountLeft,
     } as UpdateHouseholdFoodProductDTO,
   }).then(() => {
@@ -106,7 +107,7 @@ const useUp = (amount: number) => {
 };
 
 const throwOut = () => {
-  HouseholdfoodproductService.deleteHouseholdFoodProduct({
+  HouseholdfoodproductService.throwHouseholdFoodProduct({
     householdId: props.hfProduct.householdId,
     id: props.hfProduct.id ?? '',
   }).then(() => {

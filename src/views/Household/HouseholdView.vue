@@ -3,43 +3,65 @@
 
   <div class="d-flex justify-center align-center header">
     <v-btn-toggle v-model="pageComponent" mandatory divided variant="outlined" color="primary">
-      <v-btn value="members" size="x-small" data-testid="members-btn">Medlemmer</v-btn>
-      <v-btn value="inventory" size="x-small" data-testid="inventory-btn">Beholdning</v-btn>
-      <v-btn v-if="hasAccessToEdit" value="settings" size="x-small" data-testid="settings-btn"
-        >Innstillinger</v-btn
+      <v-btn value="inventory" data-testid="inventory-btn"><v-icon>mdi-food-apple</v-icon></v-btn>
+      <v-btn value="statistics" data-testid="stats-btn"
+        ><v-icon>mdi-chart-areaspline</v-icon></v-btn
+      >
+      <v-btn value="members" data-testid="members-btn"><v-icon>mdi-account-group</v-icon></v-btn>
+      <v-btn v-if="hasAccessToEdit" value="settings" data-testid="settings-btn"
+        ><v-icon>mdi-cog</v-icon></v-btn
       >
     </v-btn-toggle>
   </div>
 
-  <div v-if="pageComponent === 'members'">
-    <h3>Medlemmer ({{ household.members?.length }})</h3>
-    <household-members :household-members="household.members ?? []" />
-  </div>
+  <suspense>
+    <template #default>
+      <div v-if="pageComponent === 'inventory'">
+        <inventory-list :household="household" />
+      </div>
 
-  <div v-else-if="pageComponent === 'inventory'">
-    <inventory-list :household="household" />
-  </div>
+      <div v-else-if="pageComponent === 'statistics'">
+        <household-statistics :product-history="foodProductHistory" :household="household" />
+      </div>
 
-  <div v-else>
-    <household-settings
-      :household="household"
-      @delete-household="deleteHousehold()"
-      @update-name="(newName) => updateName(newName)"
-      @add-member="(username) => addMember(username)"
-      @remove-member="(username) => removeMember(username)"
-      @update-member-role="(username, role) => updateMemberRole(username, role)" />
-  </div>
+      <div v-else-if="pageComponent === 'members'">
+        <household-members :household-members="household.members ?? []" />
+      </div>
+
+      <div v-else-if="pageComponent === 'settings'">
+        <household-settings
+          :household="household"
+          @delete-household="deleteHousehold()"
+          @update-name="(newName) => updateName(newName)"
+          @add-member="(username) => addMember(username)"
+          @remove-member="(username) => removeMember(username)"
+          @update-member-role="(username, role) => updateMemberRole(username, role)" />
+      </div>
+    </template>
+    <template #fallback>
+      <div class="d-flex justify-center align-center">
+        <v-progress-circular indeterminate color="primary" />
+      </div>
+    </template>
+  </suspense>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { HouseholdDTO, HouseholdMemberDTO, HouseholdService } from '@/api';
+import {
+  FoodProductHistoryDTO,
+  HouseholdDTO,
+  HouseholdMemberDTO,
+  HouseholdService,
+  StatsService,
+} from '@/api';
 import { useUserInfoStore } from '@/stores/UserStore';
 import useFeedbackStore from '@/stores/FeedbackStore';
 import HouseholdMembers from '@/components/Household/HouseholdMembers.vue';
 import InventoryList from '@/components/Household/Inventory/InventoryList.vue';
 import HouseholdSettings from '@/components/Household/HouseholdSettings.vue';
+import HouseholdStatistics from '@/components/Statistics/HouseholdStatistics.vue';
 
 const feedbackStore = useFeedbackStore();
 const router = useRouter();
@@ -51,7 +73,7 @@ const username = userStore.username;
 const household = ref<HouseholdDTO>({} as HouseholdDTO);
 household.value = await HouseholdService.getHousehold({ id: id });
 
-const pageComponent = ref('members');
+const pageComponent = ref('inventory' as 'inventory' | 'settings' | 'members' | 'statistics');
 
 const hasAccessToEdit = computed(() => {
   const r = household.value.members?.find((member) => member.username === username)?.householdRole;
@@ -105,6 +127,13 @@ const updateMemberRole = async (username: string, role: HouseholdMemberDTO.house
 
   feedbackStore.addFeedback(`Rollen til ${username} ble oppdatert`, 'success');
 };
+
+const foodProductHistory = ref<FoodProductHistoryDTO[]>([]);
+onMounted(async () => {
+  foodProductHistory.value = await StatsService.getFoodProductHistoryForHousehold({
+    householdId: household.value.id,
+  });
+});
 </script>
 
 <style scoped>

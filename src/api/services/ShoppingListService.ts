@@ -115,4 +115,23 @@ export class ShoppingListService {
       },
     });
   }
+
+  /**
+   * Get a shopping list by id
+   * Get a shopping list by id. Requires authentication and be part of the household.
+   * @returns ShoppingListDTO OK
+   * @throws ApiError
+   */
+  public static getShoppingListDiff({ id }: { id: string }): CancelablePromise<ShoppingListDTO> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/v1/private/shoppinglists/{id}/diff',
+      path: {
+        id: id,
+      },
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
 }

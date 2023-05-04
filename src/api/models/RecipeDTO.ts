@@ -12,6 +12,7 @@ export type RecipeDTO = {
   instructions: string;
   estimatedMinutes: number;
   recipeDifficulty: RecipeDTO.recipeDifficulty;
+  image?: string;
 };
 
 export namespace RecipeDTO {

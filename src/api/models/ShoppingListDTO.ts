@@ -9,6 +9,7 @@ export type ShoppingListDTO = {
   id: string;
   dateCompleted?: string;
   household: string;
+  basket?: string;
   shoppingListItems: Array<ShoppingListItemDTO>;
   customFoodItems: Array<CustomFoodItemDTO>;
 };

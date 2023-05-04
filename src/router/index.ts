@@ -57,6 +57,12 @@ export const routes = [
         meta: { title: 'Husstand', requiresAuth: true },
       },
       {
+        path: '/household/:id/:year/:week',
+        name: 'household-weekly',
+        component: () => import('@/views/Household/WeeklyMenuView.vue'),
+        meta: { title: 'Ukes meny', requiresAuth: true },
+      },
+      {
         path: '/household/create',
         name: 'household-create',
         meta: { title: 'Ny husstand', requiresAuth: true },
@@ -69,7 +75,7 @@ export const routes = [
         component: () => import('@/views/Recipe/RecipeListView.vue'),
       },
       {
-        path: '/recipe/:id',
+        path: '/recipe/:recipeId',
         name: 'recipe-detail',
         meta: { title: 'Oppskrift' },
         component: () => import('@/views/Recipe/RecipeDetailView.vue'),

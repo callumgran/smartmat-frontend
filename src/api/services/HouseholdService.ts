@@ -2,9 +2,11 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CreateHouseholdDTO } from '../models/CreateHouseholdDTO';
+import type { CreateWeeklyRecipeDTO } from '../models/CreateWeeklyRecipeDTO';
 import type { HouseholdDTO } from '../models/HouseholdDTO';
 import type { HouseholdMemberDTO } from '../models/HouseholdMemberDTO';
 import type { RecipeRecommendationDTO } from '../models/RecipeRecommendationDTO';
+import type { RecipeShoppingListItemDTO } from '../models/RecipeShoppingListItemDTO';
 import type { ShoppingListDTO } from '../models/ShoppingListDTO';
 import type { UpdateHouseholdDTO } from '../models/UpdateHouseholdDTO';
 import type { WeeklyRecipeDTO } from '../models/WeeklyRecipeDTO';
@@ -191,7 +193,7 @@ export class HouseholdService {
   }: {
     id: string;
     recipeId: string;
-    requestBody: string;
+    requestBody: CreateWeeklyRecipeDTO;
   }): CancelablePromise<any> {
     return __request(OpenAPI, {
       method: 'POST',
@@ -202,6 +204,26 @@ export class HouseholdService {
       },
       body: requestBody,
       mediaType: 'application/json',
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
+   * Uses a recipe for a household on a specific date
+   * Uses a recipe for a household on a specific date. Requires authentication.
+   * @returns any OK
+   * @throws ApiError
+   */
+  public static useRecipe1({ id, date }: { id: string; date: string }): CancelablePromise<any> {
+    return __request(OpenAPI, {
+      method: 'PATCH',
+      url: '/api/v1/private/households/{id}/recipes/{date}/use',
+      path: {
+        id: id,
+        date: date,
+      },
       errors: {
         500: `Internal Server Error`,
       },
@@ -247,6 +269,32 @@ export class HouseholdService {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/api/v1/private/households/{id}/recipes/{monday}',
+      path: {
+        id: id,
+        monday: monday,
+      },
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
+   * Gets the shopping list items for a household from a specific monday
+   * Gets the shopping list items for a household from a specific monday. Requires authentication.
+   * @returns RecipeShoppingListItemDTO OK
+   * @throws ApiError
+   */
+  public static getShoppingListItems1({
+    id,
+    monday,
+  }: {
+    id: string;
+    monday: string;
+  }): CancelablePromise<Array<RecipeShoppingListItemDTO>> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/v1/private/households/{id}/recipes/{monday}/items',
       path: {
         id: id,
         monday: monday,

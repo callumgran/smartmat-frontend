@@ -8,4 +8,5 @@ export type WeeklyRecipeDTO = {
   recipe: RecipeDTO;
   dateToUse: string;
   used: boolean;
+  portions: number;
 };

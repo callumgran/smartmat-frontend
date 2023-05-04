@@ -1,14 +1,17 @@
 <template>
-  <base-header />
-  <v-main>
-    <v-container fluid>
-      <Suspense>
-        <router-view />
-      </Suspense>
-    </v-container>
-  </v-main>
-  <error-dialog :feedbacks="feedbackStore.feedbacks" @update:removeFeedback="removeFeedback" />
-  <base-footer />
+  <BackgroundAnimation class="animated-background" />
+  <div class="foreground">
+    <base-header />
+    <v-main class="d-flex justify-center">
+      <v-container class="width-limit">
+        <Suspense>
+          <router-view />
+        </Suspense>
+      </v-container>
+    </v-main>
+    <error-dialog :feedbacks="feedbackStore.feedbacks" @update:removeFeedback="removeFeedback" />
+    <base-footer />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -20,6 +23,7 @@ import { onErrorCaptured } from 'vue';
 import { handleUnknownError, ResponseError } from '@/components/Feedback/unknownErrorHandler';
 import { useRouter } from 'vue-router';
 import { useUserInfoStore } from '@/stores/UserStore';
+import BackgroundAnimation from '@/components/BasePage/BackgroundAnimation.vue';
 
 const router = useRouter();
 const feedbackStore = useFeedbackStore();
@@ -48,3 +52,30 @@ window.addEventListener('unhandledrejection', (event) => {
   Promise.resolve(event.reason);
 });
 </script>
+<style scoped>
+.width-limit {
+  max-width: min(700px, 100%);
+  min-height: 100%;
+  background-color: white;
+}
+
+main {
+  min-height: 100%;
+}
+
+.animated-background {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.foreground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+</style>

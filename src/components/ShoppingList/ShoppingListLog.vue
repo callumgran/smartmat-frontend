@@ -1,6 +1,5 @@
 <template>
   <v-card>
-    <h1>Tidligere handlelister</h1>
     <v-card-title> Tidligere handlelister </v-card-title>
     <v-list>
       <shopping-list-simple-card
@@ -20,7 +19,7 @@ import ShoppingListSimpleCard from './ShoppingListSimpleCard.vue';
 const householdId = useHouseholdStore().householdId;
 const household = await HouseholdService.getHousehold({ id: householdId });
 
-const shoppingLists = ref(household.shoppingLists);
+const shoppingLists = ref(household.shoppingLists?.sort((a) => (!a.dateCompleted ? -1 : 1)));
 </script>
 
 <style scoped></style>

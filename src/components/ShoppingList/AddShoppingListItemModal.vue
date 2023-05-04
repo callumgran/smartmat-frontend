@@ -27,6 +27,12 @@
               @click="chooseIngredient(suggestion)"
               >{{ suggestion.name }}
             </v-list-item>
+            <v-list-item
+              v-if="suggestions.length < 1 && name"
+              @click=""
+              prepend-icon="mdi-pencil"
+              >{{ name }}</v-list-item
+            >
           </v-list>
         </v-menu>
       </v-text-field>
@@ -130,12 +136,12 @@ const checkProduct = (e: any) => {
 };
 
 watch([name], async () => {
-  if (name.value.length > 0) {
+  if (name.value.length) {
     let res = await IngredientService.searchIngredients({
       requestBody: {
         sortRequests: [{ keyWord: 'name', sortDirection: SortRequest.sortDirection.ASC }],
         page: undefined,
-        size: undefined,
+        size: 5,
         filterRequests: [
           {
             keyWord: 'name',

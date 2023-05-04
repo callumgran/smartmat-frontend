@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-title data-testid="choose-ingredient-title">Velg ingrediens</v-title>
+    <v-title data-testid="choose-ingredient-title" class="text-h4 ma-2">Velg ingrediens</v-title>
     <v-text-field
       v-model="search"
       label="Søk etter ingrediens"
@@ -14,16 +14,22 @@
         <v-list-item
           v-for="ingredient in ingredients"
           :key="ingredient.id"
-          @click="emit('onChoice', ingredient)">
-          <v-list-item-content>
-            <v-list-item-title>{{ ingredient.name }}</v-list-item-title>
-          </v-list-item-content>
+          @click="!selectedItem ? (selectedItem = ingredient) : (selectedItem = null)"
+          :class="ingredient === selectedItem ? 'bg-green' : ''">
+          <v-list-item-title>{{ ingredient.name }}</v-list-item-title>
         </v-list-item>
       </v-list-item-group>
     </v-list>
-    <v-btn data-testid="not-ingredient-button" @click="emit('onChoice', null)"
-      >Dette produktet er <br />ikke en ingrediens</v-btn
-    >
+    <v-divider />
+    <div>
+      <v-btn
+        class="ma-2"
+        data-testid="not-ingredient-button"
+        @click="emit('onChoice', selectedItem)"
+        :class="!selectedItem ? 'bg-orange' : 'bg-green'">
+        {{ !selectedItem ? 'Produktet er ikke en ingrediens' : 'Velg ingrediens' }}
+      </v-btn>
+    </div>
   </v-card>
 </template>
 
@@ -40,6 +46,7 @@ const emit = defineEmits<{
 }>();
 
 const search = ref('');
+const selectedItem = ref<IngredientDTO | null>(null);
 
 const getIngredients = async (search: string): Promise<IngredientDTO[]> => {
   return IngredientService.searchIngredients({

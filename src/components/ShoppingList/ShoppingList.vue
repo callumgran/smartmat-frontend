@@ -111,7 +111,7 @@ const props = defineProps<{
 }>();
 
 const editable = ref(props.shoppingListId ? false : true);
-const householdId = useHouseholdStore().householdId;
+const householdId = useHouseholdStore().getSelectedId;
 const shoppingList = ref<ShoppingListDTO>(
   props.shoppingListId
     ? await ShoppingListService.getShoppingList({ id: props.shoppingListId })

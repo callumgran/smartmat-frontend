@@ -74,7 +74,7 @@ const setCurrentRecipes = (recipes: RecipeDTO[]) => {
 const currentRecipes = ref([] as RecipeRecommendationDTO[]);
 setCurrentRecipes(props.recipes);
 
-const householdId = useHouseholdStore().householdId;
+const householdId = useHouseholdStore().getSelectedId;
 const searchInput = ref('');
 const filterChoice = ref('');
 

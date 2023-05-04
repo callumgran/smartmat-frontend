@@ -45,12 +45,6 @@ export const routes = [
         component: () => import('@/views/ShoppingList/ShoppingTripView.vue'),
       },
       {
-        path: '/household',
-        name: 'household',
-        meta: { title: 'Husstand', requiresAuth: true },
-        component: () => import('@/views/Household/HouseholdListView.vue'),
-      },
-      {
         path: '/household/:id',
         name: 'household-detail',
         component: () => import('@/views/Household/HouseholdView.vue'),

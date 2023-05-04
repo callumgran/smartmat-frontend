@@ -16,7 +16,7 @@ import { useHouseholdStore } from '@/stores/HouseholdStore';
 import { ref } from 'vue';
 import ShoppingListSimpleCard from './ShoppingListSimpleCard.vue';
 
-const householdId = useHouseholdStore().householdId;
+const householdId = useHouseholdStore().getSelectedId;
 const household = await HouseholdService.getHousehold({ id: householdId });
 
 const shoppingLists = ref(household.shoppingLists?.sort((a) => (!a.dateCompleted ? -1 : 1)));

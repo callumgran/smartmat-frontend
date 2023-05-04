@@ -82,7 +82,7 @@ const props = defineProps({
   },
 });
 
-const householdId = useHouseholdStore().householdId;
+const householdId = useHouseholdStore().getSelectedId;
 const recipe = ref<RecipeDTO>({} as RecipeDTO);
 
 if (props.recipeProp) {

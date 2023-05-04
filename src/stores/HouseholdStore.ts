@@ -25,24 +25,71 @@ const cookiesStorage: Storage = {
     throw new Error('Function not implemented.');
   },
 };
+
+export type HouseholdStoreInfo = Array<{ householdId: string; householdName: string }>;
+
 export const useHouseholdStore = defineStore('HouseholdStore', {
   state: () => ({
-    householdId: '',
-    householdName: '',
+    households: [] as HouseholdStoreInfo,
+    selectedIndex: -1,
   }),
   actions: {
-    setHousehold(household: HouseholdDTO) {
-      this.$state.householdId = household.id || '';
-      this.$state.householdName = household.name || '';
+    appendHouseholds(households: HouseholdDTO[]) {
+      for (const household of households) {
+        this.$state.households.push({ householdId: household.id, householdName: household.name });
+      }
+    },
+    appendHousehold(household: HouseholdDTO) {
+      this.$state.households.push({ householdId: household.id, householdName: household.name });
+    },
+    appendAndSelectHousehold(household: HouseholdDTO) {
+      this.$state.households.push({ householdId: household.id, householdName: household.name });
+      this.$state.selectedIndex = this.$state.households.length - 1;
+    },
+    selectHouseholdByName(householdName: string) {
+      const index = this.$state.households.findIndex(
+        (household) => household.householdName === householdName,
+      );
+      this.$state.selectedIndex = index;
+    },
+    selectHouseholdById(householdId: string) {
+      const index = this.$state.households.findIndex(
+        (household) => household.householdId === householdId,
+      );
+      this.$state.selectedIndex = index;
     },
     clearHousehold() {
-      this.$state.householdId = '';
-      this.$state.householdName = '';
+      this.$state.households = [];
+      this.$state.selectedIndex = -1;
+    },
+    selectNone() {
+      this.$state.selectedIndex = -1;
+    },
+    selectFirst() {
+      this.$state.selectedIndex = 0;
     },
   },
   getters: {
-    getHouseholdId(): string {
-      return this.householdId;
+    getSelectedId(): string {
+      if (this.selectedIndex === -1 && this.households.length === 0) {
+        return '';
+      }
+      if (this.selectedIndex !== -1) {
+        return this.households[this.selectedIndex].householdId;
+      }
+      return this.households[0].householdId;
+    },
+    getSelectedName(): string {
+      if (this.selectedIndex === -1 && this.households.length === 0) {
+        return '';
+      }
+      if (this.selectedIndex !== -1) {
+        return this.households[this.selectedIndex].householdName;
+      }
+      return this.households[0].householdName;
+    },
+    getAllHouseholdNames(): string[] {
+      return this.households.map((household) => household.householdName);
     },
   },
   persist: {

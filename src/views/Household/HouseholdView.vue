@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import {
   FoodProductHistoryDTO,
@@ -63,6 +63,7 @@ import HouseholdMembers from '@/components/Household/HouseholdMembers.vue';
 import InventoryList from '@/components/Household/Inventory/InventoryList.vue';
 import HouseholdSettings from '@/components/Household/HouseholdSettings.vue';
 import HouseholdStatistics from '@/components/Statistics/HouseholdStatistics.vue';
+import { useHouseholdStore } from '@/stores/HouseholdStore';
 
 const feedbackStore = useFeedbackStore();
 const router = useRouter();
@@ -93,13 +94,15 @@ const deleteHousehold = async () => {
   if (!rc) return;
   await HouseholdService.deleteHousehold({ id: household.value.id });
   feedbackStore.addFeedback('Husholdningen ble slettet', 'success');
+  useHouseholdStore().clearHousehold();
   router.push({ name: 'household' });
 };
 
 const updateName = async (newName: string) => {
   let updateHouseholdDTO: UpdateHouseholdDTO = { name: newName, id: household.value.id };
   await HouseholdService.updateHouseholdName({
-    id: household.value.id, requestBody: updateHouseholdDTO,
+    id: household.value.id,
+    requestBody: updateHouseholdDTO,
   });
   household.value.name = newName;
   feedbackStore.addFeedback('Navnet ble oppdatert', 'success');
@@ -129,6 +132,14 @@ const updateMemberRole = async (username: string, role: HouseholdMemberDTO.house
 
   feedbackStore.addFeedback(`Rollen til ${username} ble oppdatert`, 'success');
 };
+
+watch(
+  () => route.params.id,
+  async (newId) => {
+    if (!newId) return;
+    household.value = await HouseholdService.getHousehold({ id: newId as string });
+  },
+);
 
 const foodProductHistory = ref<FoodProductHistoryDTO[]>([]);
 onMounted(async () => {

@@ -30,7 +30,7 @@ const router = useRouter();
 
 const onHouseholdClick = (household: HouseholdDTO) => {
   router.push({ name: 'household-detail', params: { id: household.id } });
-  useHouseholdStore().setHousehold(household);
+  useHouseholdStore().selectHouseholdById(household.id);
 };
 
 HouseholdService.getHouseholdsForUser({ username: username }).then((result) => {

@@ -54,8 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, computed, watch, watchEffect } from 'vue';
 import { useUserInfoStore } from '@/stores/UserStore';
 import { HouseholdDTO, HouseholdFoodProductDTO, HouseholdMemberDTO } from '@/api';
 import HouseholdFoodProductCard from '@/components/Household/HouseholdFoodProductCard.vue';
@@ -70,21 +69,19 @@ const props = defineProps({
 
 const userStore = useUserInfoStore();
 const username = userStore.username;
-const route = useRoute();
-const id = route.params.id as string;
-const household = ref<HouseholdDTO>({} as HouseholdDTO);
-household.value = props.household;
 
 /* super cursed search and filter */
 const hfProductsViewable = ref<HouseholdFoodProductDTO[]>([]);
-hfProductsViewable.value = props.household.foodProducts || [];
+watchEffect(() => {
+  hfProductsViewable.value = props.household.foodProducts || [];
+});
 const filterChoice = ref('');
 const searchInput = ref('');
 
 const addOverlay = ref(false);
 
 const hasAccessToEdit = computed(() => {
-  const r = household.value.members?.find((member) => member.username === username)?.householdRole;
+  const r = props.household.members?.find((member) => member.username === username)?.householdRole;
   if (r === undefined) {
     return false;
   }
@@ -95,14 +92,14 @@ const hasAccessToEdit = computed(() => {
 });
 
 const removeHfProduct = (hfProdct: HouseholdFoodProductDTO) => {
-  household.value!.foodProducts = household.value!.foodProducts?.filter(
+  props.household!.foodProducts = props.household!.foodProducts?.filter(
     (item) => item !== hfProdct,
   );
   hfProductsViewable.value = hfProductsViewable.value.filter((item) => item !== hfProdct);
 };
 
 const addHfProduct = (hfProduct: HouseholdFoodProductDTO) => {
-  household.value?.foodProducts?.push(hfProduct);
+  props.household?.foodProducts?.push(hfProduct);
   filterViewable();
 };
 
@@ -139,14 +136,14 @@ watch([filterChoice], async () => {
 });
 
 watch([searchInput], async () => {
-  if (household.value.foodProducts === undefined) {
+  if (props.household.foodProducts === undefined) {
     return;
   }
   if (searchInput.value === '') {
-    hfProductsViewable.value = household.value.foodProducts;
+    hfProductsViewable.value = props.household.foodProducts;
     return;
   }
-  hfProductsViewable.value = fuzzySearch(household.value.foodProducts, searchInput.value);
+  hfProductsViewable.value = fuzzySearch(props.household.foodProducts, searchInput.value);
 });
 
 const fuzzySearch = (list: HouseholdFoodProductDTO[], query: string): HouseholdFoodProductDTO[] => {

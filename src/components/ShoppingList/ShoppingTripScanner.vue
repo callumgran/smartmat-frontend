@@ -54,7 +54,7 @@ const emit = defineEmits<{
 const fetchingItem = ref(false);
 const itemFound = ref<FoodProductDTO | null>();
 const linking = ref(false);
-const householdId = computed(() => useHouseholdStore().householdId);
+const householdId = computed(() => useHouseholdStore().getSelectedId);
 
 const others = ref(
   (await HouseholdService.getCurrentShoppingList({ id: householdId.value })).customFoodItems.filter(

@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-title>Velg ingrediens</v-title>
+    <v-title data-testid="choose-ingredient-title">Velg ingrediens</v-title>
     <v-text-field
       v-model="search"
       label="Søk etter ingrediens"
@@ -21,7 +21,9 @@
         </v-list-item>
       </v-list-item-group>
     </v-list>
-    <v-btn @click="emit('onChoice', null)">Dette produktet er <br />ikke en ingrediens</v-btn>
+    <v-btn data-testid="not-ingredient-button" @click="emit('onChoice', null)"
+      >Dette produktet er <br />ikke en ingrediens</v-btn
+    >
   </v-card>
 </template>
 

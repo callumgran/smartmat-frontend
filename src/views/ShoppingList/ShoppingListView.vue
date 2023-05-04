@@ -1,6 +1,8 @@
 <template>
   <suspense>
-    <shopping-list />
+    <div>
+      <shopping-list />
+    </div>
   </suspense>
 </template>
 

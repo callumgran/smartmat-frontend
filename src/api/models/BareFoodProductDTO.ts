@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { UnitDTO } from './UnitDTO';
+
 export type BareFoodProductDTO = {
   id: number;
   name: string;
@@ -9,6 +11,7 @@ export type BareFoodProductDTO = {
   looseWeight: boolean;
   ingredientId?: number;
   image: string;
+  unit?: UnitDTO;
   notIngredient?: boolean;
   ean?: string;
 };

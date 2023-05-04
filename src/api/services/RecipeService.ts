@@ -3,6 +3,8 @@
 /* eslint-disable */
 import type { RecipeCreateDTO } from '../models/RecipeCreateDTO';
 import type { RecipeDTO } from '../models/RecipeDTO';
+import type { RecipeShoppingListItemDTO } from '../models/RecipeShoppingListItemDTO';
+import type { RecipeUseDTO } from '../models/RecipeUseDTO';
 import type { SearchRequest } from '../models/SearchRequest';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -76,6 +78,33 @@ export class RecipeService {
   }
 
   /**
+   * Use a recipe
+   * Use a recipe with the given id. The id in the path must match the id in the request body. Requires valid JWT token in header.
+   * @returns any OK
+   * @throws ApiError
+   */
+  public static useRecipe({
+    id,
+    requestBody,
+  }: {
+    id: string;
+    requestBody: RecipeUseDTO;
+  }): CancelablePromise<any> {
+    return __request(OpenAPI, {
+      method: 'PUT',
+      url: '/api/v1/private/recipes/{id}/use',
+      path: {
+        id: id,
+      },
+      body: requestBody,
+      mediaType: 'application/json',
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
    * Get all recipes
    * Get all recipes.
    * @returns RecipeDTO OK
@@ -129,6 +158,35 @@ export class RecipeService {
       url: '/api/v1/private/recipes/search',
       body: requestBody,
       mediaType: 'application/json',
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
+   * Gets the shopping list items for a household from a recipe
+   * Gets the shopping list items for a household from a recipe. Requires authentication.
+   * @returns RecipeShoppingListItemDTO OK
+   * @throws ApiError
+   */
+  public static getShoppingListItems({
+    id,
+    householdId,
+    portions,
+  }: {
+    id: string;
+    householdId: string;
+    portions: number;
+  }): CancelablePromise<Array<RecipeShoppingListItemDTO>> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/v1/private/recipes/{id}/items/{householdId}/{portions}',
+      path: {
+        id: id,
+        householdId: householdId,
+        portions: portions,
+      },
       errors: {
         500: `Internal Server Error`,
       },

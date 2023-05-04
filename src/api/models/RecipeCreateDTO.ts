@@ -11,4 +11,5 @@ export type RecipeCreateDTO = {
   instructions: string;
   estimatedMinutes: number;
   recipeDifficulty: string;
+  image?: string;
 };

@@ -12,7 +12,7 @@ export type ResponseError = {
  * which an error component can then display
  * @param error The unknown error to handle
  */
-export const handleUnknownError = (error: any): ResponseError => {
+export const handleUnknownError = (error: any): ResponseError | null => {
   console.error(error);
   let msg = 'Det oppsto en feil med behandling av forespørselen din.';
   let statusCode: number = 500;
@@ -34,6 +34,8 @@ export const handleUnknownError = (error: any): ResponseError => {
   } else if (error instanceof BackendApiError) {
     msg = error.body?.detail ?? error.body;
     statusCode = error.status;
+  } else if (error instanceof Error && error.message.includes('classList')) {
+    return null;
   }
 
   return { message: msg, statusCode: statusCode };

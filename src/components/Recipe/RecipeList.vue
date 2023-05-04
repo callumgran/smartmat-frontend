@@ -27,7 +27,7 @@
       :data-testid="rr.recipe.id + '-card'"
       :recipe="rr.recipe"
       :score="rr.score > 0 ? rr.score : undefined"
-      @click="$router.push({ name: 'recipe-detail', params: { id: rr.recipe.id } })" />
+      @click="goToRecipe(rr.recipe.id)" />
   </div>
   <div v-else>
     <v-alert dense type="info" style="margin-top: 1rem"
@@ -39,6 +39,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useHouseholdStore } from '@/stores/HouseholdStore';
+import { useRouter } from 'vue-router';
 import {
   RecipeDTO,
   RecipeRecommendationDTO,
@@ -51,7 +52,17 @@ import RecipeCard from '@/components/Recipe/RecipeCard.vue';
 
 const props = defineProps<{
   recipes: RecipeDTO[];
+  emitOverRouterPush?: boolean;
 }>();
+
+const emit = defineEmits(['recipe-clicked']);
+
+const router = useRouter();
+
+const goToRecipe = (id: string) => {
+  if (props.emitOverRouterPush) emit('recipe-clicked', id);
+  else router.push({ name: 'recipe-detail', params: { recipeId: id } });
+};
 
 const setCurrentRecipes = (recipes: RecipeDTO[]) => {
   currentRecipes.value = recipes.map((recipe) => ({

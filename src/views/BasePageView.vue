@@ -26,6 +26,9 @@ const feedbackStore = useFeedbackStore();
 
 function handleError(err: Error) {
   const responseError = handleUnknownError(err);
+  if (responseError === null) {
+    return;
+  }
   if (responseError.statusCode === 401) {
     useUserInfoStore().clearUserInfo();
     router.push({ name: 'login', query: { errorMsg: responseError.message } });

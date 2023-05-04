@@ -120,6 +120,29 @@ export class FoodproductService {
   }
 
   /**
+   * Get food products with loose ingredient
+   * Get food products with loose ingredient, requires authentication.
+   * @returns FoodProductDTO OK
+   * @throws ApiError
+   */
+  public static getLooseFoodProductByIngredient({
+    ingredientId,
+  }: {
+    ingredientId: number;
+  }): CancelablePromise<FoodProductDTO> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/v1/private/foodproducts/loose-ingredient/{ingredient-id}',
+      path: {
+        'ingredient-id': ingredientId,
+      },
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
    * Get a food product by EAN
    * Get a food product by its EAN, requires authentication.
    * @returns FoodProductDTO OK

@@ -39,7 +39,7 @@ const routeTo = (name: string, params?: Record<string, string | number> | undefi
   if (name === 'logout') {
     userStore.clearUserInfo();
     householdStore.clearHousehold();
-    router.push({ name: 'base' });
+    router.push({ name: 'home' });
     return;
   }
   router.push({ name, params });
@@ -51,7 +51,7 @@ const itemsNotLoggedIn = computed(() => [
   {
     title: 'Hjem',
     icon: 'mdi-view-dashboard',
-    to: 'base',
+    to: 'home',
   },
   {
     title: 'Logg inn',
@@ -65,7 +65,7 @@ const itemsLoggedIn = computed(() => [
   {
     title: 'Hjem',
     icon: 'mdi-view-dashboard',
-    to: 'base',
+    to: 'home',
   },
   {
     title: 'Min husstand',

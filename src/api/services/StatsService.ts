@@ -185,6 +185,29 @@ export class StatsService {
   }
 
   /**
+   * Get the first waste for a household.
+   * Returns the first food product history for a household. If the user is not an admin, the householdId must be the id of the household the user is a member of.
+   * @returns FoodProductHistoryDTO OK
+   * @throws ApiError
+   */
+  public static getFirstWasteForHousehold({
+    householdId,
+  }: {
+    householdId: string;
+  }): CancelablePromise<FoodProductHistoryDTO> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/v1/private/stats/household/{householdId}/first-waste',
+      path: {
+        householdId: householdId,
+      },
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
    * Get the total waste for a household.
    * Returns the total waste for a household for a month. If the user is not an admin, the householdId must be the id of the household the user is a member of.
    * @returns MonthWasteDTO OK

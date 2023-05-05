@@ -62,7 +62,7 @@ window.addEventListener('unhandledrejection', (event) => {
 </script>
 <style scoped>
 .width-limit {
-  max-width: min(700px, 100%);
+  max-width: min(1200px, 100%);
   min-height: 100%;
   background-color: white;
 }

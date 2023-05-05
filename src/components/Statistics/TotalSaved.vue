@@ -7,7 +7,7 @@
       </v-col>
       <v-row>
         <p class="ma-3 text-h2 text-green-lighten-2">{{ formatNumber(moneySaved) }} kr</p>
-        <p class="ma-3 text-subtitle-2 align-self-end">
+        <p class="ma-3 text-subtitle-2 align-self-end" v-if="moneySaved != 0">
           Som tilsvarer {{ formatNumber(kilosSaved) }} kg mat
         </p>
       </v-row>

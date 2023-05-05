@@ -52,10 +52,10 @@
         @on-close="scanOpen = false"
         @on-remove-other="onRemoveOther" />
     </v-dialog>
-    <v-bottom-navigation class="justify-space-around" grow>
-      <v-btn @click="closeDialog = true">Fullfør Handletur</v-btn>
+    <div class="justify-space-around d-flex pa-10">
+      <v-btn @click="closeDialog = true" class="bg-green">Fullfør Handletur</v-btn>
       <v-btn class="bg-blue" @click="scanOpen = true">Scan vare</v-btn>
-    </v-bottom-navigation>
+    </div>
     <v-dialog v-model="closeDialog">
       <v-card>
         <v-card-title>Fullfør handletur</v-card-title>

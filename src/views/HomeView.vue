@@ -7,8 +7,10 @@
 import LandingPage from '@/components/LandingPage/LandingPage.vue';
 import Dashboard from '@/components/Dashboard/Dashboard.vue';
 import { useUserInfoStore } from '@/stores/UserStore';
+import { computed } from 'vue';
 
-const loggedIn = useUserInfoStore().isLoggedIn;
+const userStore = useUserInfoStore();
+const loggedIn = computed(() => userStore.isLoggedIn);
 </script>
 
 <style scoped></style>

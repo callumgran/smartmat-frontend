@@ -78,10 +78,12 @@
         <v-divider />
       </v-list-item>
     </v-list>
-    <v-bottom-navigation v-if="editable && hasAccessToEdit" class="justify-space-around" grow>
-      <v-btn class="" @click="addOverlay = true">Legg til vare</v-btn>
-      <v-btn @click="startShoppingTrip" :disabled="loadingStart">Start Handletur</v-btn>
-    </v-bottom-navigation>
+    <div v-if="editable && hasAccessToEdit" class="justify-space-around d-flex">
+      <v-btn @click="addOverlay = true" class="bg-blue">Legg til vare</v-btn>
+      <v-btn @click="startShoppingTrip" class="bg-green" :disabled="loadingStart"
+        >Start Handletur</v-btn
+      >
+    </div>
     <v-dialog v-model="addOverlay">
       <add-shopping-list-item-modal @close="addOverlay = false" :shoppingListId="shoppingListId" />
     </v-dialog>

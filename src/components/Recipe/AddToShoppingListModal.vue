@@ -1,8 +1,8 @@
 <template>
   <v-btn
     color="primary"
+    class="mt-2"
     data-testid="add-to-shopping-list-modal-button"
-    style="position: fixed; bottom: 50px; right: 24px"
     @click="showModal = true">
     <v-icon>mdi-basket-plus-outline</v-icon>
   </v-btn>
@@ -11,21 +11,13 @@
       <v-card-item><h3>Legg ingredienser i handlelisten</h3></v-card-item>
       <v-card-text>
         <v-list>
-          <v-checkbox
-            v-for="recipeIngredient in recipeIngredientsToList"
-            :key="recipeIngredient.ingredient.id"
-            :label="formatIngredientItem(recipeIngredient)"
-            :value="recipeIngredient"
-            density="compact"
-            color="green"
-            persistent-hint
-            :hint="
-              recipeIngredient.leftInHousehold > 0
-                ? `${recipeIngredient.leftInHousehold} ${recipeIngredient.ingredient.unit?.abbreviation} i din beholdningen`
-                : 'Mangler i beholdningen'
-            "
-            v-model="selectedIngredients"
-            data-testid="ingredient-checkbox" />
+          <div v-for="ingredient in recipeIngredientsToList" :key="ingredient.ingredient.name">
+            <v-list-item v-if="ingredient.amount > 0">
+              {{ ingredient.ingredient.name }} :
+              {{ getIngredientAmount(ingredient.amount) }}
+              {{ ingredient.unit?.abbreviation }}
+            </v-list-item>
+          </div>
         </v-list>
       </v-card-text>
       <v-card-actions>
@@ -40,58 +32,57 @@
 
 <script setup lang="ts">
 import {
-  BareIngredientDTO,
   ShoppinglistitemService,
   CreateShoppingListItemDTO,
   HouseholdService,
+  RecipeIngredientDTO,
+  RecipeService,
 } from '@/api';
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue';
 import useFeedbackStore from '@/stores/FeedbackStore';
-
-export type RecipeIngredientsToList = {
-  ingredient: BareIngredientDTO;
-  amountFromServings: number;
-  leftInHousehold: number;
-};
 
 const feedbackStore = useFeedbackStore();
 
 const showModal = ref(false);
 
 const props = defineProps<{
-  recipeIngredientsToList: RecipeIngredientsToList[];
+  recipeIngredientsToList: RecipeIngredientDTO[];
   household: string;
+  servings: number;
+  recipeId: string;
 }>();
 
-const householdHasEnoughOfIngredient = (recipeIngredient: RecipeIngredientsToList) =>
-  recipeIngredient.leftInHousehold >= recipeIngredient.amountFromServings;
-
-const selectedIngredients = ref<RecipeIngredientsToList[]>(props.recipeIngredientsToList ?? []);
-watchEffect(() => {
-  selectedIngredients.value = props.recipeIngredientsToList.filter(
-    (ri) => !householdHasEnoughOfIngredient(ri),
-  );
-});
-
-const formatIngredientItem = (recipeIngredient: RecipeIngredientsToList) => {
-  return `${recipeIngredient.ingredient.name} : ${recipeIngredient.amountFromServings} ${recipeIngredient.ingredient.unit?.abbreviation}`;
+const formatIngredientItem = (recipeIngredient: RecipeIngredientDTO) => {
+  return `${recipeIngredient.ingredient.name} : ${recipeIngredient.amount * props.servings} ${
+    recipeIngredient.ingredient.unit?.abbreviation
+  }`;
 };
 
 const addToShoppingList = async () => {
   const shoppingList = await HouseholdService.getCurrentShoppingList({
     id: props.household,
   });
-  selectedIngredients.value.forEach(async (ri) => {
+  const ingredientsToShoppingList = await RecipeService.getShoppingListItems({
+    id: props.recipeId,
+    householdId: props.household,
+    portions: props.servings,
+  });
+
+  ingredientsToShoppingList.forEach(async (i) => {
     const requestBody: CreateShoppingListItemDTO = {
-      ingredientId: ri.ingredient.id,
-      amount: ri.amountFromServings,
-      name: ri.ingredient.name,
+      ingredientId: i.ingredient!!.id,
+      amount: i.amount,
+      name: i.ingredient!!.name,
       shoppingListId: shoppingList.id,
     };
     await ShoppinglistitemService.addItemToShoppingList({ requestBody });
   });
   feedbackStore.addFeedback('Ingredienser lagt til i handleliste', 'success');
   showModal.value = false;
+};
+
+const getIngredientAmount = (amount: number) => {
+  return Math.round(amount * props.servings * 100) / 100;
 };
 </script>
 

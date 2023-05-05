@@ -31,16 +31,22 @@
     <v-card-title>Ingredienser</v-card-title>
     <v-card-text>
       <ul class="ingredient-list">
-        <li
-          v-for="recipeIngredient in recipeIngredientsToList"
-          :key="recipeIngredient.ingredient.id">
-          {{ recipeIngredient.ingredient.name }} :
-          {{ recipeIngredient.amountFromServings }}
-          {{ recipeIngredient.ingredient.unit?.abbreviation }}
-        </li>
+        <div v-for="recipeIngredient in recipe.ingredients" :key="recipeIngredient.ingredient.id">
+          <li v-if="recipeIngredient.amount > 0">
+            {{ recipeIngredient.ingredient.name }} :
+            {{ getIngredientAmount(recipeIngredient.amount) }}
+            {{ recipeIngredient.unit?.abbreviation }}
+          </li>
+        </div>
       </ul>
     </v-card-text>
   </v-card>
+  <add-to-shopping-list-modal
+    :recipeId="recipe.id"
+    :servings="servings"
+    v-if="showAddToShoppingListModal"
+    :recipeIngredientsToList="recipe.ingredients"
+    :household="householdId" />
 
   <v-card class="card-wrapper">
     <v-card-title>Slik gjør du</v-card-title>
@@ -48,20 +54,13 @@
       {{ recipe.instructions }}
     </v-card-text>
   </v-card>
-
-  <add-to-shopping-list-modal
-    v-if="showAddToShoppingListModal"
-    :recipeIngredientsToList="recipeIngredientsToList"
-    :household="householdId" />
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { HouseholdfoodproductService, RecipeDTO, RecipeService } from '@/api';
-import AddToShoppingListModal, {
-  RecipeIngredientsToList,
-} from '@/components/Recipe/AddToShoppingListModal.vue';
+import { RecipeDTO, RecipeService } from '@/api';
+import AddToShoppingListModal from '@/components/Recipe/AddToShoppingListModal.vue';
 import { useHouseholdStore } from '@/stores/HouseholdStore';
 import { RecipeDifficulty } from '@/utils/EnumTranslation';
 
@@ -93,11 +92,6 @@ if (props.recipeProp) {
   recipe.value = await RecipeService.getRecipeById({ id });
 }
 
-const householdFoodProducts = await HouseholdfoodproductService.searchForHouseholdFoodProduct({
-  householdId,
-  requestBody: {},
-});
-
 const servings = ref(useRoute().query.servings ? Number(useRoute().query.servings) : 4);
 const modifyServings = (amount: number) => {
   servings.value += amount;
@@ -107,24 +101,8 @@ const modifyServings = (amount: number) => {
 };
 
 const getIngredientAmount = (amount: number) => {
-  return amount * servings.value;
+  return Math.round(amount * servings.value * 100) / 100;
 };
-
-const recipeIngredientsToList = ref<RecipeIngredientsToList[]>([]);
-
-watchEffect(() => {
-  recipeIngredientsToList.value = recipe.value.ingredients.map((recipeIngredient) => {
-    const leftInHousehold = householdFoodProducts
-      .filter((hfp) => hfp.foodProduct?.ingredient?.id === recipeIngredient.ingredient.id)
-      .map((hfp) => hfp.amountLeft ?? hfp.foodProduct?.amount)
-      .reduce((a, b) => a!! + (!b ? 0 : b), 0);
-    return {
-      ingredient: recipeIngredient.ingredient,
-      amountFromServings: getIngredientAmount(recipeIngredient.amount),
-      leftInHousehold: leftInHousehold ?? 0,
-    };
-  });
-});
 </script>
 
 <style scoped>

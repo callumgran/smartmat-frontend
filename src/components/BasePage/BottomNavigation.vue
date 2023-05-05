@@ -108,7 +108,5 @@ const drawerItems = computed(() => [
   },
 ]);
 
-const chosenRoute = ref(0);
-
 const drawerOpen = ref(false);
 </script>

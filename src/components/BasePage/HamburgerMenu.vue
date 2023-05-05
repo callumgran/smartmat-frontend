@@ -6,10 +6,10 @@
         :block="name === 'xs' || name === 'sm'"
         v-for="item in items"
         :key="item.title"
+        link
+        :prepend-icon="item.icon"
         @click="emit('click', { to: item.to, params: item.params })">
-        <v-list-item link :prepend-icon="item.icon">
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item>
+        {{ item.title }}
       </v-btn>
     </v-list>
   </v-navigation-drawer>

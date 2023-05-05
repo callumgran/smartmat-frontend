@@ -9,21 +9,23 @@ describe('Choose ingredient', () => {
       component: ChooseIngredientModal,
       options: {
         props: {
-          ingredients: [{
-            id: '1',
-            amount: 1,
-            checked: false,
-            shoppingList: '1',
-            ingredient: {
-              id: 1,
-              name: '',
-              unit: {
+          ingredients: [
+            {
+              id: '1',
+              amount: 1,
+              checked: false,
+              shoppingList: '1',
+              ingredient: {
+                id: 1,
                 name: '',
-                abbreviation: '',
-                toNormalFormConversionFactor: 1,
+                unit: {
+                  name: '',
+                  abbreviation: '',
+                  toNormalFormConversionFactor: 1,
+                },
               },
             },
-          }] as ShoppingListItemDTO[],
+          ] as ShoppingListItemDTO[],
         },
       },
     });

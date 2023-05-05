@@ -1,6 +1,6 @@
 <template>
   <!-- TODO: this should be it's own 'search-and-filter' generic component maybe -->
-  <v-card class="mx-auto" color="grey-lighten-3" max-width="400">
+  <v-card class="mx-auto" color="grey-lighten-3" max-width="400" data-testid="inventory">
     <v-card-item class="search-and-filter">
       <v-text-field
         v-model="searchInput"
@@ -22,7 +22,20 @@
     </v-card-item>
   </v-card>
 
-  <household-food-product-card
+  <div class="add-button mt-2">
+    <v-btn
+      v-if="hasAccessToEdit"
+      @click="addOverlay = true"
+      elevation="2"
+      fab
+      prepend-icon="mdi-plus"
+      color="primary"
+      data-testid="add-foodproduct">
+      legg til
+    </v-btn>
+  </div>
+
+  <household-food-product-accordion
     v-for="hfProduct in hfProductsViewable"
     :key="hfProduct.id"
     :hfProduct="hfProduct"
@@ -31,18 +44,7 @@
     data-testid="inventory-table" />
   <div v-if="household.foodProducts?.length === 0">Du har ingen varer i beholdningen din :-(</div>
 
-  <v-btn
-    v-if="hasAccessToEdit"
-    @click="addOverlay = true"
-    elevation="2"
-    fab
-    style="position: fixed; right: 30px; bottom: 50px; z-index: 999"
-    color="primary"
-    data-testid="add-foodproduct">
-    <v-icon icon="mdi-plus" />
-  </v-btn>
-
-  <v-dialog v-model="addOverlay">
+  <v-dialog v-model="addOverlay" max-width="500px">
     <add-foodproduct-modal
       @close="addOverlay = false"
       @add="
@@ -57,8 +59,8 @@
 import { ref, computed, watch, watchEffect } from 'vue';
 import { useUserInfoStore } from '@/stores/UserStore';
 import { HouseholdDTO, HouseholdFoodProductDTO, HouseholdMemberDTO } from '@/api';
-import HouseholdFoodProductCard from '@/components/Household/HouseholdFoodProductCard.vue';
 import AddFoodproductModal from '@/components/Household/Inventory/AddFoodproductModal.vue';
+import HouseholdFoodProductAccordion from '@/components/Household/Inventory/HouseholdFoodProductAccordion.vue';
 
 const props = defineProps({
   household: {
@@ -154,5 +156,11 @@ const fuzzySearch = (list: HouseholdFoodProductDTO[], query: string): HouseholdF
 <style scoped>
 .filter-wrapper {
   margin-top: 0.5rem;
+}
+
+.add-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

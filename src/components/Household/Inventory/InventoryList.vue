@@ -44,7 +44,9 @@
       @remove="removeHfProduct(hfProduct)"
       data-testid="inventory-table" />
   </div>
-  <div v-if="household.foodProducts?.length === 0">Du har ingen varer i beholdningen din :-(</div>
+  <div class="ma-5 d-flex justify-center text-h5" v-if="household.foodProducts?.length === 0">
+    Du har ingen varer i beholdningen din
+  </div>
 
   <v-dialog v-model="addOverlay" max-width="500px">
     <add-foodproduct-modal

@@ -96,7 +96,7 @@ export class ShoppingListService {
 
   /**
    * Creates a new shopping list for the given household
-   * Get a household by id and create a shopping list if an open one does not exist. Requires authentication and be owner of the household.
+   * Get a household by id and create a shopping list if an open one does not exist. Requires authentication and be a privileged user for the household.
    * @returns ShoppingListDTO OK
    * @throws ApiError
    */

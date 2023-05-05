@@ -37,7 +37,7 @@ const currentHousehold = ref(householdStore.getSelectedId);
 const households = computed(() => householdStore.households);
 
 watch(currentHousehold, (newHousehold) => {
-  router.push({ name: 'household-detail', params: { id: newHousehold } });
   householdStore.selectHouseholdById(newHousehold);
+  router.push({ name: 'household-detail', params: { id: newHousehold } });
 });
 </script>

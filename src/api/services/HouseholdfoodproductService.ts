@@ -13,7 +13,7 @@ import { request as __request } from '../core/request';
 export class HouseholdfoodproductService {
   /**
    * Update a household food product
-   * Update a household food product, requires authentication.
+   * Delete a household food product, requires authentication and admin or household privilege.
    * @returns HouseholdFoodProductDTO OK
    * @throws ApiError
    */
@@ -43,7 +43,7 @@ export class HouseholdfoodproductService {
 
   /**
    * Delete a household food product
-   * Delete a household food product, requires authentication.
+   * Delete a household food product, requires authentication and admin or household privilege.
    * @returns any OK
    * @throws ApiError
    */
@@ -69,7 +69,7 @@ export class HouseholdfoodproductService {
 
   /**
    * Use a household food product
-   * Use a household food product, requires authentication.
+   * Use a household food product, requires authentication and admin or household privilege.
    * @returns HouseholdFoodProductDTO OK
    * @throws ApiError
    */
@@ -99,7 +99,7 @@ export class HouseholdfoodproductService {
 
   /**
    * Create a household food product
-   * Create a household food product, requires authentication.
+   * Delete a household food product, requires authentication and admin or household privilege.
    * @returns HouseholdFoodProductDTO OK
    * @throws ApiError
    */
@@ -126,7 +126,7 @@ export class HouseholdfoodproductService {
 
   /**
    * Search for a household food product
-   * Search for a household food product by its name and the household id, requires authentication.
+   * Search for a household food product by its name and the household id, requires authentication and household membership.
    * @returns HouseholdFoodProductDTO OK
    * @throws ApiError
    */
@@ -153,7 +153,7 @@ export class HouseholdfoodproductService {
 
   /**
    * Get a household food product by id
-   * Get a household food product by its id and the household id, requires authentication.
+   * Get a household food product by its id and the household id, requires authentication and household membership.
    * @returns HouseholdFoodProductDTO OK
    * @throws ApiError
    */
@@ -205,7 +205,7 @@ export class HouseholdfoodproductService {
 
   /**
    * Use a household food product
-   * Use a household food product, requires authentication.
+   * Use a household food product, requires authentication and admin or household privilege.
    * @returns any OK
    * @throws ApiError
    */

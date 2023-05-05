@@ -35,7 +35,7 @@ export class StatsService {
 
   /**
    * Update a single stat entry for a food product.
-   * Updates a single stat entry for a food product. Requires admin access or household member access.
+   * Updates a single stat entry for a food product. Requires admin access or household privileged access.
    * @returns FoodProductHistoryDTO OK
    * @throws ApiError
    */
@@ -62,7 +62,7 @@ export class StatsService {
 
   /**
    * Delete a single stat entry for a food product.
-   * Deletes a single stat entry for a food product. Requires admin access or household member access.
+   * Deletes a single stat entry for a food product. Requires admin access or household privilege access.
    * @returns any OK
    * @throws ApiError
    */
@@ -215,14 +215,20 @@ export class StatsService {
    */
   public static getWasteByMonthInPeriod({
     householdId,
+    startDate,
+    endDate,
   }: {
     householdId: string;
+    startDate: string;
+    endDate: string;
   }): CancelablePromise<Array<MonthWasteDTO>> {
     return __request(OpenAPI, {
       method: 'GET',
-      url: '/api/v1/private/stats/household/{householdId}/by-month/{start-date}:{end-date}',
+      url: '/api/v1/private/stats/household/{householdId}/by-month/{startDate}/{endDate}',
       path: {
         householdId: householdId,
+        startDate: startDate,
+        endDate: endDate,
       },
       errors: {
         500: `Internal Server Error`,

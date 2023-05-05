@@ -10,12 +10,12 @@
     <v-row justify="center" class="mb-10">
       <v-col class="chart" v-if="cumulativeMoneySaved.length > 0">
         <line-stat-chart
-          :title="`Kroner spart siden ${earliestDate?.getFullYear()}`"
+          :title="`Kumulativt kroner spart siden ${getMonthAndYear(earliestDate)}`"
           :data="{
-            labels: monthsSinceStartLabels,
+            labels: monthLabels,
             datasets: [
               {
-                label: `Kroner spart siden ${earliestDate?.getFullYear()}`,
+                label: `Kroner spart siden ${getMonthAndYear(earliestDate)}`,
                 data: cumulativeMoneySaved,
                 borderColor: '#21DB1E',
                 backgroundColor: '#21DB1E',
@@ -25,12 +25,12 @@
       </v-col>
       <v-col class="chart" v-if="kilosSavedPoints.length > 0">
         <bar-stat-chart
-          :title="`Kilogram spart siden ${earliestDate?.getFullYear()}`"
+          :title="`Kilogram spart siden ${getMonthAndYear(earliestDate)}`"
           :data="{
-            labels: monthsSinceStartLabels,
+            labels: monthLabels,
             datasets: [
               {
-                label: `Kilogram spart siden ${earliestDate?.getFullYear()}`,
+                label: `Kilogram spart siden ${getMonthAndYear(earliestDate)}`,
                 data: kilosSavedPoints,
                 backgroundColor: '#21DB1E',
               },
@@ -44,7 +44,7 @@
             labels: foodProductNames,
             datasets: [
               {
-                label: 'Kilo kastet',
+                label: 'Kilogram kastet',
                 data: foodProductAmounts,
                 backgroundColor: Array.from({ length: foodProductAmounts.length }, () =>
                   getRandomColor(),
@@ -68,80 +68,103 @@ import { ConsumptionConstants } from '@/utils/ConsumptionConstants';
 import BarStatChart from '@/components/Statistics/BarStatChart.vue';
 import DoughnutStatChart from './DoughnutStatChart.vue';
 import StatInfoBanner from '@/components/Statistics/StatInfoBanner.vue';
+import { differenceInDays, format } from 'date-fns';
 
 const getRandomColor = () => {
   return '#' + Math.floor(Math.random() * 16777215).toString(16);
 };
-
 const today = new Date();
-const earliestDate = ref(new Date(today));
+
+const getMonthAndYear = (date?: Date): string => {
+  if (date === undefined) return '';
+  return `${NorwegianMonthNames[date.getMonth()]} ${date.getFullYear()}`;
+};
 
 const props = defineProps<{
   household: HouseholdDTO;
   productHistory: FoodProductHistoryDTO[];
 }>();
 
+// Get total waste and saved from first waste
 const totalWaste = await StatsService.getTotalWasteForHousehold({
   householdId: props.household.id,
 });
-const averageWasteSumToNow = ref(0);
+const firstProduct = ref(undefined as FoodProductHistoryDTO | undefined);
+try {
+  firstProduct.value = await StatsService.getFirstWasteForHousehold({
+    householdId: props.household.id,
+  });
+} catch (e) {}
+
+const earliestDate = computed(() => new Date(firstProduct.value?.date ?? today));
+
+const getMemberAmountOrOne = () => {
+  return props.household.members?.length ?? 1;
+};
 
 const cumulativeMoneySaved = ref([] as number[]);
-const monthsSinceStartLabels = ref([] as string[]);
 const kilosSavedPoints = ref([] as number[]);
 
-const selectedDate = ref(earliestDate.value);
-
 const kilosSavedByHousehold = computed(() => {
-  const averageDeviation = averageWasteSumToNow.value - totalWaste;
+  const averageWasted =
+    ConsumptionConstants.DAILY_WASTED_PER_HOUSEHOLD *
+    getMemberAmountOrOne() *
+    (differenceInDays(today, earliestDate.value) + 1); // +1 to include today
+  const averageDeviation = averageWasted - totalWaste;
   return averageDeviation < 0 ? 0 : averageDeviation;
 });
 
-const getWastedForMemberAmount = () => {
-  return ConsumptionConstants.MONTHLY_WASTED_PER_HOUSEHOLD * (props.household.members?.length ?? 1);
-};
+const wasteByMonthList = await StatsService.getWasteByMonthInPeriod({
+  householdId: props.household.id,
+  startDate: format(earliestDate.value, 'yyyy-MM-dd'),
+  endDate: format(today, 'yyyy-MM-dd'),
+});
 
-// Get the earliest date in the product history
-selectedDate.value = props.productHistory.reduce((acc: Date, curr: FoodProductHistoryDTO) => {
-  return acc < new Date(curr.date) ? acc : new Date(curr.date);
-}, earliestDate.value);
+const monthLabels = wasteByMonthList.map((wasteByMonth) => {
+  return NorwegianMonthNames[wasteByMonth.month - 1];
+});
 
-while (
-  selectedDate.value.getFullYear() < today.getFullYear() ||
-  (selectedDate.value.getMonth() <= today.getMonth() &&
-    selectedDate.value.getFullYear() == today.getFullYear())
-) {
-  monthsSinceStartLabels.value.push(`${NorwegianMonthNames[selectedDate.value.getMonth()]}`);
+const averageMonthlyWaste =
+  getMemberAmountOrOne() * ConsumptionConstants.MONTHLY_WASTED_PER_HOUSEHOLD;
 
-  averageWasteSumToNow.value += getWastedForMemberAmount();
-  const wasteInMonth = await StatsService.getTotalWasteForHouseholdAndYearAndMonth({
-    householdId: props.household.id,
-    month: selectedDate.value.getMonth() + 1,
-    year: selectedDate.value.getFullYear(),
-  });
-  const kilosSaved = getWastedForMemberAmount() - wasteInMonth;
-  kilosSavedPoints.value.push(kilosSaved < 0 ? 0 : kilosSaved);
+// Get coumulated money saved and kilos saved for each month
+const thisMonthWaste = wasteByMonthList.splice(wasteByMonthList.length - 1);
+wasteByMonthList.forEach((wasteByMonth) => {
+  const kilosSaved = averageMonthlyWaste - wasteByMonth.waste;
   const moneySaved = kilosSaved * ConsumptionConstants.PRICE_PER_KILO;
   cumulativeMoneySaved.value.push(
     (cumulativeMoneySaved.value.at(-1) ?? 0) + (moneySaved < 0 ? 0 : moneySaved),
   );
-
-  selectedDate.value.setMonth(selectedDate.value.getMonth() + 1);
-}
-
-const foodProductMap = new Map<string, number>();
-watchEffect(() => {
-  props.productHistory.forEach((product) => {
-    foodProductMap.set(
-      product.foodProduct.name,
-      (foodProductMap.get(product.foodProduct.name) ?? 0) +
-        product.amount * product.thrownAmountInPercentage,
-    );
-  });
+  kilosSavedPoints.value.push(kilosSaved < 0 ? 0 : kilosSaved);
 });
 
-const foodProductNames = computed(() => Array.from(foodProductMap.keys()));
-const foodProductAmounts = computed(() => Array.from(foodProductMap.values()));
+const daysCalculated = Math.min(differenceInDays(today, earliestDate.value) + 1, today.getDate()); // +1 to include today;
+const kilosSavedThisMonth =
+  ConsumptionConstants.DAILY_WASTED_PER_HOUSEHOLD * getMemberAmountOrOne() * daysCalculated -
+  (thisMonthWaste.at(0)?.waste ?? 0);
+const moneySavedThisMonth = kilosSavedThisMonth * ConsumptionConstants.PRICE_PER_KILO;
+cumulativeMoneySaved.value.push(
+  (cumulativeMoneySaved.value.at(-1) ?? 0) + (moneySavedThisMonth < 0 ? 0 : moneySavedThisMonth),
+);
+kilosSavedPoints.value.push(kilosSavedThisMonth < 0 ? 0 : kilosSavedThisMonth);
+
+// Get kilos wasted per food product
+const foodProductMap = new Map<string, number>();
+let foodProductNames = [] as string[];
+let foodProductAmounts = [] as number[];
+watchEffect(() => {
+  props.productHistory.forEach((product) => {
+    if (product.amount * product.thrownAmountInPercentage > 0) {
+      foodProductMap.set(
+        product.foodProduct.name,
+        (foodProductMap.get(product.foodProduct.name) ?? 0) +
+          product.amount * product.thrownAmountInPercentage,
+      );
+    }
+  });
+  foodProductNames = Array.from(foodProductMap.keys());
+  foodProductAmounts = Array.from(foodProductMap.values());
+});
 </script>
 
 <style scoped>

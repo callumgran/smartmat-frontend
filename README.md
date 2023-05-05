@@ -65,10 +65,10 @@ For å kunne snakke med API'et må du ha [backend](https://gitlab.stud.idi.ntnu.
 - `yarn prettier` - Formatter kildekoden
 - `yarn api-generate` - Generer interfaces og service funksjoner i typescript i tråd med DTO- og kontroller klassene i backend. Dette krever at [backend](https://gitlab.stud.idi.ntnu.no/scrum-team-4/scrum-backend) er kjørende.
 
-
 ### Test data
 
 Applikasjonen kommer med en rekke realistiske testdata:
+
 - 220 ingredienser
 - 520 matvare-produkter
 - 45 oppskrifter

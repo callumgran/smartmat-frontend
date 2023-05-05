@@ -3,30 +3,39 @@
     <h2>Hei {{ username }} !</h2>
     <h2>Klar for å bruke opp restene dine?</h2>
 
-    <total-saved-user v-if="householdId" />
+    <div v-if="householdId">
+      <total-saved-user />
 
-    <div v-if="todaysRecipe">
-      <br />
-      <h3>I dag har du planlagt å lage:</h3>
-      <weekly-recipe-card
-        :recipe="todaysRecipe.recipe"
-        :servings="todaysRecipe.portions"
-        :used="todaysRecipe.used"
-        :date="new Date()"
-        hide-buttons />
+      <div v-if="todaysRecipe">
+        <br />
+        <h3>I dag har du planlagt å lage:</h3>
+        <weekly-recipe-card
+          :recipe="todaysRecipe.recipe"
+          :servings="todaysRecipe.portions"
+          :used="todaysRecipe.used"
+          :date="new Date()"
+          hide-buttons />
+      </div>
+      <div v-else>
+        <br />
+        <h3>Planlegg dagens middag:</h3>
+        <div
+          @click="
+            $router.push({
+              name: 'household-weekly',
+              params: { id: householdId, year: today.getFullYear(), week: getISOWeek(today) },
+            })
+          ">
+          <weekly-recipe-card :date="new Date()" />
+        </div>
+      </div>
     </div>
     <div v-else>
       <br />
-      <h3>Planlegg dagens middag:</h3>
-      <div
-        @click="
-          $router.push({
-            name: 'household-weekly',
-            params: { id: householdId, year: today.getFullYear(), week: getISOWeek(today) },
-          })
-        ">
-        <weekly-recipe-card :date="new Date()" />
-      </div>
+      <h3>Lag en ny husstand for å komme i gang!</h3>
+      <v-btn @click="$router.push({ name: 'household-create' })" color="primary">
+        Ny husstand
+      </v-btn>
     </div>
   </div>
 </template>

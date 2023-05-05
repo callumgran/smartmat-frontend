@@ -8,38 +8,21 @@
     <v-window v-model="tab">
       <v-window-item :value="1" class="">
         <v-expansion-panels variant="accordion">
-          <shopping-trip-item
-            v-for="item in shoppingListItems"
-            :item="item"
-            @add-to-basket="manualShoppingListItemToBasket"
-            :key="item.id"></shopping-trip-item>
+          <shopping-trip-item v-for="item in shoppingListItems" :item="item"
+            @add-to-basket="manualShoppingListItemToBasket" :key="item.id"></shopping-trip-item>
 
-          <shopping-trip-item
-            v-for="item in customShoppingListItems"
-            :item="item"
-            @add-to-basket="manualCustomProductItemToBasket"
-            :key="item.id"></shopping-trip-item>
+          <shopping-trip-item v-for="item in customShoppingListItems" :item="item"
+            @add-to-basket="manualCustomProductItemToBasket" :key="item.id"></shopping-trip-item>
         </v-expansion-panels>
       </v-window-item>
       <v-window-item :value="2">
-        <v-btn v-if="selectedBasked.length" class="bg-red text-white" @click="deleteSelectedBasked"
-          >Slett markerte</v-btn
-        >
+        <v-btn v-if="selectedBasked.length" class="bg-red text-white" @click="deleteSelectedBasked">Slett markerte</v-btn>
         <v-list>
-          <food-product-card
-            v-for="basketItem in basket.basketItems"
-            :key="basketItem.id"
-            :item="basketItem.foodProduct"
-            selectable
-            v-model:selected="selectedBasked"
-            :selectedValue="basketItem">
+          <food-product-card v-for="basketItem in basket.basketItems" :key="basketItem.id" :item="basketItem.foodProduct"
+            selectable v-model:selected="selectedBasked" :selectedValue="basketItem">
           </food-product-card>
-          <food-product-card
-            v-for="basketItem in basket.customFoodItems"
-            :key="basketItem.id"
-            :item="{ image: '', looseWeight: false, ...basketItem, id: 0 }"
-            selectable
-            v-model:selected="selectedBasked"
+          <food-product-card v-for="basketItem in basket.customFoodItems" :key="basketItem.id"
+            :item="{ image: '', looseWeight: false, ...basketItem, id: 0 }" selectable v-model:selected="selectedBasked"
             :selectedValue="basketItem">
           </food-product-card>
         </v-list>
@@ -47,10 +30,7 @@
     </v-window>
 
     <v-dialog v-model="scanOpen">
-      <shopping-trip-scanner
-        @on-add="onAdd"
-        @on-close="scanOpen = false"
-        @on-remove-other="onRemoveOther" />
+      <shopping-trip-scanner @on-add="onAdd" @on-close="scanOpen = false" @on-remove-other="onRemoveOther" />
     </v-dialog>
     <div class="justify-space-around d-flex pa-10">
       <v-btn @click="closeDialog = true" class="bg-green">Fullfør Handletur</v-btn>
@@ -61,10 +41,8 @@
         <v-card-title>Fullfør handletur</v-card-title>
         <v-card-text>
           <v-list>
-            <v-list-item
-              >Er du sikker på at du vil fullføre handleturen?<br />Produktene i handlekurven vil
-              bli lagt til i din beholdning</v-list-item
-            >
+            <v-list-item>Er du sikker på at du vil fullføre handleturen?<br />Produktene i handlekurven vil
+              bli lagt til i din beholdning</v-list-item>
           </v-list>
         </v-card-text>
         <v-card-actions>

@@ -12,9 +12,7 @@
         item-title="householdName"
         item-value="householdId">
         <template v-slot:prepend-item>
-          <v-list-item
-            prepend-icon="mdi-plus"
-            title="Lag ny husstand"
+          <v-list-item prepend-icon="mdi-plus" title="Lag ny husstand"
             @click="$router.push({ name: 'household-create' })">
           </v-list-item>
           <hr />
@@ -36,8 +34,7 @@ const householdStore = useHouseholdStore();
 const currentHousehold = ref(householdStore.getSelectedId);
 const households = computed(() => householdStore.households);
 
-watch(currentHousehold, () => {
-  householdStore.selectHouseholdById(currentHousehold.value);
-  router.push({ name: 'home' });
-});
+watch(currentHousehold, (newHousehold) => {
+  router.push({ name: 'household-detail', params: { id: newHousehold } })});
+
 </script>

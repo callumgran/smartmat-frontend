@@ -4,7 +4,7 @@
     <form @submit.prevent="submit">
       <v-text-field
         v-model="username"
-        :counter="64"
+        :counter="32"
         :error-messages="errors?.username"
         label="Brukernavn"
         prepend-inner-icon="mdi-account"
@@ -68,6 +68,7 @@ import { object as yupObject, string as yupString, ref as yupRef } from 'yup';
 import { useUserInfoStore } from '@/stores/UserStore';
 import { OpenAPI, UserService, TokenControllerService, RegisterDTO, AuthenticateDTO } from '@/api';
 import useFeedbackStore from '@/stores/FeedbackStore';
+import { RegexValidation } from '@/utils/RegexValidation';
 
 const feedbackStore = useFeedbackStore();
 
@@ -83,19 +84,30 @@ const schema = computed(() =>
     username: yupString()
       .required('Brukernavn er obligatorisk')
       .min(4, 'Brukernavn må være minst 4 tegn')
-      .max(32, 'Brukernavn kan ikke være mer enn 32 tegn'),
+      .max(32, 'Brukernavn kan ikke være mer enn 32 tegn')
+      .test('isValidUsername', 'Brukernavnet er ikke gyldig', (value) =>
+        RegexValidation.USERNAME.test(value),
+      ),
     mail: yupString()
       .required('E-post er obligatorisk')
-      .email('E-post må være en gyldig e-postadresse')
-      .max(128, 'E-post kan ikke være mer enn 128 tegn'),
+      .max(128, 'E-post kan ikke være mer enn 128 tegn')
+      .test('isValidEmail', 'E-post må være en gyldig e-postadresse', (value) =>
+        RegexValidation.EMAIL.test(value),
+      ),
     firstName: yupString()
       .required('Fornavn er obligatorisk')
       .min(1, 'Fornavn må være minst ett tegn')
-      .max(64, 'Fornavn kan ikke være mer enn 64 tegn'),
+      .max(64, 'Fornavn kan ikke være mer enn 64 tegn')
+      .test('isValidName', 'Fornavnet er ikke gyldig. Vi støtter A til Å', (value) =>
+        RegexValidation.NAME.test(value),
+      ),
     lastName: yupString()
       .required('Etternavn er obligatorisk')
       .min(1, 'Etternavn må være minst ett tegn')
-      .max(64, 'Etternavn kan ikke være mer enn 64 tegn'),
+      .max(64, 'Etternavn kan ikke være mer enn 64 tegn')
+      .test('isValidName', 'Etternavnet er ikke gyldig. Vi støtter A til Å', (value) =>
+        RegexValidation.NAME.test(value),
+      ),
     password: yupString()
       .required('Passord er obligatorisk')
       .min(8, 'Passord må være minst 8 tegn')
@@ -108,6 +120,9 @@ const schema = computed(() =>
           const hasNumber = /[0-9]/.test(value);
           return hasUpperCase && hasLowerCase && hasNumber;
         },
+      )
+      .test('isValidPass', 'Passordet er ikke gyldig', (value) =>
+        RegexValidation.PASSWORD.test(value),
       ),
     repeatPassword: yupString()
       .required('Gjenta passord er obligatorisk')
@@ -153,11 +168,6 @@ const submit = handleSubmit(async (values) => {
     });
   });
 });
-
-const clearPassword = () => {
-  password.value = '';
-  repeatPassword.value = '';
-};
 
 /* form values */
 const { value: username } = useField('username') as FieldContext<string>;

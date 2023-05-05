@@ -3,6 +3,10 @@
     <div class="video-text">
       <h1>SmartMat</h1>
       <h3>Vær matsmart med SmartMat</h3>
+      <br />
+      <v-btn @click="$router.push({ name: 'register' })" class="register-btn">
+        registrer deg
+      </v-btn>
     </div>
 
     <video
@@ -18,17 +22,15 @@
 
 <script setup lang="ts"></script>
 
-<style>
+<style scoped>
 #background-video {
   position: absolute;
   right: 0;
   top: 0;
   width: 100vw;
   background-size: cover;
-  filter: brightness(0.8);
-  z-index: -10;
-  max-height: 90vh;
   object-fit: cover;
+  filter: brightness(0.7);
 }
 
 .video-text {
@@ -53,8 +55,8 @@ h1 {
 .v-application {
   background-color: transparent !important;
 }
-
-.video-text * {
+.video-text h3,
+h1 {
   z-index: 10;
   color: white;
 }

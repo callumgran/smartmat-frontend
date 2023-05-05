@@ -1,17 +1,17 @@
 <template>
   <v-card variant="outlined" class="weekly-recipe-card">
     <v-btn
-      v-if="date > today && recipe && !used"
+      v-if="date > today && recipe && !used && hideButtons !== true"
       class="delete-recipe"
-      icon="mdi-close-circle-outline"
+      icon="mdi-delete"
       @click="confirmDelete = true"
       data-testid="delete-button" />
     <v-btn
-      v-if="todayEvening > date && recipe && !used"
+      v-if="todayEvening > date && recipe && !used && hideButtons !== true"
       class="use-recipe"
       @click="emit('used')"
       data-testid="useup-button">
-      spist opp
+      spis opp
     </v-btn>
     <v-row dense>
       <v-col cols="12">
@@ -65,6 +65,7 @@ const props = defineProps<{
   servings?: number;
   used?: boolean;
   date: Date;
+  hideButtons?: boolean;
 }>();
 
 const emit = defineEmits(['plan-recipe', 'delete-planned-recipe', 'used']);

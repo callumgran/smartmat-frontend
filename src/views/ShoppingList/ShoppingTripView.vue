@@ -1,6 +1,6 @@
 <template>
-  <Suspense>
-    <shopping-trip />
+  <Suspense data-testid="loading">
+    <shopping-trip data-testid="shopping-trip" />
   </Suspense>
 </template>
 

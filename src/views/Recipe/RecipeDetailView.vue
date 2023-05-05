@@ -1,5 +1,5 @@
 <template>
-  <recipe-detail />
+  <recipe-detail data-testid="recipe-detail" />
 </template>
 
 <script setup lang="ts">

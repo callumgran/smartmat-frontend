@@ -1,5 +1,5 @@
 <template>
-  <Suspense>
+  <Suspense data-testid="loading">
     <template #fallback>
       <v-card-loading />
     </template>

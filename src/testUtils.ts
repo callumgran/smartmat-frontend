@@ -1,4 +1,4 @@
-import { mount, MountingOptions } from '@vue/test-utils';
+import { mount, MountingOptions, shallowMount } from '@vue/test-utils';
 import { createVuetify } from 'vuetify/lib/framework.mjs';
 import { VApp } from 'vuetify/components';
 import { h, Suspense } from 'vue';
@@ -22,4 +22,16 @@ const mountWithVuetify = (props: MountingProps) => {
   });
 };
 
+const shallowMountWithVuetify = (props: MountingProps) => {
+  const vuetify = createVuetify();
+  return shallowMount(props.component, {
+    parentComponent: VApp,
+    props: props.options?.props,
+    global: {
+      plugins: [vuetify, router, createTestingPinia()],
+    },
+  });
+};
+
 export default mountWithVuetify;
+export { shallowMountWithVuetify };

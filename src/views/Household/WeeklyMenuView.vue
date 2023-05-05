@@ -1,5 +1,5 @@
 <template>
-  <weekly-menu />
+  <weekly-menu data-testid="weekly-menu" />
 </template>
 
 <script setup lang="ts">

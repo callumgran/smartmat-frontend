@@ -64,6 +64,7 @@ import InventoryList from '@/components/Household/Inventory/InventoryList.vue';
 import HouseholdSettings from '@/components/Household/HouseholdSettings.vue';
 import HouseholdStatistics from '@/components/Statistics/HouseholdStatistics.vue';
 import { useHouseholdStore } from '@/stores/HouseholdStore';
+import { u } from 'msw/lib/glossary-de6278a9';
 
 const feedbackStore = useFeedbackStore();
 const router = useRouter();
@@ -93,9 +94,10 @@ const deleteHousehold = async () => {
   const rc = confirm('Er du sikker på at du vil slette husholdningen?');
   if (!rc) return;
   await HouseholdService.deleteHousehold({ id: household.value.id });
-  feedbackStore.addFeedback('Husholdningen ble slettet', 'success');
   useHouseholdStore().clearHousehold();
-  router.push({ name: 'household' });
+  feedbackStore.addFeedback('Husholdningen ble slettet', 'success');
+  userStore.clearUserInfo();
+  router.push({ name: 'login' });
 };
 
 const updateName = async (newName: string) => {

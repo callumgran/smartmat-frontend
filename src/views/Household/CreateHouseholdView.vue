@@ -21,6 +21,7 @@ import { useForm, useField, FieldContext } from 'vee-validate';
 import { object as yupObject, string as yupString } from 'yup';
 import { HouseholdService, CreateHouseholdDTO } from '@/api';
 import { useHouseholdStore } from '@/stores/HouseholdStore';
+import useFeedbackStore from '@/stores/FeedbackStore';
 
 const router = useRouter();
 const errorMessage = ref('');
@@ -46,6 +47,7 @@ const submit = handleSubmit(async (values) => {
   if (result) {
     useHouseholdStore().appendAndSelectHousehold(result);
     router.push({ name: 'household-detail', params: { id: result.id } });
+    useFeedbackStore().addFeedback('Husstanden ble opprettet', 'success');
   }
 });
 

@@ -2,14 +2,12 @@
   <v-expansion-panels class="mt-2">
     <v-expansion-panel>
       <v-expansion-panel-title>
+        <v-img
+          :src="
+            hfProduct.foodProduct?.image ? hfProduct.foodProduct.image : '/product-placeholder.png'
+          "
+          class="product-image" />
         <div class="accordion-head">
-          <v-img
-            :src="
-              hfProduct.foodProduct?.image
-                ? hfProduct.foodProduct.image
-                : '/product-placeholder.png'
-            "
-            class="product-image" />
           <b>{{ hfProduct.foodProduct?.name }}</b>
         </div>
       </v-expansion-panel-title>
@@ -121,6 +119,7 @@ amountInput.value = props.hfProduct.amountLeft?.toString() ?? '';
 <style scoped>
 .product-image {
   max-width: 100px;
+  min-width: 50px;
 }
 
 .edit-buttons {

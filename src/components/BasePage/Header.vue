@@ -3,17 +3,14 @@
     <v-toolbar-title data-testid="navbar-title" style="font-weight: 600; font-size: 1.5em"
       ><router-link :to="{ name: 'base' }">SmartMat</router-link></v-toolbar-title
     >
-    <v-toolbar-title
-      v-if="userStore.isLoggedIn"
-      style="font-size: 1em; max-width: 30vw; min-width: 200px">
+    <v-toolbar-items v-if="userStore.isLoggedIn">
       <v-select
         prepend-icon="mdi-home"
         v-model="currentHousehold"
         :items="households"
         single-line
         item-title="householdName"
-        item-value="householdId"
-        density="compact">
+        item-value="householdId">
         <template v-slot:prepend-item>
           <v-list-item
             prepend-icon="mdi-plus"
@@ -23,7 +20,7 @@
           <hr />
         </template>
       </v-select>
-    </v-toolbar-title>
+    </v-toolbar-items>
   </v-app-bar>
 </template>
 
@@ -39,7 +36,8 @@ const householdStore = useHouseholdStore();
 const currentHousehold = ref(householdStore.getSelectedId);
 const households = computed(() => householdStore.households);
 
-watch(currentHousehold, (newHousehold) => {
-  router.push({ name: 'household-detail', params: { id: newHousehold } });
+watch(currentHousehold, () => {
+  householdStore.selectHouseholdById(currentHousehold.value);
+  router.push({ name: 'home' });
 });
 </script>

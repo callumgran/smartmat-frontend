@@ -121,9 +121,10 @@ watch(diffList, async () => {
   }
 });
 
-const shoppingListItems = ref(diffList.value.shoppingListItems);
+const shoppingListItems = computed(() => diffList.value.shoppingListItems);
 
 watch(diffList, () => {
+  console.log('sorting', diffList);
   diffList.value.shoppingListItems.sort((a, b) => {
     if (a.amount < b.amount) {
       return -1;
@@ -133,7 +134,6 @@ watch(diffList, () => {
     }
     return 0;
   });
-  shoppingListItems.value = diffList.value.shoppingListItems;
 });
 
 const customShoppingListItems = ref(currentShoppingList.value.customFoodItems);

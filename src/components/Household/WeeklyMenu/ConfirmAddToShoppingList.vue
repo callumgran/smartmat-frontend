@@ -1,7 +1,9 @@
 <template>
   <v-dialog v-model="showModal" max-width="500" class="dialog">
     <v-card data-testid="modal-dialog">
-      <v-card-item><h3>Legg ingredienser i handlelisten</h3></v-card-item>
+      <v-card-item>
+        <h3>Legg ingredienser i handlelisten</h3>
+      </v-card-item>
       <v-card-text>
         <v-list>
           <v-checkbox
@@ -13,7 +15,7 @@
             density="compact"
             color="green"
             persistent-hint
-            :hint="'Du mangler ' + item.amount + ' ' + item.ingredient!.unit?.abbreviation + ' i beholdningen'"
+            :hint="'Du mangler ' + Math.ceil(item.amount * 100) / 100 + ' ' + item.ingredient!.unit?.abbreviation + ' i beholdningen'"
             data-testid="ingredient-checkbox" />
         </v-list>
       </v-card-text>
@@ -65,7 +67,7 @@ const add = async () => {
   for (const item of selectedItems.value) {
     const payload = {
       name: item.ingredient?.name,
-      amount: item.amount,
+      amount: Math.floor(item.amount * 100) / 100,
       ingredientId: item.ingredient?.id,
       shoppingListId: shoppingListId.id,
     } as CreateShoppingListItemDTO;

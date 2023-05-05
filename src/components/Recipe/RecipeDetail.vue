@@ -101,7 +101,7 @@ const modifyServings = (amount: number) => {
 };
 
 const getIngredientAmount = (amount: number) => {
-  return Math.round(amount * servings.value * 100) / 100;
+  return Math.ceil(amount * servings.value * 100) / 100;
 };
 </script>
 

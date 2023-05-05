@@ -29,7 +29,7 @@
         data-testid="amount"></v-text-field>
 
       <p v-if="amount >= 1 && productChosen?.amount">
-        {{ amount }} stk tilsvarer {{ productChosen?.amount * amount }}
+        {{ amount }} stk tilsvarer {{ Math.ceil(productChosen?.amount * amount * 100) / 100 }}
         {{ productChosen?.unit?.name }}
       </p>
 

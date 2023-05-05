@@ -30,13 +30,14 @@
 
       <p v-if="amount >= 1 && productChosen?.amount">
         {{ amount }} stk tilsvarer {{ productChosen?.amount * amount }}
-        {{ productChosen.ingredient?.unit?.abbreviation }}
+        {{ productChosen?.unit?.name }}
       </p>
 
       <v-text-field
         type="date"
         label="Utløpsdato"
         v-model="expirationDate"
+        required
         :rules="[zeroOrNegativeNotAllowed]"
         v-if="productChosen"
         data-testid="date"></v-text-field>
@@ -49,7 +50,7 @@
         color="blue darken-1"
         text
         @click="add"
-        :disabled="!productChosen || amount <= 0"
+        :disabled="!productChosen || !expirationDate || amount <= 0"
         data-testid="add-item"
         >Legg til</v-btn
       >
@@ -86,7 +87,7 @@ const amount = ref(0);
 const expirationDate = ref('');
 
 const add = async () => {
-  const amountUnit = Number(amount.value) * (productChosen.value?.amount ?? 1);
+  const amountUnit = Number(amount.value);
   const parts = expirationDate.value.split('-');
   const year = parts[0];
   const month = parts[1].padStart(2, '0');

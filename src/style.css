@@ -23,7 +23,8 @@
   }
 }
 
-.router-link, .router-link-active {
+.router-link,
+.router-link-active {
   text-decoration: none;
   color: black;
 }

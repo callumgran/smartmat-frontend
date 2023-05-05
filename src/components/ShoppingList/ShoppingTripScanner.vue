@@ -16,7 +16,12 @@
     <div v-if="itemFound" class="d-flex flex-column justify-center align-center">
       <ScannedItem :food-product="itemFound" />
       <v-btn class="ma-2 bg-grey" @click="itemFound = null">Scan annen vare</v-btn>
-      <v-btn class="ma-2 bg-green" v-if="itemFound.ingredient" @click="onAddClick">Legg til</v-btn>
+      <v-btn
+        class="ma-2 bg-green"
+        v-if="itemFound.ingredient && !itemFound.firstTime"
+        @click="onAddClick"
+        >Legg til</v-btn
+      >
       <div
         v-else-if="itemFound.notIngredient"
         class="d-flex flex-column justify-center align-center">

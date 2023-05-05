@@ -48,7 +48,10 @@ const emit = defineEmits<{
 const search = ref('');
 const selectedItem = ref<IngredientDTO | null>(null);
 
-const getIngredients = async (search: string): Promise<IngredientDTO[]> => {
+const getIngredients = async (): Promise<IngredientDTO[]> => {
+  if (!search.value || search.value.length < 1) {
+    return [];
+  }
   return IngredientService.searchIngredients({
     requestBody: {
       filterRequests: [
@@ -56,20 +59,22 @@ const getIngredients = async (search: string): Promise<IngredientDTO[]> => {
           keyWord: 'name',
           operator: FilterRequest.operator.LIKE,
           fieldType: FilterRequest.fieldType.STRING,
-          value: search,
+          value: search.value,
+          values: [],
+          valueTo: '',
         },
       ],
       sortRequests: [{ keyWord: 'name', sortDirection: SortRequest.sortDirection.ASC }],
-      size: undefined,
+      size: 10,
       page: undefined,
     },
   });
 };
 
-const ingredients = ref<IngredientDTO[]>(props.startList ?? (await getIngredients('')));
+const ingredients = ref<IngredientDTO[]>(props.startList ?? (await getIngredients()));
 
-const onSearch = async (search: string) => {
-  ingredients.value = await getIngredients(search);
+const onSearch = async () => {
+  ingredients.value = await getIngredients();
 };
 </script>
 

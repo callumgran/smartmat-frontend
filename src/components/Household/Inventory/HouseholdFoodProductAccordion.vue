@@ -15,7 +15,8 @@
       </v-expansion-panel-title>
       <v-expansion-panel-text>
         <div>
-          Gjenstående {{ getAmountLeft() }} {{ hfProduct.foodProduct?.unit?.abbreviation }}
+          Gjenstående {{ Math.ceil(getAmountLeft() * 100) / 100 }}
+          {{ hfProduct.foodProduct?.unit?.abbreviation }}
           <v-spacer />
           Utløpsdato: {{ hfProduct.expirationDate }}
 
@@ -34,8 +35,7 @@
     <use-item-modal
       :hfp="hfProduct"
       @close="addOverlay = false"
-      @use="
-        (amount: number) => useUp(amount)
+      @use="(amount: number) => useUp(amount)
       " />
   </v-dialog>
 </template>

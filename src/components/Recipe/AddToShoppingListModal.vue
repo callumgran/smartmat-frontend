@@ -8,7 +8,9 @@
   </v-btn>
   <v-dialog v-model="showModal" max-width="500">
     <v-card data-testid="modal-dialog">
-      <v-card-item><h3>Legg ingredienser i handlelisten</h3></v-card-item>
+      <v-card-item>
+        <h3>Legg ingredienser i handlelisten</h3>
+      </v-card-item>
       <v-card-text>
         <v-list>
           <div v-for="ingredient in recipeIngredientsToList" :key="ingredient.ingredient.name">
@@ -82,7 +84,7 @@ const addToShoppingList = async () => {
 };
 
 const getIngredientAmount = (amount: number) => {
-  return Math.round(amount * props.servings * 100) / 100;
+  return Math.ceil(amount * props.servings * 100) / 100;
 };
 </script>
 

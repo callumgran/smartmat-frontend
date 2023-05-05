@@ -9,7 +9,7 @@ import { useUserInfoStore } from '@/stores/UserStore';
 import { FoodProductHistoryDTO, HouseholdService, StatsService } from '@/api';
 import TotalSaved from '@/components/Statistics/TotalSaved.vue';
 import { ConsumptionConstants } from '@/utils/ConsumptionConstants';
-import { differenceInMonths } from 'date-fns';
+import { differenceInDays } from 'date-fns';
 
 const userInfoStore = useUserInfoStore();
 const username = userInfoStore.username;
@@ -18,7 +18,7 @@ const kilosSaved = ref(0);
 const today = new Date();
 
 const getWastedForMemberAmount = (members: number) => {
-  return ConsumptionConstants.MONTHLY_WASTED_PER_HOUSEHOLD * members;
+  return ConsumptionConstants.DAILY_WASTED_PER_HOUSEHOLD * members;
 };
 
 const households = await HouseholdService.getHouseholdsForUser({ username: username });
@@ -32,9 +32,9 @@ for (const household of households) {
     continue;
   }
   const firstDate = new Date(firstProduct.date);
-  const monthsDifference = differenceInMonths(today, firstDate) + 1;
+  const daysFromFirstWaste = differenceInDays(today, firstDate);
   const totalAverageWasted =
-    getWastedForMemberAmount(household.members?.length ?? 1) * monthsDifference;
+    getWastedForMemberAmount(household.members?.length ?? 1) * daysFromFirstWaste;
   const saved =
     totalAverageWasted -
     (await StatsService.getTotalWasteForHousehold({ householdId: household.id }));

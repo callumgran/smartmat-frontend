@@ -33,7 +33,7 @@ export class RecipeService {
 
   /**
    * Update a recipe
-   * Update a recipe with the given id. The id in the path must match the id in the request body.
+   * Update a recipe with the given id. The id in the path must match the id in the request body. Requires valid JWT token in header with role ADMIN.
    * @returns RecipeDTO OK
    * @throws ApiError
    */
@@ -78,34 +78,7 @@ export class RecipeService {
   }
 
   /**
-   * Use a recipe
-   * Use a recipe with the given id. The id in the path must match the id in the request body. Requires valid JWT token in header.
-   * @returns any OK
-   * @throws ApiError
-   */
-  public static useRecipe({
-    id,
-    requestBody,
-  }: {
-    id: string;
-    requestBody: RecipeUseDTO;
-  }): CancelablePromise<any> {
-    return __request(OpenAPI, {
-      method: 'PUT',
-      url: '/api/v1/private/recipes/{id}/use',
-      path: {
-        id: id,
-      },
-      body: requestBody,
-      mediaType: 'application/json',
-      errors: {
-        500: `Internal Server Error`,
-      },
-    });
-  }
-
-  /**
-   * Get all recipes
+   * Method
    * Get all recipes.
    * @returns RecipeDTO OK
    * @throws ApiError
@@ -122,7 +95,7 @@ export class RecipeService {
 
   /**
    * Create a recipe
-   * Create a recipe. Requires valid JWT token in header.
+   * Create a recipe. Requires valid JWT token in header with role ADMIN.
    * @returns RecipeDTO OK
    * @throws ApiError
    */
@@ -165,8 +138,35 @@ export class RecipeService {
   }
 
   /**
+   * Use a recipe
+   * Use a recipe with the given id. The id in the path must match the id in the request body. Requires valid JWT token in header.
+   * @returns any OK
+   * @throws ApiError
+   */
+  public static useRecipe({
+    id,
+    requestBody,
+  }: {
+    id: string;
+    requestBody: RecipeUseDTO;
+  }): CancelablePromise<any> {
+    return __request(OpenAPI, {
+      method: 'PATCH',
+      url: '/api/v1/private/recipes/{id}/use',
+      path: {
+        id: id,
+      },
+      body: requestBody,
+      mediaType: 'application/json',
+      errors: {
+        500: `Internal Server Error`,
+      },
+    });
+  }
+
+  /**
    * Gets the shopping list items for a household from a recipe
-   * Gets the shopping list items for a household from a recipe. Requires authentication.
+   * Gets the shopping list items for a household from a recipe. Requires admin or household privilege. Requires valid JWT token in header.
    * @returns RecipeShoppingListItemDTO OK
    * @throws ApiError
    */

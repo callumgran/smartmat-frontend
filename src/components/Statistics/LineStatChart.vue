@@ -11,7 +11,7 @@
           aspectRatio: 1.5,
           elements: {
             point: {
-              radius: 3,
+              radius: 6,
             },
           },
         }" />

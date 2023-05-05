@@ -18,7 +18,7 @@ import { request as __request } from '../core/request';
 export class HouseholdService {
   /**
    * Get a household by id
-   * Get a household by id, if the household does not exist, an error is thrown. Requires authentication.
+   * Get a household by id, if the household does not exist, an error is thrown. Requires admin or household membership.
    * @returns HouseholdDTO OK
    * @throws ApiError
    */
@@ -37,7 +37,7 @@ export class HouseholdService {
 
   /**
    * Update a households name
-   * Update a households name, if the household does not exist, an error is thrown. Requires authentication.
+   * Update a households name, if the household does not exist, an error is thrown. Requires admin or household ownership.
    * @returns HouseholdDTO OK
    * @throws ApiError
    */
@@ -64,7 +64,7 @@ export class HouseholdService {
 
   /**
    * Delete a household
-   * Delete a household, if the household does not exist, an error is thrown. Requires authentication.
+   * Delete a household, if the household does not exist, an error is thrown. Requires admin or household ownership.
    * @returns string OK
    * @throws ApiError
    */
@@ -83,7 +83,7 @@ export class HouseholdService {
 
   /**
    * Update the role of a user in a household
-   * Update the role of a user in a household, if the user or household does not exist, an error is thrown. Requires authentication.
+   * Update the role of a user in a household, if the user or household does not exist, an error is thrown. Requires admin or household ownership.
    * @returns HouseholdMemberDTO OK
    * @throws ApiError
    */
@@ -113,7 +113,7 @@ export class HouseholdService {
 
   /**
    * Add a user to a household
-   * Add a user to a household, if the user or household does not exist, an error is thrown. Requires authentication.
+   * Add a user to a household, if the user or household does not exist, an error is thrown.  Requires admin or household ownership.
    * @returns HouseholdMemberDTO OK
    * @throws ApiError
    */
@@ -139,7 +139,7 @@ export class HouseholdService {
 
   /**
    * Remove a user from a household
-   * Remove a user from a household, if the user or household does not exist, an error is thrown. Requires authentication.
+   * Remove a user from a household, if the user or household does not exist, an error is thrown. Requires admin or household ownership.
    * @returns string OK
    * @throws ApiError
    */
@@ -187,7 +187,7 @@ export class HouseholdService {
 
   /**
    * Add a weekly recipe to a household
-   * Add a weekly recipe to a household. Requires authentication.
+   * Add a weekly recipe to a household. Requires admin or household privilege.
    * @returns any OK
    * @throws ApiError
    */
@@ -217,7 +217,7 @@ export class HouseholdService {
 
   /**
    * Uses a recipe for a household on a specific date
-   * Uses a recipe for a household on a specific date. Requires authentication.
+   * Uses a recipe for a household on a specific date. Requires admin or household membership.
    * @returns any OK
    * @throws ApiError
    */
@@ -237,7 +237,7 @@ export class HouseholdService {
 
   /**
    * Get recommended recipes for a household
-   * Get recommended recipes for a household. Recipes are recommended based on the household's ingredients. Requires authentication.
+   * Get recommended recipes for a household. Recipes are recommended based on the household's ingredients. Requires admin or household membership.
    * @returns RecipeRecommendationDTO OK
    * @throws ApiError
    */
@@ -260,7 +260,7 @@ export class HouseholdService {
 
   /**
    * Gets the weekly recipes for a household from a specific monday
-   * Gets the weekly recipes for a household from a specific monday. Requires authentication.
+   * Gets the weekly recipes for a household from a specific monday. Requires admin or household membership.
    * @returns WeeklyRecipeDTO OK
    * @throws ApiError
    */
@@ -286,7 +286,7 @@ export class HouseholdService {
 
   /**
    * Gets the shopping list items for a household from a specific monday
-   * Gets the shopping list items for a household from a specific monday. Requires authentication.
+   * Gets the shopping list items for a household from a specific monday. Requires admin or household privilege.
    * @returns RecipeShoppingListItemDTO OK
    * @throws ApiError
    */
@@ -312,7 +312,7 @@ export class HouseholdService {
 
   /**
    * Gets the planned recipe for today for a household
-   * Gets the planned recipe for a household today. Requires authentication.
+   * Gets the planned recipe for a household today. Requires admin or household membership.
    * @returns WeeklyRecipeDTO OK
    * @throws ApiError
    */
@@ -331,7 +331,7 @@ export class HouseholdService {
 
   /**
    * Get the current shopping list by a household
-   * Get a household by id and find its current shopping list. Requires authentication.
+   * Get a household by id and find its current shopping list. Requires admin or household membership.
    * @returns ShoppingListDTO OK
    * @throws ApiError
    */
@@ -350,7 +350,7 @@ export class HouseholdService {
 
   /**
    * Get all households for a user
-   * Get all households for a user, if the user does not exist, an error is thrown. Requires authentication.
+   * Get all households for a user, if the user does not exist, an error is thrown.  Requires admin or household ownership.
    * @returns HouseholdDTO OK
    * @throws ApiError
    */
@@ -373,7 +373,7 @@ export class HouseholdService {
 
   /**
    * Delete temporary used ingredients for a household on a specific date
-   * Delete temporary used ingredients for a household on a specific date. Requires authentication.
+   * Delete temporary used ingredients for a household on a specific date. Requires admin or household privilege.
    * @returns any OK
    * @throws ApiError
    */

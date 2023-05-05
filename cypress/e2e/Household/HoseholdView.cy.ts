@@ -42,6 +42,19 @@ describe('Test household page', () => {
         },
       ],
     });
+    cy.intercept('GET', `${apiUrl}api/v1/private/stats/household/${householdId}/first-waste`, {
+      statusCode: 200,
+      body: {
+        foodProduct: {
+          id: '5d588bb9-440a-44b1-bcc0-c9e195797033',
+          name: 'Egg',
+        },
+        householdId: householdId,
+        amount: 1,
+        thrownAmountInPercentage: '100',
+        date: '2023-03-03',
+      },
+    });
 
     cy.intercept('DELETE', `${apiUrl}api/v1/private/households/${householdId}`, {
       statusCode: 204,
@@ -50,6 +63,16 @@ describe('Test household page', () => {
     cy.intercept('GET', `${apiUrl}api/v1/private/stats/household/${householdId}/total/**`, {
       statusCode: 200,
       body: 10,
+    });
+
+    cy.intercept('GET', `${apiUrl}api/v1/private/stats/household/${householdId}/by-month/**`, {
+      statusCode: 200,
+      body: [
+        {
+          month: 1,
+          waste: 10,
+        },
+      ],
     });
 
     cy.intercept('GET', `${apiUrl}api/v1/private/households/${householdId}`, {

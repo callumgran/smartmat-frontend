@@ -1,6 +1,6 @@
 <template>
-  <h2 style="text-align: center">Finn oppskrifter</h2>
-  <recipe-list :recipes="recipes" />
+  <h2 style="text-align: center" data-testid="header">Finn oppskrifter</h2>
+  <recipe-list :recipes="recipes" data-testid="recipes" />
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,5 @@
 <template>
-  <suspense>
+  <suspense data-testid="loading">
     <div>
       <shopping-list />
     </div>

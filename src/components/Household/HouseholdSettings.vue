@@ -5,7 +5,7 @@
       class="delete-household-button"
       data-testid="delete-household-btn"
       rounded="xl"
-      color="#FF0000"
+      color="warning"
       size="small"
       variant="flat">
       slett husstand
@@ -13,7 +13,7 @@
     </v-btn>
   </v-container>
 
-  <v-card>
+  <v-card class="settings">
     <v-card-title>Endre navn</v-card-title>
     <v-card-item>
       <form @submit.prevent="submit" class="household-name">
@@ -33,7 +33,7 @@
 
   <br />
 
-  <v-card>
+  <v-card class="settings">
     <v-card-title>Oppdater medlemmer</v-card-title>
     <v-card-item>
       Legg til medlem
@@ -129,5 +129,13 @@ householdName.value = props.household.name;
 /* center */
 .delete-household-button {
   margin-bottom: 1rem;
+}
+
+.settings {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
 }
 </style>

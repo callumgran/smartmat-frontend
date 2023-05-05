@@ -1,6 +1,10 @@
 <template>
-  <h3>Medlemmer ({{ householdMembers.length }})</h3>
-  <member-card v-for="member in householdMembers" :key="member.username" :member="member" />
+  <h3 class="members-head">Medlemmer ({{ householdMembers.length }})</h3>
+  <member-card
+    v-for="member in householdMembers"
+    :key="member.username"
+    :member="member"
+    class="members" />
 </template>
 
 <script setup lang="ts">
@@ -14,3 +18,17 @@ defineProps({
   },
 });
 </script>
+
+<style scoped>
+.members-head {
+  text-align: center;
+}
+
+.members {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+</style>

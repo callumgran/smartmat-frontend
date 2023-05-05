@@ -35,13 +35,15 @@
     </v-btn>
   </div>
 
-  <household-food-product-accordion
-    v-for="hfProduct in hfProductsViewable"
-    :key="hfProduct.id"
-    :hfProduct="hfProduct"
-    :hasAccessToEdit="hasAccessToEdit"
-    @remove="removeHfProduct(hfProduct)"
-    data-testid="inventory-table" />
+  <div class="hfpa">
+    <household-food-product-accordion
+      v-for="hfProduct in hfProductsViewable"
+      :key="hfProduct.id"
+      :hfProduct="hfProduct"
+      :hasAccessToEdit="hasAccessToEdit"
+      @remove="removeHfProduct(hfProduct)"
+      data-testid="inventory-table" />
+  </div>
   <div v-if="household.foodProducts?.length === 0">Du har ingen varer i beholdningen din :-(</div>
 
   <v-dialog v-model="addOverlay" max-width="500px">
@@ -162,5 +164,13 @@ const fuzzySearch = (list: HouseholdFoodProductDTO[], query: string): HouseholdF
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.hfpa {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
 }
 </style>

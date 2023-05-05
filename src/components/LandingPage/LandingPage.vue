@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <div class="video-text">
       <h1>SmartMat</h1>
       <h3>Vær matsmart med SmartMat</h3>

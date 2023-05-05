@@ -12,7 +12,7 @@
 
   <div class="d-flex justify-center align-center filter-wrapper">
     <v-btn-toggle v-model="filterChoice" divided variant="outlined" color="primary">
-      <v-btn value="best-fit" size="x-small">Bruk opp rester</v-btn>
+      <v-btn value="best-fit" size="x-small" v-if="householdId">Bruk opp rester</v-btn>
       <!--<v-btn value="new" size="x-small">Nye oppskrifter</v-btn>-->
       <v-btn value="random" size="x-small" data-testid="sort-by-amount">Bli inspirert</v-btn>
     </v-btn-toggle>

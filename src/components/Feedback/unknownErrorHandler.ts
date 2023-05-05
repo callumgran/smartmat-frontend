@@ -13,7 +13,6 @@ export type ResponseError = {
  * @param error The unknown error to handle
  */
 export const handleUnknownError = (error: any): ResponseError | null => {
-  console.error(error);
   let msg = 'Det oppsto en feil med behandling av forespørselen din.';
   let statusCode: number = 500;
   if (error instanceof AxiosError) {

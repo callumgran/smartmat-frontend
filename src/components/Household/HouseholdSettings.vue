@@ -1,18 +1,4 @@
 <template>
-  <v-container class="d-flex align-center justify-center">
-    <v-btn
-      @click="$emit('delete-household')"
-      class="delete-household-button"
-      data-testid="delete-household-btn"
-      rounded="xl"
-      color="warning"
-      size="small"
-      variant="flat">
-      slett husstand
-      <v-icon icon="mdi:mdi-delete" />
-    </v-btn>
-  </v-container>
-
   <v-card class="settings">
     <v-card-title>Endre navn</v-card-title>
     <v-card-item>
@@ -57,6 +43,20 @@
         @update-member-role="(username, role) => $emit('update-member-role', username, role)" />
     </v-card-item>
   </v-card>
+
+  <v-container class="d-flex align-center justify-center">
+    <v-btn
+      @click="$emit('delete-household')"
+      class="delete-household-button"
+      data-testid="delete-household-btn"
+      rounded="xl"
+      color="error"
+      size="small"
+      variant="flat">
+      slett husstand
+      <v-icon icon="mdi:mdi-delete" />
+    </v-btn>
+  </v-container>
 </template>
 
 <script setup lang="ts">

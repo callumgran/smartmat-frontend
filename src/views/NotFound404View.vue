@@ -1,28 +1,11 @@
 <template>
-  <h1 data-testid="not-found-header">Kunne ikke finne siden :-(</h1>
-  <div v-if="errorMsg">
-    <p>årsak: {{ errorMsg }}</p>
-  </div>
-  <div>
-    <router-link :to="{ name: 'home' }" data-testid="goto-main">til hovedside</router-link>
-  </div>
-  <div>
-    <!-- the 'to' prop is used for fallback -->
-    <router-link @click="$router.go(-1)" :to="{ name: 'home' }" data-testid="goback"
-      >tilbake</router-link
-    >
-  </div>
+  <v-container fluid>
+    <h1 data-testid="not-found-header">Kunne ikke finne siden du lette etter</h1>
+    <v-btn-group>
+      <v-btn class="mx-3" :to="{ name: 'home' }" data-testid="goto-main">til hovedside</v-btn>
+      <v-btn class="mx-3" @click="$router.go(-1)" :to="{ name: 'home' }" data-testid="goback"
+        >tilbake</v-btn
+      >
+    </v-btn-group>
+  </v-container>
 </template>
-
-<script setup lang="ts">
-import { useRoute } from 'vue-router';
-
-const route = useRoute();
-const errorMsg = route.query.errorMsg as string;
-//const props = defineProps({
-//  errorMsg: {
-//    type: String,
-//    required: false,
-//  },
-//});
-</script>

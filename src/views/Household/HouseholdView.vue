@@ -64,7 +64,6 @@ import InventoryList from '@/components/Household/Inventory/InventoryList.vue';
 import HouseholdSettings from '@/components/Household/HouseholdSettings.vue';
 import HouseholdStatistics from '@/components/Statistics/HouseholdStatistics.vue';
 import { useHouseholdStore } from '@/stores/HouseholdStore';
-import { u } from 'msw/lib/glossary-de6278a9';
 
 const feedbackStore = useFeedbackStore();
 const router = useRouter();

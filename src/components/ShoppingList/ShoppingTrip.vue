@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-tabs v-model="tab" align-tabs="center">
-      <v-tab :value="1">Handleliste</v-tab>
+      <v-tab data-testid="button" :value="1">Handleliste</v-tab>
       <v-tab :value="2">Kurv</v-tab>
     </v-tabs>
     <v-divider />

@@ -45,7 +45,7 @@ const routeTo = (name: string, params?: Record<string, string | number> | undefi
   router.push({ name, params });
 };
 
-const items = computed(() => (loggedIn.value ? itemsLoggedIn : itemsNotLoggedIn ));
+const items = computed(() => (loggedIn.value ? itemsLoggedIn : itemsNotLoggedIn));
 
 const itemsNotLoggedIn = computed(() => [
   {
@@ -58,7 +58,7 @@ const itemsNotLoggedIn = computed(() => [
     icon: 'mdi-login',
     to: 'login',
     params: undefined,
-  }, 
+  },
 ]);
 
 const itemsLoggedIn = computed(() => [

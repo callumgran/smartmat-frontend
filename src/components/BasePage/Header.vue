@@ -3,7 +3,7 @@
     <v-toolbar-title data-testid="navbar-title" style="font-weight: 600; font-size: 1.5em"
       ><router-link :to="{ name: 'home' }">SmartMat</router-link></v-toolbar-title
     >
-    <v-toolbar-items v-if="userStore.isLoggedIn">
+    <v-toolbar-items v-if="userStore.isLoggedIn && currentHousehold != ''">
       <v-select
         prepend-icon="mdi-home"
         v-model="currentHousehold"

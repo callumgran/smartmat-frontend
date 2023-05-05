@@ -6,7 +6,9 @@
     <v-dialog v-model="showRemoveOtherDialog">
       <remove-other :items="others" @onChoice="onRemoveOther" />
     </v-dialog>
-    <v-alert v-if="itemFound && !itemFound.ingredient && !itemFound.notIngredient" title="Ulinket Produkt"
+    <v-alert
+      v-if="itemFound && !itemFound.ingredient && !itemFound.notIngredient"
+      title="Ulinket Produkt"
       text="Produktet du har scannet er ikke linket i våre databaser enda, for at produktet skal funke skikkelig må du velge ingrediensen som dette produktet tilhører."
       type="warning" />
     <EANScanner v-if="!fetchingItem && !itemFound" @onScan="onScan" @on-close="emit('onClose')" />

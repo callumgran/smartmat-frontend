@@ -12,7 +12,8 @@
         :recipe="todaysRecipe.recipe"
         :servings="todaysRecipe.portions"
         :used="todaysRecipe.used"
-        :date="new Date()" />
+        :date="new Date()"
+        hide-buttons />
     </div>
     <div v-else>
       <br />
@@ -57,6 +58,9 @@ try {
 
 <style scoped>
 .wrapper {
-  margin: 1rem;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
 }
 </style>

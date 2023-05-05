@@ -1,11 +1,19 @@
 <template>
   <v-card>
     <v-title data-testid="choose-ingredient-title" class="text-h4 ma-2">Velg ingrediens</v-title>
-    <v-text-field v-model="search" label="Søk etter ingrediens" outlined dense @input="onSearch" class="mb-4" />
+    <v-text-field
+      v-model="search"
+      label="Søk etter ingrediens"
+      outlined
+      dense
+      @input="onSearch"
+      class="mb-4" />
     <v-divider />
     <v-list>
       <v-list-item-group v-model="ingredients">
-        <v-list-item v-for="ingredient in ingredients" :key="ingredient.id"
+        <v-list-item
+          v-for="ingredient in ingredients"
+          :key="ingredient.id"
           @click="!selectedItem ? (selectedItem = ingredient) : (selectedItem = null)"
           :class="ingredient === selectedItem ? 'bg-green' : ''">
           <v-list-item-title>{{ ingredient.name }}</v-list-item-title>
@@ -14,7 +22,10 @@
     </v-list>
     <v-divider />
     <div>
-      <v-btn class="ma-2" data-testid="not-ingredient-button" @click="emit('onChoice', selectedItem)"
+      <v-btn
+        class="ma-2"
+        data-testid="not-ingredient-button"
+        @click="emit('onChoice', selectedItem)"
         :class="!selectedItem ? 'bg-orange' : 'bg-green'">
         {{ !selectedItem ? 'Produktet er ikke en ingrediens' : 'Velg ingrediens' }}
       </v-btn>

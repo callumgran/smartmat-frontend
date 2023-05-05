@@ -75,16 +75,16 @@ export const routes = [
         component: () => import('@/views/Recipe/RecipeDetailView.vue'),
       },
       {
+        path: '/profile',
+        name: 'profile',
+        meta: { title: 'Profil', requiresAuth: true },
+        component: () => import('@/views/Auth/UserDetailView.vue'),
+      },
+      {
         path: '/not-found',
         name: 'not-found',
         meta: { title: 'Kunne ikke finne siden' },
         component: () => import('@/views/NotFound404View.vue'),
-      },
-      {
-        path: '/profile',
-        name: 'profile',
-        meta: { title: 'Profil', requiresAuth: true },
-        component: () => import('@/views/UserDetailView.vue'),
       },
     ],
   },

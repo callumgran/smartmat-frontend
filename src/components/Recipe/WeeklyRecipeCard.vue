@@ -84,7 +84,6 @@ const confirm = (rc: number) => {
 
 const onClick = () => {
   if (props.recipe) {
-    console.log('true');
     router.push({
       name: 'recipe-detail',
       params: {

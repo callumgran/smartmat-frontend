@@ -22,3 +22,8 @@
     background: black;
   }
 }
+
+.router-link, .router-link-active {
+  text-decoration: none;
+  color: black;
+}

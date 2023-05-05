@@ -1,59 +1,61 @@
 <template>
   <h2 class="text-center text-h3 pa-3">Statistikk over ditt forbruk</h2>
   <h3 class="text-center" v-if="productHistory.length === 0">Du har ikke kastet noe mat!</h3>
-  <v-row justify="center">
-    <v-col cols="12" sm="6">
-      <total-saved :kilos-saved="moneySavedByHousehold" />
-    </v-col>
-  </v-row>
-  <v-row justify="center" class="mb-10">
-    <v-col class="chart" v-if="cumulativeMoneySaved.length > 0">
-      <line-stat-chart
-        :title="`Kroner spart siden ${earliestDate?.getFullYear()}`"
-        :data="{
-          labels: monthsSinceStartLabels,
-          datasets: [
-            {
-              label: `Kroner spart siden ${earliestDate?.getFullYear()}`,
-              data: cumulativeMoneySaved,
-              borderColor: '#21DB1E',
-              backgroundColor: '#21DB1E',
-            },
-          ],
-        }" />
-    </v-col>
-    <v-col class="chart" v-if="kilosSavedPoints.length > 0">
-      <bar-stat-chart
-        :title="`Kilogram spart siden ${earliestDate?.getFullYear()}`"
-        :data="{
-          labels: monthsSinceStartLabels,
-          datasets: [
-            {
-              label: `Kilogram spart siden ${earliestDate?.getFullYear()}`,
-              data: kilosSavedPoints,
-              backgroundColor: '#21DB1E',
-            },
-          ],
-        }" />
-    </v-col>
-    <v-col class="chart" v-if="foodProductAmounts.length > 0">
-      <doughnut-stat-chart
-        title="Matvarene du kaster mest av"
-        :data="{
-          labels: foodProductNames,
-          datasets: [
-            {
-              label: 'Kilo kastet',
-              data: foodProductAmounts,
-              backgroundColor: Array.from({ length: foodProductAmounts.length }, () =>
-                getRandomColor(),
-              ),
-            },
-          ],
-        }" />
-    </v-col>
-  </v-row>
-  <stat-info-banner />
+  <div v-else>
+    <v-row justify="center">
+      <v-col cols="12" sm="6">
+        <total-saved :kilos-saved="kilosSavedByHousehold" />
+      </v-col>
+    </v-row>
+    <v-row justify="center" class="mb-10">
+      <v-col class="chart" v-if="cumulativeMoneySaved.length > 0">
+        <line-stat-chart
+          :title="`Kroner spart siden ${earliestDate?.getFullYear()}`"
+          :data="{
+            labels: monthsSinceStartLabels,
+            datasets: [
+              {
+                label: `Kroner spart siden ${earliestDate?.getFullYear()}`,
+                data: cumulativeMoneySaved,
+                borderColor: '#21DB1E',
+                backgroundColor: '#21DB1E',
+              },
+            ],
+          }" />
+      </v-col>
+      <v-col class="chart" v-if="kilosSavedPoints.length > 0">
+        <bar-stat-chart
+          :title="`Kilogram spart siden ${earliestDate?.getFullYear()}`"
+          :data="{
+            labels: monthsSinceStartLabels,
+            datasets: [
+              {
+                label: `Kilogram spart siden ${earliestDate?.getFullYear()}`,
+                data: kilosSavedPoints,
+                backgroundColor: '#21DB1E',
+              },
+            ],
+          }" />
+      </v-col>
+      <v-col class="chart" v-if="foodProductAmounts.length > 0">
+        <doughnut-stat-chart
+          title="Matvarene du kaster mest av"
+          :data="{
+            labels: foodProductNames,
+            datasets: [
+              {
+                label: 'Kilo kastet',
+                data: foodProductAmounts,
+                backgroundColor: Array.from({ length: foodProductAmounts.length }, () =>
+                  getRandomColor(),
+                ),
+              },
+            ],
+          }" />
+      </v-col>
+    </v-row>
+    <stat-info-banner />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -90,7 +92,7 @@ const kilosSavedPoints = ref([] as number[]);
 
 const selectedDate = ref(earliestDate.value);
 
-const moneySavedByHousehold = computed(() => {
+const kilosSavedByHousehold = computed(() => {
   const averageDeviation = averageWasteSumToNow.value - totalWaste;
   return averageDeviation < 0 ? 0 : averageDeviation;
 });

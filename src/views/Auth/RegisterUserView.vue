@@ -149,7 +149,7 @@ const submit = handleSubmit(async (values) => {
         role: user.role,
       });
       feedbackStore.addFeedback('Bruker registrert', 'success');
-      router.push({ name: 'base' });
+      router.push({ name: 'home' });
     });
   });
 });

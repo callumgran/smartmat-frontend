@@ -4,11 +4,11 @@
     <p>årsak: {{ errorMsg }}</p>
   </div>
   <div>
-    <router-link :to="{ name: 'base' }" data-testid="goto-main">til hovedside</router-link>
+    <router-link :to="{ name: 'home' }" data-testid="goto-main">til hovedside</router-link>
   </div>
   <div>
     <!-- the 'to' prop is used for fallback -->
-    <router-link @click="$router.go(-1)" :to="{ name: 'base' }" data-testid="goback"
+    <router-link @click="$router.go(-1)" :to="{ name: 'home' }" data-testid="goback"
       >tilbake</router-link
     >
   </div>

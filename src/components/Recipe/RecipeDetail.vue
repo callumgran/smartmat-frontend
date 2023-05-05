@@ -22,7 +22,7 @@
     <div v-if="showServingsModal">
       <v-card-title>Antall porsjoner</v-card-title>
       <v-card-actions>
-        <v-btn @click="modifyServings(-1)">-</v-btn>
+        <v-btn data-testid="button" @click="modifyServings(-1)">-</v-btn>
         <v-card-title>{{ servings }}</v-card-title>
         <v-btn @click="modifyServings(1)">+</v-btn>
       </v-card-actions>

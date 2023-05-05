@@ -1,6 +1,6 @@
 <template>
   <v-card-item class="d-flex flex-column justify-center align-center">
-    <v-card-item-title>
+    <v-card-item-title data-testid="food-product">
       {{ foodProduct.name }}
     </v-card-item-title>
     <v-spacer></v-spacer>
